@@ -4,19 +4,6 @@
 	<classpathentry kind="src" path="3D Game Engine"/>
 	<classpathentry kind="src" path="SimplexNoise"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/CDC-1.1%Foundation-1.1"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/com.petrbroz.webglsl.plugins_1.0.0.0.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/GLUtils.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/lwjgl.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/slick-util.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/AppleJavaExtensions.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/asm-debug-all.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/jinput.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lwjgl_test.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lwjgl_util_applet.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lwjgl-debug.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lwjgl.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lzma.jar"/>
 	<classpathentry kind="lib" path="libs/PApplet libraries/core.jar"/>
 	<classpathentry kind="lib" path="libs/PApplet libraries/gluegen-rt-natives-linux-amd64.jar"/>
 	<classpathentry kind="lib" path="libs/PApplet libraries/gluegen-rt-natives-linux-armv6hf.jar"/>
@@ -39,21 +26,23 @@
 	<classpathentry kind="lib" path="libs/PApplet libraries/mp3spi1.9.4.jar"/>
 	<classpathentry kind="lib" path="libs/PApplet libraries/tritonus_aos.jar"/>
 	<classpathentry kind="lib" path="libs/PApplet libraries/tritonus_share.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/src/lwjgl-source-2/src/lwjgl-git.iml"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/src/lwjgl-source-2/build.xml"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/appletloader.html"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/jinput.jar.pack.lzma"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/linux_natives.jar.lzma"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/lwjgl_applet.jar.pack.lzma"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/AppleJavaExtensions.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/asm-debug-all.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/jinput.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lwjgl_test.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lwjgl_util_applet.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lwjgl-debug.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lwjgl.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lzma.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/com.petrbroz.webglsl.plugins_1.0.0.0.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/GLUtils.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/lwjgl.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/slick-util.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/lwjgl_util_applet.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/lwjgl_util.jar.pack.lzma"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/lwjgl-debug.jar.pack.lzma"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/lwjgl.jar.pack.lzma"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/lzma.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/macosx_natives.jar.lzma"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/solaris_natives.jar.lzma"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/windows_natives.jar.lzma"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/basic/basicapplet.html"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/src/lwjgl-source-2/platform_build/JLzma.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/src/lwjgl-source-2/platform_build/Pack200Task.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/basic/jinput.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/basic/linux_natives.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/basic/lwjgl_applet.jar"/>
@@ -64,19 +53,5 @@
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/basic/macosx_natives.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/basic/solaris_natives.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/basic/windows_natives.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/doc/CREDITS"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/doc/LICENSE"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/doc/lwjgl_hidden_switches.text"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/doc/README"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/doc/3rdparty/jinput_license.txt"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/doc/3rdparty/jogl_license.txt"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/doc/3rdparty/lzma_license.txt"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/doc/3rdparty/openal_license.txt"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/native/linux/libjinput-linux.so"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/native/linux/libjinput-linux64.so"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/native/linux/liblwjgl.so"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/native/linux/liblwjgl64.so"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/native/linux/libopenal.so"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/native/linux/libopenal64.so"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
