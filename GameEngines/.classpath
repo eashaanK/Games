@@ -37,7 +37,11 @@
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/jar/lzma.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/com.petrbroz.webglsl.plugins_1.0.0.0.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/GLUtils.jar"/>
-	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/lwjgl.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GameEngines/libs/lwjgl-2.9.1/native/macosx"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/slick-util.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/lwjgl_util_applet.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/advance/lzma.jar"/>
