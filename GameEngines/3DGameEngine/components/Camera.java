@@ -1,30 +1,24 @@
-/*
- * Copyright (C) 2014 Benny Bobaganoosh
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package components;
+
+import org.lwjgl.opengl.Display;
+import rendering.Window;
 
 import core.*;
 
 public class Camera extends GameComponent
 {
 	private Matrix4f m_projection;
+	private float fov, aspectRatio, zNear, zFar;
 
-	public Camera(Matrix4f projection)
+	public Camera(float fov, float as, float zN, float zF)
 	{
-		this.m_projection = projection;
+		this.fov = fov;
+		this.aspectRatio = as;
+		this.zNear = zN;
+		this.zFar = zF;
+		this.m_projection = new Matrix4f();
+		this.InitCameraPerspective();
 	}
 
 	public Matrix4f GetViewProjection()
@@ -41,5 +35,51 @@ public class Camera extends GameComponent
 	public void AddToEngine(CoreEngine engine)
 	{
 		engine.GetRenderingEngine().AddCamera(this);
+	}
+	
+	public Matrix4f InitCameraPerspective(){
+		return this.m_projection.InitPerspective(fov, aspectRatio, zNear, zFar);
+	}
+	
+	@Override
+	public void Update(float delta){
+		super.Update(delta);
+		if(Display.isResizable())
+		{
+			this.setAspectRatio((float) Window.GetWidth() / (float) Window.GetHeight());
+			this.InitCameraPerspective();
+		}
+	}
+
+	public float getZNear() {
+		return zNear;
+	}
+
+	public void setZNear(float zNear) {
+		this.zNear = zNear;
+	}
+
+	public float getZFar() {
+		return zFar;
+	}
+
+	public void setZFar(float zFar) {
+		this.zFar = zFar;
+	}
+
+	public float getAspectRatio() {
+		return aspectRatio;
+	}
+
+	public void setAspectRatio(float aspectRatio) {
+		this.aspectRatio = aspectRatio;
+	}
+	
+	public void setFOV(float fov){
+		this.fov = fov;
+	}
+	
+	public float getFov(){
+		return fov;
 	}
 }

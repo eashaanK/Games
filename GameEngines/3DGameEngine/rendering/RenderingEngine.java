@@ -21,11 +21,13 @@ import components.Camera;
 import core.GameObject;
 import core.Transform;
 import core.Vector3f;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.lwjgl.opengl.Display;
+
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_VERSION;
 
 public class RenderingEngine extends MappedValues
 {
@@ -35,10 +37,15 @@ public class RenderingEngine extends MappedValues
 
 	private Shader m_forwardAmbient;
 	private Camera m_mainCamera;
+	
+	private ClearColor screenClearColor;
 
 	public RenderingEngine()
 	{
 		super();
+		
+		screenClearColor = new ClearColor(0f, 0f, 0f, 1f);
+		
 		m_lights = new ArrayList<BaseLight>();
 		m_samplerMap = new HashMap<String, Integer>();
 		m_samplerMap.put("diffuse", 0);
@@ -49,7 +56,7 @@ public class RenderingEngine extends MappedValues
 
 		m_forwardAmbient = new Shader("forward-ambient");
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(screenClearColor.getR(), this.screenClearColor.getG(), this.screenClearColor.getB(), this.screenClearColor.getA());
 
 		glFrontFace(GL_CW);
 		glCullFace(GL_BACK);
@@ -123,5 +130,15 @@ public class RenderingEngine extends MappedValues
 	public void SetMainCamera(Camera mainCamera)
 	{
 		this.m_mainCamera = mainCamera;
+	}
+
+	public ClearColor getClearColor() {
+		return this.screenClearColor;
+	}
+
+	public void setClearColor(ClearColor c) {
+		this.screenClearColor = c;
+		glClearColor(screenClearColor.getR(), this.screenClearColor.getG(), this.screenClearColor.getB(), this.screenClearColor.getA());
+		
 	}
 }

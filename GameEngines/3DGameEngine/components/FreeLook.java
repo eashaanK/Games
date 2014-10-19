@@ -73,4 +73,5 @@ public class FreeLook extends GameComponent
 				Input.SetMousePosition(centerPosition);
 		}
 	}
+	
 }

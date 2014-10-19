@@ -142,6 +142,11 @@ public class Transform
 	{
 		this.m_rot = rotation;
 	}
+	
+	public void SetRot(float x, float y, float z, float angle)
+	{
+		this.m_rot = new Quaternion(new Vector3f(x, y, z), (float) Math.toRadians(angle));
+	}
 
 	public Vector3f GetScale()
 	{
