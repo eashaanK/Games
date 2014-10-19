@@ -3,6 +3,7 @@ package p_BinaryFilesStudentInfo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Scanner;
 
 /**
  * Notes:
@@ -13,6 +14,7 @@ import java.io.RandomAccessFile;
 public class Main {
 
 	private static RandomAccessFile file;
+	private static Scanner scanner;
 	private static final int NAME_LENGTH = 10;
 	private static final int DOUBLE_LENGTH = 8;
 	private static final int RECORD = NAME_LENGTH + NAME_LENGTH + DOUBLE_LENGTH;//First name + last name + double
@@ -20,32 +22,32 @@ public class Main {
 	public static void main(String[] args){
 		try {
 			file = new RandomAccessFile("src/info.dat", "rw");
-			
-			//write
-			System.out.println("Now Writing...\n");
-			setFilePointer(file, 0);
-			writeString(file, resizeString("Eashaan", NAME_LENGTH));
-			writeString(file, resizeString("Kumar", NAME_LENGTH));
-			writeDouble(file, 3.5);
-
-			System.out.println("\nNow Reading...\n");
-			setFilePointer(file, 0);
-			readString(file, Main.NAME_LENGTH);
-			readString(file, Main.NAME_LENGTH);
-			readDouble(file);
-			
+			scanner = new Scanner(System.in);
+			int input = 0;
 			//write
 			/*System.out.println("Now Writing...\n");
-			setFilePointer(file, 1);
+			setFilePointer(file, 0);
 			writeString(file, resizeString("Eashaan", NAME_LENGTH));
 			writeString(file, resizeString("Kumar", NAME_LENGTH));
 			writeDouble(file, 3.5);
 
 			System.out.println("\nNow Reading...\n");
-			setFilePointer(file, 1);
+			setFilePointer(file, 0);
 			readString(file, Main.NAME_LENGTH);
 			readString(file, Main.NAME_LENGTH);
 			readDouble(file);*/
+			while(input != 4){
+				System.out.println("\nChoose a number from Menu.\n1. Add new Student");
+				System.out.println("2. Change a Student");
+				System.out.println("3. Get student's info");
+				System.out.println("4. Quit\n");
+				System.out.print("Menu: ");
+				input = scanner.nextInt();
+				menu(scanner, input);
+
+			}
+			
+			System.out.println("You chose to end the program");
 
 			
 			file.close();
@@ -57,10 +59,28 @@ public class Main {
 		}		
 	}
 	
-	public static void setFilePointer(RandomAccessFile file, int pointer) throws IOException{
-		file.seek(pointer * RECORD);
-		printFilePointer(file);
+	/////////////////////////menu///////////////////////////////////
+	public static void menu(Scanner s, int m) throws IOException{
+		switch(m){
+		case 1:
+			System.out.println("\nYou chose to add a new Student");
+			
+			break;
+		case 2:
+			System.out.println("\nYou chose to change a Student");
+
+			break;
+		case 3:
+			System.out.println("\nYou chose to get a student's information");
+			int id = promptForID(s);
+			setFilePointer(file, id);
+			readString(file, Main.NAME_LENGTH);
+			readString(file, Main.NAME_LENGTH);
+			readDouble(file);
+			break;
+		}
 	}
+	
 	/////////////////////////Reading///////////////////////////////
 	public static double readDouble(RandomAccessFile file) throws IOException{
 		double d = file.readDouble();
@@ -71,8 +91,6 @@ public class Main {
 	
 	public static String readString(RandomAccessFile file, int length) throws IOException{
 		String string = "";
-		//for(int i = 0; i < length; i++)
-		//	string += file.readChar();
 		string = file.readUTF();
 		System.out.println("-String read: " + string);
 		printFilePointer(file);
@@ -90,11 +108,32 @@ public class Main {
 		file.writeUTF(s);
 		System.out.println("-String written: " + s);
 		printFilePointer(file);
-
+	}
+	/////////////////////////////Other//////////////////////////////////
+	public static int promptForID(Scanner s){
+		System.out.print("Enter Student's ID: ");
+		return s.nextInt();
+	}
+	public static double promptForGPA(Scanner s){
+		System.out.print("Enter Student's GPA: ");
+		return s.nextDouble();
+	}
+	public static String promptForName(Scanner s, String namePart){
+		System.out.print("Enter Student's " + namePart + " name: ");
+		return s.next();
 	}
 	
 	public static void printFilePointer(RandomAccessFile file) throws IOException{
 		System.out.println("File Pointer at: " + file.getFilePointer());
+	}
+	
+	public static void setFilePointer(RandomAccessFile file, int pointer) throws IOException{
+		file.seek(pointer * RECORD);
+		printFilePointer(file);
+	}
+	
+	public static boolean isFileAtEnd(RandomAccessFile file) throws IOException{
+		return (file.getFilePointer() > file.length());
 	}
 	
 	/**
