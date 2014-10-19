@@ -26,20 +26,7 @@ public class Main {
 			scanner = new Scanner(System.in);
 			int input = 0;
 			System.out.println("Inital File Length: "  + file.length());
-			//write
-			/*System.out.println("Now Writing...\n");
-			setFilePointer(file, 3);
-			writeString(file, resizeString("Eashaan", NAME_LENGTH));
-			writeString(file, resizeString("Kumar", NAME_LENGTH));
-			writeDouble(file, 3.5);*/
 			
-
-
-			/*System.out.println("\nNow Reading...\n");
-			setFilePointer(file, 0);
-			readString(file, Main.NAME_LENGTH);
-			readString(file, Main.NAME_LENGTH);
-			readDouble(file);*/
 			while(input != 4){
 				currentIDCount = (int) ((file.length() - 4) / RECORD); // gives the next available ID to put new data in
 
@@ -55,7 +42,6 @@ public class Main {
 			
 			System.out.println("You chose to end the program");
 
-			
 			file.close();
 			
 		} catch (FileNotFoundException e1) {
@@ -83,6 +69,16 @@ public class Main {
 		case 2:
 			System.out.println("\nYou chose to change a Student");
 
+			setFilePointer(file, promptForID(s));
+			
+			String nrF = resizeString(promptForName(s, "new first"), Main.NAME_LENGTH);
+			String nrL = resizeString(promptForName(s, "new last"), Main.NAME_LENGTH);
+			double gpA = promptForGPA(s);
+			writeString(file, nrF);
+			writeString(file, nrL);
+			writeDouble(file, gpA);
+			System.out.println("\nStudent Info changed");
+			
 			break;
 		case 3:
 			System.out.println("\nYou chose to get a student's information");
