@@ -142,7 +142,7 @@ public class Mesh
 			System.exit(1);
 		}
 
-		OBJModel test = new OBJModel("./res/models/" + fileName);
+		OBJModel test = new OBJModel("3DGameEngine/models/" + fileName);
 		IndexedModel model = test.ToIndexedModel();
 
 		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
