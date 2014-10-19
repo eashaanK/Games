@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.base.engine.core;
+package core;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;

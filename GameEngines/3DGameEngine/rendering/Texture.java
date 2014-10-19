@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering;
+package rendering;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
@@ -24,8 +24,7 @@ import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 
-import com.base.engine.core.*;
-import com.base.engine.rendering.resourceManagement.TextureResource;
+import core.*;
 
 import javax.imageio.ImageIO;
 

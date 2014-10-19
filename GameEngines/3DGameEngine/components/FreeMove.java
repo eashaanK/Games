@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.base.engine.components;
+package components;
 
-import com.base.engine.core.Input;
-import com.base.engine.core.Vector3f;
+import core.Input;
+import core.Vector3f;
 
 public class FreeMove extends GameComponent
 {

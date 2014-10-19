@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering.resourceManagement;
+package rendering;
 
-import com.base.engine.core.Vector3f;
+import core.Vector3f;
 
 import java.util.HashMap;
 

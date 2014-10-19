@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering.meshLoading;
+package rendering;
 
-import com.base.engine.core.Util;
-import com.base.engine.core.Vector2f;
-import com.base.engine.core.Vector3f;
+import core.Util;
+import core.Vector2f;
+import core.Vector3f;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

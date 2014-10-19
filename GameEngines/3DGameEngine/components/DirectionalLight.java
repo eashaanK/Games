@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.base.engine.components;
+package components;
 
-import com.base.engine.core.Vector3f;
-import com.base.engine.rendering.Shader;
+import core.Vector3f;
+import rendering.Shader;
 
 public class DirectionalLight extends BaseLight
 {

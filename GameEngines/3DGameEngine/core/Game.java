@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.base.engine.core;
+package core;
 
-import com.base.engine.rendering.RenderingEngine;
+import rendering.RenderingEngine;
 
 public abstract class Game
 {

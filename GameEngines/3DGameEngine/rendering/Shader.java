@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering;
+package rendering;
 
-import com.base.engine.components.BaseLight;
-import com.base.engine.components.DirectionalLight;
-import com.base.engine.components.PointLight;
-import com.base.engine.components.SpotLight;
-import com.base.engine.core.*;
-import com.base.engine.rendering.resourceManagement.ShaderResource;
-
+import components.BaseLight;
+import components.DirectionalLight;
+import components.PointLight;
+import components.SpotLight;
+import core.*;
 import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL32.*;
 
 import java.io.BufferedReader;

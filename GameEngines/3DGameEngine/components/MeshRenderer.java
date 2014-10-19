@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package com.base.engine.components;
+package components;
 
-import com.base.engine.rendering.Material;
-import com.base.engine.rendering.Mesh;
-import com.base.engine.rendering.RenderingEngine;
-import com.base.engine.rendering.Shader;
+import rendering.*;
+
 
 public class MeshRenderer extends GameComponent
 {

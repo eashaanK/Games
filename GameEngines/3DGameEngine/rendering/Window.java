@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering;
+package rendering;
 
-import com.base.engine.core.Vector2f;
+import core.Vector2f;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;

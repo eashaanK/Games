@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering.resourceManagement;
+package rendering;
 
 import static org.lwjgl.opengl.GL11.glGenTextures;
 import static org.lwjgl.opengl.GL15.glDeleteBuffers;

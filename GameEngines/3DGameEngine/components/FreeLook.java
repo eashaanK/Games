@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.base.engine.components;
+package components;
 
-import com.base.engine.core.Input;
-import com.base.engine.core.Vector2f;
-import com.base.engine.core.Vector3f;
-import com.base.engine.rendering.Window;
+import core.Input;
+import core.Vector2f;
+import core.Vector3f;
+import rendering.Window;
 
 public class FreeLook extends GameComponent
 {

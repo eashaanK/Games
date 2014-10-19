@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering;
+package rendering;
 
-import com.base.engine.components.BaseLight;
-import com.base.engine.components.Camera;
-import com.base.engine.core.GameObject;
-import com.base.engine.core.Transform;
-import com.base.engine.core.Vector3f;
-import com.base.engine.rendering.resourceManagement.MappedValues;
-
+import components.BaseLight;
+import components.Camera;
+import core.GameObject;
+import core.Transform;
+import core.Vector3f;
 import java.util.ArrayList;
 import java.util.HashMap;
 

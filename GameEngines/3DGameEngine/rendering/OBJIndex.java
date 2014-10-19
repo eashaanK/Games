@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering.meshLoading;
+package rendering;
 
 public class OBJIndex
 {

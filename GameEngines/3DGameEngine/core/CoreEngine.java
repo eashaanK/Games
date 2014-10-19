@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.base.engine.core;
+package core;
 
-import com.base.engine.rendering.RenderingEngine;
-import com.base.engine.rendering.Window;
+import rendering.RenderingEngine;
+import rendering.Window;
 
 public class CoreEngine
 {

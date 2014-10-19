@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering.resourceManagement;
+package rendering;
 
 import java.util.ArrayList;
 import java.util.HashMap;

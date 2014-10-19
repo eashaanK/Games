@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering;
-
-import com.base.engine.rendering.resourceManagement.MappedValues;
+package rendering;
 
 import java.util.HashMap;
 

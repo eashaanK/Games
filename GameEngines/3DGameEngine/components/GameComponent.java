@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.base.engine.components;
+package components;
 
-import com.base.engine.core.CoreEngine;
-import com.base.engine.core.GameObject;
-import com.base.engine.rendering.RenderingEngine;
-import com.base.engine.core.Transform;
-import com.base.engine.rendering.Shader;
+import rendering.RenderingEngine;
+import rendering.Shader;
+import core.CoreEngine;
+import core.GameObject;
+import core.Transform;
 
 public abstract class GameComponent
 {

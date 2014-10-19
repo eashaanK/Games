@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.base.engine.components;
+package components;
 
-import com.base.engine.core.Vector3f;
-import com.base.engine.rendering.Attenuation;
-import com.base.engine.rendering.Shader;
+import core.Vector3f;
+import rendering.Attenuation;
+import rendering.Shader;
 
 public class SpotLight extends PointLight
 {

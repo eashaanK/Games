@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.base.engine.core;
+package core;
 
-import com.base.engine.components.GameComponent;
-import com.base.engine.rendering.RenderingEngine;
-import com.base.engine.rendering.Shader;
+import components.GameComponent;
+import rendering.RenderingEngine;
+import rendering.Shader;
 
 import java.util.ArrayList;
 

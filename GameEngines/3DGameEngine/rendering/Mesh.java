@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package com.base.engine.rendering;
+package rendering;
 
-import com.base.engine.core.Util;
-import com.base.engine.core.Vector3f;
-import com.base.engine.rendering.meshLoading.IndexedModel;
-import com.base.engine.rendering.meshLoading.OBJModel;
-import com.base.engine.rendering.resourceManagement.MeshResource;
+import core.Util;
+import core.Vector3f;
+
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;

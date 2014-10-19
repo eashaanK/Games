@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.base.engine.components;
+package components;
 
-import com.base.engine.core.*;
+import core.*;
 
 public class Camera extends GameComponent
 {

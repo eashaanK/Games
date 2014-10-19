@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.base.engine.core;
+package core;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
-import com.base.engine.rendering.Vertex;
+import rendering.Vertex;
+
 import org.lwjgl.BufferUtils;
 
 public class Util
