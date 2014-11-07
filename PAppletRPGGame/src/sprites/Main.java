@@ -9,12 +9,12 @@ public class Main extends PApplet{
 	public void setup(){
 		size(700, 700);
 		sprite = new Sprite(9,  1f);
-		sprite.addImage(loadImage("images/GreenBoyD1.png"));
-		sprite.addImage(loadImage("images/GreenBoyD2.png"));
-		sprite.addImage(loadImage("images/GreenBoyD3.png"));
-		sprite.addImage(loadImage("images/GreenBoyD4.png"));
-		sprite.addImage(loadImage("images/GreenBoyD5.png"));
-		sprite.addImage(loadImage("images/GreenBoyD6.png"));
+		sprite.addImage(loadImage("images/GreenBoy/GreenBoyL1.png"));
+		sprite.addImage(loadImage("images/GreenBoy/GreenBoyL2.png"));
+		sprite.addImage(loadImage("images/GreenBoy/GreenBoyL3.png"));
+	//	sprite.addImage(loadImage("images/GreenBoy/GreenBoyL4.png"));
+		//sprite.addImage(loadImage("images/GreenBoy/GreenBoyL5.png"));
+		//sprite.addImage(loadImage("images/GreenBoy/GreenBoyL6.png"));
 
 	}
 	
