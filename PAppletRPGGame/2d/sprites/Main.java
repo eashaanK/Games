@@ -22,7 +22,7 @@ public class Main extends PApplet{
 		background(255, 255, 255);
 		fill(255, 0, 0);
 		textSize(30);
-		sprite.update();
+		text(sprite.update(), mouseX, mouseY);
 		image(sprite.nextImage(), width/2, height/2);
 		this.imageMode(CENTER);
 	}

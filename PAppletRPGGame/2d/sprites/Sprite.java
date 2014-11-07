@@ -4,37 +4,39 @@ import java.util.ArrayList;
 
 import processing.core.PImage;
 
-public class Sprite{
+public class Sprite {
 
 	private ArrayList<PImage> sprites = new ArrayList<PImage>();
 	public float MAX_COUNT, INC;
 	private float currentCount;
 	private int index;
-	
-	public Sprite(float max, float f){
+
+	public Sprite(float max, float f) {
 		this.MAX_COUNT = max;
 		this.INC = f;
 	}
-	
-	public void addImage(PImage i){
+
+	public void addImage(PImage i) {
 		this.sprites.add(i);
 	}
-	
-	public float update(){
-		if(currentCount >= MAX_COUNT){
+
+	public String update() {
+
+		if (currentCount >= MAX_COUNT) {
 			currentCount = 0;
 			index++;
-			if(index >= sprites.size())
+			if (index >= sprites.size()) {
 				index = 0;
+			}
 		}
-		if(currentCount < MAX_COUNT)
-		{
+		if (currentCount < MAX_COUNT) {
 			currentCount += INC;
 		}
-		return currentCount;
+
+		return "Current Count: " + currentCount + ", Current Index: " + index;
 	}
-	
-	public PImage nextImage(){
+
+	public PImage nextImage() {
 		return sprites.get(index);
 	}
 }
