@@ -28,8 +28,6 @@ public class Entity {
 	}
 	
 	public void render(){
-		//parent.stroke(0);
-		//parent.strokeWeight(1);
 		parent.noStroke();
 		parent.fill(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 		parent.pushMatrix();
@@ -48,6 +46,13 @@ public class Entity {
 			this.pos.y ++;
 		if(PKeyboard.keyHeld(Key.A))
 			this.pos.x--;
+		updatePhysics();
+	}
+	float v = 0;
+	private void updatePhysics(){
+		float g = 9.81f;
+		v += g * 0.9f;
+		pos.y += v;
 	}
 	
 	public void setPosX(float x){

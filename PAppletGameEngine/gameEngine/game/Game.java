@@ -2,6 +2,8 @@ package game;
 
 import java.awt.Color;
 
+import javax.management.timer.Timer;
+
 import logic.PKeyboard;
 import logic.PMouse;
 import processing.core.PApplet;
@@ -25,7 +27,7 @@ public class Game extends PApplet{
 		this.smooth();
 		e = new Entity(this, 100, 100, 50, 50, 0, Color.red);
 		gui = new ControlP5(this);
-		Button tempB = gui.addButton("Button 1");		
+		Button tempB = gui.addButton("Button 1");	
 	
 	}
 	
