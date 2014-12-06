@@ -1,6 +1,7 @@
 package ek_server_basic;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -56,7 +57,7 @@ public class BasicServer extends StoppableThread implements Runnable {
 		try {
 			server = new ServerSocket(this.port);
 			
-			console = new EKConsole("Server Console", Color.white, Color.black);
+			console = new EKConsole(new Dimension(800, 400), "Server Console", Color.white, Color.black);
 			Thread t = new Thread(console);
 			t.start();
 			System.out.println("Server EKConsole degugger launched");

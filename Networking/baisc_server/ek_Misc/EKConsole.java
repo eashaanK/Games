@@ -1,10 +1,10 @@
 package ek_Misc;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
@@ -19,9 +19,12 @@ public class EKConsole extends StoppableThread implements Runnable{
 	private JTextArea ta_console = new JTextArea();
 	private JScrollPane sp_console = new JScrollPane();
 	
+	private Dimension dimension;
+	
 	private Color textColor, backgroundColor;
 	
-	public EKConsole(String title, Color tc, Color bkg){
+	public EKConsole(Dimension d, String title, Color tc, Color bkg){
+		this.dimension = d;
 		this.mainWindow.setTitle(title);
 		this.println("Console started");
 		this.textColor = tc;
@@ -34,7 +37,7 @@ public class EKConsole extends StoppableThread implements Runnable{
 	}
 	
 	private void mainWindow(){
-		mainWindow.setSize(600, 500);
+		mainWindow.setSize(dimension);
 		mainWindow.setResizable(true);
 		configureMainWindow();
 		mainWindow.setVisible(true);
