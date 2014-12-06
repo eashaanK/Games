@@ -86,7 +86,7 @@ public class BasicServer extends StoppableThread implements Runnable {
 				this.sockets.add(socket);
 				//System.out.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
-				BasicServerManager bSM = new BasicServerManager(socket);
+				BasicServerManager bSM = new BasicServerManager(socket, this.console, this.sockets.size() -1);
 				Thread t = new Thread(bSM);
 				t.start();
 				console.println();
@@ -110,7 +110,7 @@ public class BasicServer extends StoppableThread implements Runnable {
 				this.sockets.add(socket);
 				//System.out.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
-				BasicServerManager bSM = new BasicServerManager(socket);
+				BasicServerManager bSM = new BasicServerManager(socket, console, this.sockets.size() -1);
 				Thread t = new Thread(bSM);
 				t.start();
 				console.println();
@@ -154,5 +154,9 @@ public class BasicServer extends StoppableThread implements Runnable {
 	
 	public String getName(){
 		return this.serverName;
+	}
+	
+	public EKConsole getConsole(){
+		return this.console;
 	}
 }
