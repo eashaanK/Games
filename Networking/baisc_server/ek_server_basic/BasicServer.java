@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import ek_Misc.EKConsole;
-import ek_Threads.StoppableThread;
+import ek_Misc.StoppableThread;
 
 public class BasicServer extends StoppableThread implements Runnable {
 

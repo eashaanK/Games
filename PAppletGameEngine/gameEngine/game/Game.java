@@ -1,8 +1,8 @@
 package game;
 
 import java.awt.Color;
-
-import javax.management.timer.Timer;
+import java.awt.Dimension;
+import java.util.ArrayList;
 
 import logic.PKeyboard;
 import logic.PMouse;
@@ -13,34 +13,48 @@ import Components.Entity;
 import controlP5.Button;
 import controlP5.ControlEvent;
 import controlP5.ControlP5;
+import ek_Misc.EKConsole;
 
 public class Game extends PApplet{
-	Entity e;
 	ControlP5 gui;
 	
+	public static EKConsole console = new EKConsole(new Dimension(600, 500), "Testing", Color.white, Color.black);
+	
+	private ArrayList<Entity> allEntities = new ArrayList<Entity>();
+	
 	public void setup(){
+		Thread t1 = new Thread(console);
+		t1.start();
+	
 		size(800, 800);
 		this.frameRate(60);
 		this.rectMode(CENTER);
 		this.ellipseMode(CENTER);
 		this.imageMode(CENTER);
 		this.smooth();
-		e = new Entity(this, 100, 100, 50, 50, 0, Color.red);
 		gui = new ControlP5(this);
 		Button tempB = gui.addButton("Button 1");	
-	
+		
+		allEntities.add(new Entity(this, 100, 100, 50, 50, 0, Color.red));
 	}
 	
 	public void draw(){
 		background(255, 255, 255);
-		e.update();
-		e.render();
+		for(int i = this.allEntities.size() - 1; i >= 0; i--){
+			if(this.allEntities.get(i).isCloseRequested())
+				this.allEntities.remove(i);
+			else
+			{
+				this.allEntities.get(i).update(this.allEntities);
+				this.allEntities.get(i).render();
+			}
+		}
 		gui.draw();
 	}
 	
 	public void controlEvent(ControlEvent theEvent){
 		 if(theEvent.getController().getName().equals("Button 1")){
-			 System.out.println("Button 1 pressed");
+			 console.println("Button 1 pressed");
 		 }
 	}
 	

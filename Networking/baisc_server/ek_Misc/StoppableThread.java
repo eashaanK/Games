@@ -1,4 +1,4 @@
-package ek_Threads;
+package ek_Misc;
 
 public class StoppableThread {
 

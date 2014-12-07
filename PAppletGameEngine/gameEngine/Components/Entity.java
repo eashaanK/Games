@@ -3,10 +3,10 @@ package Components;
 import game.Game;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import logic.Key;
 import logic.PKeyboard;
-import logic.Type;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -16,6 +16,8 @@ public class Entity {
 	private float width, height;
 	private PApplet parent;
 	private Color color;
+	private boolean isCloseRequested = false;
+	private PhysicsBody physicsBody = new PhysicsBody();
 	
 	public Entity(PApplet p, float x, float y, float w, float h, float angle, Color c){
 		this.pos = new PVector(x, y);
@@ -37,7 +39,7 @@ public class Entity {
 		parent.popMatrix();
 	}
 	
-	public void update(){
+	public void update(ArrayList<Entity> entites){
 		if(PKeyboard.keyHeld(Key.W))
 			this.pos.y--;
 		if(PKeyboard.keyHeld(Key.D))
@@ -46,14 +48,12 @@ public class Entity {
 			this.pos.y ++;
 		if(PKeyboard.keyHeld(Key.A))
 			this.pos.x--;
-		updatePhysics();
+		physicsBody.updatePhysics(this.pos);
+		System.out.println(Math.abs(this.pos.y + this.height/2 - parent.height));
+		if(Math.abs(this.pos.y + this.height/2 - parent.height) <= 0.01f)
+			System.out.println("Success");
 	}
-	float v = 0;
-	private void updatePhysics(){
-		float g = 9.81f;
-		v += g * 0.9f;
-		pos.y += v;
-	}
+	
 	
 	public void setPosX(float x){
 		this.pos.x = x;
@@ -118,5 +118,13 @@ public class Entity {
 
 	public String toString(){
 		return "Entity (" + pos.x + ", " + pos.y + ") angle: " + angle + " width: " + width + " height: " + height;
+	}
+
+	public boolean isCloseRequested() {
+		return isCloseRequested;
+	}
+
+	public void closeEntitty() {
+		this.isCloseRequested = true;
 	}
 }
