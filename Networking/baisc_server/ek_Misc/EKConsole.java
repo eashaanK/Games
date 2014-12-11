@@ -29,6 +29,15 @@ public class EKConsole extends StoppableThread implements Runnable{
 		this.backgroundColor = bkg;
 	}
 	
+	public EKConsole(int w, int h, String title, Color tc, Color bkg){
+		this.dimension = new Dimension(w, h);
+		this.mainWindow.setTitle(title);
+		this.println("Console started");
+		this.textColor = tc;
+		this.backgroundColor = bkg;
+	}
+	
+	
 	public void run(){
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow();
@@ -59,9 +68,8 @@ public class EKConsole extends StoppableThread implements Runnable{
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		sp_console.setViewportView(ta_console);
 		mainWindow.add(sp_console);
-		sp_console.setBounds(0, 0, mainWindow.getWidth(), mainWindow.getHeight());
+		sp_console.setBounds(0, 0, mainWindow.getWidth() - 15, mainWindow.getHeight());
 		sp_console.setAutoscrolls(true);
-
 	}
 	
 	public void printTimeStamp(){
@@ -82,10 +90,10 @@ public class EKConsole extends StoppableThread implements Runnable{
 	
 	public void print(String message){
 		
-		ta_console.append("(" + Helper.getTimeStamp() + ")" + message);
+		ta_console.append("(" + Helper.getTimeStamp() + ") " + message);
 	}
 	
 	public void println(String message){
-		ta_console.append("(" + Helper.getTimeStamp() + ")" + message + "\n");
+		ta_console.append("(" + Helper.getTimeStamp() + ") " + message + "\n");
 	}
 }
