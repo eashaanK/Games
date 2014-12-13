@@ -36,8 +36,7 @@ public class EKConsole extends StoppableThread implements Runnable{
 		this.textColor = tc;
 		this.backgroundColor = bkg;
 	}
-	
-	
+
 	public void run(){
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow();
@@ -74,26 +73,31 @@ public class EKConsole extends StoppableThread implements Runnable{
 	
 	public void printTimeStamp(){
 		ta_console.append("(" + Helper.getTimeStamp() + ")");
+		ta_console.setCaretPosition(ta_console.getDocument().getLength());
 	}
 	
 	public void printlnTimeStamp(){
 		ta_console.append("(" + Helper.getTimeStamp() + ")" + "\n");
+		ta_console.setCaretPosition(ta_console.getDocument().getLength());
 	}
 	
 	public void print(){
 		ta_console.append("");
+		ta_console.setCaretPosition(ta_console.getDocument().getLength());
 	}
 	
 	public void println(){
 		ta_console.append("\n");
+		ta_console.setCaretPosition(ta_console.getDocument().getLength());
 	}
 	
 	public void print(String message){
-		
 		ta_console.append("(" + Helper.getTimeStamp() + ") " + message);
+		ta_console.setCaretPosition(ta_console.getDocument().getLength());
 	}
 	
 	public void println(String message){
 		ta_console.append("(" + Helper.getTimeStamp() + ") " + message + "\n");
+		ta_console.setCaretPosition(ta_console.getDocument().getLength());
 	}
 }
