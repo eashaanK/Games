@@ -57,9 +57,12 @@ public class Thing {
 		
 		this.x += vx;
 		
-		System.out.println(vx);
-
-		
+		//System.out.println(vx);
+	}
+	
+	public void update(){
+		this.x+=vx;
+		this.y+=vy;
 	}
 	
 	public void addImpulse(float dvx, float dvy){
@@ -68,13 +71,24 @@ public class Thing {
 		this.addedImpulse = true;
 	}
 	
+	public void follow(float tx, float ty, float v){
+		lookAt(tx, ty);
+		if(ty > this.y){
+			vx = -parent.sin(angle) * v;
+			vy = parent.cos(angle) * v;
+		}
+		else if(ty < this.y){
+			vx = -parent.sin(angle) * v;
+			vy = -parent.cos(angle) * v;
+		}
+		
+	}
+	
 	public void lookAt(float tx, float ty){
 		float deltaX = tx - x;
 		float deltaY = -ty + y;
 		
-		float newAngle = (parent.atan(deltaX / deltaY)); //in radians
-		//System.out.println(newAngle + " dx: " + deltaX + " dy: " + deltaY);
-		this.setAngle(newAngle); //in radians
+		angle = parent.atan(deltaX / deltaY); //in radians
 	}
 	
 	public void kill(){

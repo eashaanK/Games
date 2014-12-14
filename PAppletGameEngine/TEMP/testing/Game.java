@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class Game extends PApplet{
 
@@ -16,7 +17,7 @@ public class Game extends PApplet{
 
 	
 	public void setup(){
-		size(2000, 2000);
+		size(500, 500);
 		this.frameRate(60);
 		this.rectMode(CENTER);
 		things = new ArrayList<Thing>();
@@ -28,7 +29,10 @@ public class Game extends PApplet{
 	public void draw(){
 		background(255, 255, 255);
 		render();
-		t.lookAt(mouseX, mouseY);
+	//	t.lookAt(mouseX, mouseY);
+		t.follow(mouseX, mouseY, 1);
+		t.update();
+		System.out.println(t.getVx() + " " + t.getVy());
 	}
 	
 	public void add(Thing t){
@@ -42,7 +46,9 @@ public class Game extends PApplet{
 			}
 			else{
 				things.get(i).draw();
-				things.get(i).updatePhysics(this.frameRate/60, height, 0.01f);
+				//things.get(i).updatePhysics(1, height, 0.01f);
+				//things.get(i).follow(mouseX, mouseY, 10);
+				//things.get(i).update();
 			}
 		}
 	}
