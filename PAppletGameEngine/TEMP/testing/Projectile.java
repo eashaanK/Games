@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import processing.core.PApplet;
 
-public class Projectile extends Thing{
+public class Projectile extends Thing2D{
 
 	public Projectile(PApplet parent, float x, float y, float width,
 			float height, Color c, float mass) {

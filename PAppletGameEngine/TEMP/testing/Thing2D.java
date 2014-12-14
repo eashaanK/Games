@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import processing.core.PApplet;
 
-public class Thing {
+public class Thing2D {
 
 	private PApplet parent;
 	private float x, y, width, height, angle;
@@ -14,7 +14,7 @@ public class Thing {
 	private boolean addedImpulse;
 	private float mass;
 
-	public Thing(PApplet parent, float x, float y, float width, float height, Color c, float mass) {
+	public Thing2D(PApplet parent, float x, float y, float width, float height, Color c, float mass) {
 		this.parent = parent;
 		this.x = x;
 		this.y = y;
@@ -57,12 +57,6 @@ public class Thing {
 		
 		this.x += vx;
 		
-		//System.out.println(vx);
-	}
-	
-	public void update(){
-		this.x+=vx;
-		this.y+=vy;
 	}
 	
 	public void addImpulse(float dvx, float dvy){
@@ -72,15 +66,26 @@ public class Thing {
 	}
 	
 	public void follow(float tx, float ty, float v){
+		if(Math.abs(tx - x) <= 1 && Math.abs(ty - y) <= 1){
+			this.vx = 0;
+			this.vy = 0;
+			return;
+		}
 		lookAt(tx, ty);
 		if(ty > this.y){
 			vx = -parent.sin(angle) * v;
 			vy = parent.cos(angle) * v;
 		}
-		else if(ty < this.y){
-			vx = -parent.sin(angle) * v;
+		else if(ty < this.y ){
+			vx = parent.sin(angle) * v;
 			vy = -parent.cos(angle) * v;
 		}
+		
+		this.x+=vx;
+		this.y+=vy;
+		vx *= (60/parent.frameRate);
+		vy *= (60/parent.frameRate);
+		
 		
 	}
 	
