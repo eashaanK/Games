@@ -1,32 +1,27 @@
 package game;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.util.ArrayList;
 
+import logic.Key;
 import logic.PKeyboard;
 import logic.PMouse;
 import processing.core.PApplet;
+import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import Components.Entity;
 import controlP5.Button;
 import controlP5.ControlEvent;
 import controlP5.ControlP5;
-import ek_Misc.EKConsole;
 
 public class Game extends PApplet{
 	ControlP5 gui;
 	
-	public static EKConsole console = new EKConsole(new Dimension(600, 500), "Testing", Color.white, Color.black);
+	PVector pPos, aPos, pVel, aVel;
+	float angle = 0, gravity = 9.81f;
 	
-	private ArrayList<Entity> allEntities = new ArrayList<Entity>();
-	
-	public void setup(){
-		Thread t1 = new Thread(console);
-		t1.start();
-	
-		size(800, 800);
+	public void setup(){	
+		size(500, 500);
 		this.frameRate(60);
 		this.rectMode(CENTER);
 		this.ellipseMode(CENTER);
@@ -35,27 +30,52 @@ public class Game extends PApplet{
 		gui = new ControlP5(this);
 		Button tempB = gui.addButton("Button 1");	
 		
-		allEntities.add(new Entity(this, 100, 100, 50, 50, 0, Color.red));
+		pPos = new PVector();
+		aPos = new PVector();
+		
+		pVel = new PVector(1f, 1f);
 	}
 	
 	public void draw(){
 		background(255, 255, 255);
-		for(int i = this.allEntities.size() - 1; i >= 0; i--){
-			if(this.allEntities.get(i).isCloseRequested())
-				this.allEntities.remove(i);
+		
+		fill(255);
+		this.rect(pPos.x, pPos.y, 50, 50);
+	
+		this.basicFPSControls(pPos, pVel);
+	
+		
+		gui.draw();
+	}
+	
+	public void updateEntities(ArrayList<Entity> allEntities){
+		for(int i = allEntities.size() - 1; i >= 0; i--){
+			if(allEntities.get(i).isCloseRequested())
+				allEntities.remove(i);
 			else
 			{
-				this.allEntities.get(i).update(this.allEntities);
-				this.allEntities.get(i).render();
+				allEntities.get(i).update(allEntities);
+				allEntities.get(i).render();
 			}
 		}
-		gui.draw();
 	}
 	
 	public void controlEvent(ControlEvent theEvent){
 		 if(theEvent.getController().getName().equals("Button 1")){
-			 console.println("Button 1 pressed");
+			 //console.println("Button 1 pressed");
 		 }
+	}
+	
+	public void basicFPSControls(PVector pos, PVector vel){
+		if(PKeyboard.keyHeld(Key.W))
+			pos.y-= vel.y;
+		if(PKeyboard.keyHeld(Key.S))
+			pos.y+= vel.y;
+		
+		if(PKeyboard.keyHeld(Key.A))
+			pos.x-= vel.x;
+		if(PKeyboard.keyHeld(Key.D))
+			pos.x+= vel.x;
 	}
 	
 	@Override
@@ -77,5 +97,4 @@ public class Game extends PApplet{
 	public void mouseReleased(MouseEvent e){
 		PMouse.removeButton(e);
 	}
-
 }
