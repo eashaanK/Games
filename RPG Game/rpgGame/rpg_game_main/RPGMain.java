@@ -2,6 +2,11 @@ package rpg_game_main;
 
 import javax.swing.JFrame;
 
+/**
+ * https://www.youtube.com/watch?v=sqs9QPoGYf8
+ * @author eashaan
+ *
+ */
 public class RPGMain {
 
 	public static final int WIDTH = 800, HEIGHT = 600;
