@@ -75,7 +75,7 @@ public class RPGPanel extends JPanel implements Runnable {
 
 	// ///////////////////////////////////////////////////////////////
 	public void init() {
-		player = new Player("Test 1", RPGMain.WIDTH / 2, RPGMain.HEIGHT/2, 20, 20);
+		player = new Player("Test 1", RPGMain.WIDTH / 2, RPGMain.HEIGHT/2, 40, 40);
 		floor = new Floor(RPGMain.WIDTH, RPGMain.HEIGHT);
 	}
 

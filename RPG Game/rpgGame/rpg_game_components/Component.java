@@ -68,6 +68,5 @@ private Rectangle bounds;
 	}
 	
 	public abstract String toString();
-	
 
 }
