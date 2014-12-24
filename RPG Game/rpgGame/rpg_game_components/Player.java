@@ -1,6 +1,7 @@
 package rpg_game_components;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import rpg_game_helpers.DrawHelp;
 import rpg_game_helpers.ImageDirection;
 
 public class Player extends Component {
@@ -91,6 +93,8 @@ public class Player extends Component {
 		//	g.setColor(Color.red);
 		//	g.fillRect(this.getX(), this.getY(), this.getWidth(),this.getHeight());
 			g.drawImage(this.currentImage, this.getX(), this.getY(), this.getWidth(), this.getHeight(), obs);
+			g.setColor(Color.black);
+			DrawHelp.drawText(g, 15, name, this.getX() - name.length() * 3 / 2,  this.getY() - 10);
 		} else {
 			System.out.println("Player died");
 		}

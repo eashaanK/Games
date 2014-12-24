@@ -1,26 +1,26 @@
 package rpg_game_main;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import rpg_game_components.Floor;
-import rpg_game_components.Player;
 import rpg_game_input.Controls;
 
 public class RPGPanel extends JPanel implements Runnable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Thread thread;
 	public static boolean running;
-	public static Player player;
-	public Floor floor;
+	public Game game;
 	
-	public int currentFPS = 0;
+	public static int currentFPS = 0;
 	public double deltaTime = 0;
 	public final int TARGET_FPS = 60;
 
-	private Controls controls;
+	public static  Controls controls;
 
 	public RPGPanel(Controls c) {
 		this.controls = c;
@@ -75,28 +75,17 @@ public class RPGPanel extends JPanel implements Runnable {
 
 	// ///////////////////////////////////////////////////////////////
 	public void init() {
-		player = new Player("Test 1", RPGMain.WIDTH / 2, RPGMain.HEIGHT/2, 40, 40);
-		floor = new Floor(RPGMain.WIDTH, RPGMain.HEIGHT);
+		game = new Game();
+		game.init();
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//moveable screen
-		g.translate(-player.getX() + RPGMain.WIDTH / 2, -player.getY() + RPGMain.HEIGHT / 2);
-		floor.render(g, this);
-		floor.update();
-		//
-		controls.update();
-		player.update();
-		player.render(g, this);
-			
-		this.drawFixedText(g, currentFPS + "", Color.black, 10, 20);
-		
+		game.render(g, this);
+		game.gui(g, this);
+		controls.update(game.player);
 	}
 	
-	private void drawFixedText(Graphics g, String text, Color c, int x, int y){
-		g.setColor(c);
-		g.drawString(text, player.getX() - (RPGMain.WIDTH / 2 - x ), player.getY() - (RPGMain.HEIGHT / 2 - y ));
-	}
+	
 }

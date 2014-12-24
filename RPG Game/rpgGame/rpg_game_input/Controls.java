@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
+import rpg_game_components.Player;
 import rpg_game_helpers.ImageDirection;
 import rpg_game_main.RPGPanel;
 
@@ -29,22 +30,22 @@ public class Controls implements KeyListener, MouseListener {
 
 	//////////////////////////////////////////////////////////////////
 
-	public void update() {
+	public void update(Player player) {
 		if (keyHeld.contains(KeyEvent.VK_W)){
-			RPGPanel.player.moveBy(0, -2);
-			RPGPanel.player.updateImage(ImageDirection.up);
+			player.moveBy(0, -2);
+			player.updateImage(ImageDirection.up);
 		}
 		if (keyHeld.contains(KeyEvent.VK_S)){
-			RPGPanel.player.moveBy(0, 2);
-			RPGPanel.player.updateImage(ImageDirection.down);
+			player.moveBy(0, 2);
+			player.updateImage(ImageDirection.down);
 		}
 		if (keyHeld.contains(KeyEvent.VK_A)){
-			RPGPanel.player.moveBy(-2, 0);
-			RPGPanel.player.updateImage(ImageDirection.left);
+			player.moveBy(-2, 0);
+			player.updateImage(ImageDirection.left);
 		}
 		if (keyHeld.contains(KeyEvent.VK_D)){
-			RPGPanel.player.moveBy(2, 0);
-			RPGPanel.player.updateImage(ImageDirection.right);
+			player.moveBy(2, 0);
+			player.updateImage(ImageDirection.right);
 		}
 		// System.out.println("Controls: " + keyHeld);
 
