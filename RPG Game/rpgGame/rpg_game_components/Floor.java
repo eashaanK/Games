@@ -1,5 +1,6 @@
 package rpg_game_components;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -15,10 +16,10 @@ public class Floor extends Component
 	public Floor(int w, int h){
 		super(0, 0, w, h);
 		this.background = new ImageIcon("rpgGame/rpg_game_images/Grass.png").getImage();
+		this.background.flush();
 	}
 	
 	public void update(){
-		
 	}
 	
 	public void render(Graphics g, ImageObserver obs){
