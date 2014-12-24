@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import ek_Misc.EKConsole;
+import ek_GUI.EKConsole;
 import ek_Misc.StoppableThread;
 
 public class BasicServer extends StoppableThread implements Runnable {
@@ -57,7 +57,7 @@ public class BasicServer extends StoppableThread implements Runnable {
 		try {
 			server = new ServerSocket(this.port);
 			
-			console = new EKConsole(new Dimension(800, 400), "Server Console", Color.white, Color.black);
+			console = new EKConsole(new Dimension(800, 400), "Server Console", Color.black);
 			Thread t = new Thread(console);
 			t.start();
 			System.out.println("Server EKConsole degugger launched");
