@@ -22,8 +22,7 @@ public class RPGFrame extends JFrame{
 
 		
 		panel = new RPGPanel(controls);
-		add(panel);
-		
+		add(panel);		
 	}
 	
 }

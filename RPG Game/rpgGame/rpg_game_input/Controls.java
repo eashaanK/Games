@@ -33,13 +33,13 @@ public class Controls implements KeyListener, MouseListener {
 
 	public void update() {
 		if (keyHeld.contains(KeyEvent.VK_W))
-			RPGPanel.player.moveBy(0, -1);
+			RPGPanel.player.moveBy(0, -2);
 		if (keyHeld.contains(KeyEvent.VK_S))
-			RPGPanel.player.moveBy(0, 1);
+			RPGPanel.player.moveBy(0, 2);
 		if (keyHeld.contains(KeyEvent.VK_A))
-			RPGPanel.player.moveBy(-1, 0);
+			RPGPanel.player.moveBy(-2, 0);
 		if (keyHeld.contains(KeyEvent.VK_D))
-			RPGPanel.player.moveBy(1, 0);
+			RPGPanel.player.moveBy(2, 0);
 		// System.out.println("Controls: " + keyHeld);
 
 	}

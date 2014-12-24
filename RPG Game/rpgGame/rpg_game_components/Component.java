@@ -1,8 +1,8 @@
 package rpg_game_components;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.ImageObserver;
 
 public abstract class Component {
 private Rectangle bounds;
@@ -13,7 +13,7 @@ private Rectangle bounds;
 	
 	public abstract void update();
 	
-	public abstract void render(Graphics g);
+	public abstract void render(Graphics g, ImageObserver obs);
 	
 	public int getX(){
 		return this.bounds.x;

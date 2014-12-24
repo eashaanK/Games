@@ -2,9 +2,7 @@ package rpg_game_main;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import rpg_game_components.Floor;
@@ -17,9 +15,9 @@ public class RPGPanel extends JPanel implements Runnable {
 	public static boolean running;
 	public static Player player;
 	public Floor floor;
-	public Image background;
 	
 	public int currentFPS = 0;
+	public double deltaTime = 0;
 	public final int TARGET_FPS = 60;
 
 	private Controls controls;
@@ -65,8 +63,7 @@ public class RPGPanel extends JPanel implements Runnable {
 		     catch(Exception e){
 		    	 e.printStackTrace();
 		     }
-
-			
+		     this.deltaTime = delta;
 		}
 	}
 
@@ -78,35 +75,28 @@ public class RPGPanel extends JPanel implements Runnable {
 
 	// ///////////////////////////////////////////////////////////////
 	public void init() {
-		player = new Player("Test 1", 100, 200, 20, 20);
-		floor = new Floor(RPGMain.WIDTH / 2 - 800 / 2,
-				RPGMain.HEIGHT / 2 - 50 / 2, 800, 50);
-	
-		/*URL src = getClass().getResource("/Users/eashaan/eclipse-and-more/repositories/Games/RPG Game/rpgGame/rpg_game_images/Grass.png");
-		try {
-			this.background = ImageIO.read(src);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		this.background = new ImageIcon("rpg_game_images/Grass.png").getImage();
+		player = new Player("Test 1", RPGMain.WIDTH / 2, RPGMain.HEIGHT/2, 20, 20);
+		floor = new Floor(RPGMain.WIDTH, RPGMain.HEIGHT);
 	}
 
-	/**
-	 * FIX THE UPDATE. IT SHOULDN'T BE CALLED THESE MANY TIMES
-	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(this.background, 0, 0, this);
+		//moveable screen
+		g.translate(-player.getX() + RPGMain.WIDTH / 2, -player.getY() + RPGMain.HEIGHT / 2);
+		floor.render(g, this);
+		floor.update();
+		//
 		controls.update();
-		// floor.render(g);
-		// floor.update();
 		player.update();
-		player.render(g);
+		player.render(g, this);
+			
+		this.drawFixedText(g, currentFPS + "", Color.black, 10, 20);
 		
-		g.setColor(Color.black);
-		g.drawString(currentFPS + "", 10, 20);
-		
+	}
+	
+	private void drawFixedText(Graphics g, String text, Color c, int x, int y){
+		g.setColor(c);
+		g.drawString(text, player.getX() - (RPGMain.WIDTH / 2 - x ), player.getY() - (RPGMain.HEIGHT / 2 - y ));
 	}
 }

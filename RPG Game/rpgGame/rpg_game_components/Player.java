@@ -2,7 +2,7 @@ package rpg_game_components;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.image.ImageObserver;
 
 public class Player extends Component
 {
@@ -19,7 +19,7 @@ public class Player extends Component
 		
 	}
 	
-	public void render(Graphics g){
+	public void render(Graphics g, ImageObserver obs){
 		if(this.isAlive())
 		{
 			g.setColor(Color.red);
