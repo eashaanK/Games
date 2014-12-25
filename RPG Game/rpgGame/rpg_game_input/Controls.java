@@ -39,18 +39,31 @@ public class Controls implements KeyListener, MouseListener {
 	public void updatePlayer(Player player) {
 		if (keyHeld.contains(KeyEvent.VK_W)){
 			player.moveBy(0, -2);
-			player.updateImage(ImageDirection.up);
+			//player.updateImage(ImageDirection.up);
 		}
 		if (keyHeld.contains(KeyEvent.VK_S)){
 			player.moveBy(0, 2);
-			player.updateImage(ImageDirection.down);
+			//player.updateImage(ImageDirection.down);
 		}
 		if (keyHeld.contains(KeyEvent.VK_A)){
 			player.moveBy(-2, 0);
-			player.updateImage(ImageDirection.left);
+			//player.updateImage(ImageDirection.left);
 		}
 		if (keyHeld.contains(KeyEvent.VK_D)){
 			player.moveBy(2, 0);
+			//player.updateImage(ImageDirection.right);
+		}
+		
+		if (keyHeld.contains(KeyEvent.VK_W)){
+			player.updateImage(ImageDirection.up);
+		}
+		else if (keyHeld.contains(KeyEvent.VK_S)){
+			player.updateImage(ImageDirection.down);
+		}
+		else if (keyHeld.contains(KeyEvent.VK_A)){
+			player.updateImage(ImageDirection.left);
+		}
+		else if (keyHeld.contains(KeyEvent.VK_D)){
 			player.updateImage(ImageDirection.right);
 		}
 		
