@@ -17,5 +17,9 @@
 	<classpathentry kind="lib" path="lib/Speech/mbrola.jar"/>
 	<classpathentry kind="lib" path="lib/Speech/README.txt"/>
 	<classpathentry kind="lib" path="lib/Speech/voices.txt"/>
+	<classpathentry kind="lib" path="lib/spinx/js.jar"/>
+	<classpathentry kind="lib" path="lib/spinx/jsapi-1.0-base.jar"/>
+	<classpathentry kind="lib" path="lib/spinx/sphinx4.jar"/>
+	<classpathentry kind="lib" path="lib/spinx/tags.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
