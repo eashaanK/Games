@@ -1,0 +1,9 @@
+#JSGF V1.0
+
+/**
+ * JSGF Grammar for Test
+ */
+ 
+grammar test; //remeber to name this same as file name
+
+public <greet> = (Yo yo wazzup | Sup | Hi there) (Eashaan | Shefali);

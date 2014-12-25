@@ -1,4 +1,4 @@
-package speechRecognition;
+package speechFormer;
 
 import java.util.Scanner;
 
