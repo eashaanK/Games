@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="lib/spinx/jsapi-1.0-base.jar"/>
 	<classpathentry kind="lib" path="lib/spinx/sphinx4.jar"/>
 	<classpathentry kind="lib" path="lib/spinx/tags.jar"/>
+	<classpathentry kind="lib" path="lib/spinx/HelloWorld.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
