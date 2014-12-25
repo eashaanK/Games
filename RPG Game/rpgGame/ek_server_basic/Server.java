@@ -6,17 +6,16 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import ek_GUI.EKConsole;
-
-public class BasicServer extends StoppableThread implements Runnable {
+public class Server extends StoppableThread implements Runnable {
 
 	private final int port, maxClients;
 	private ServerSocket server;
 	private final String serverName;
-	public ArrayList<Socket> sockets = new ArrayList<Socket>();
+	public ArrayList<User> sockets = new ArrayList<User>();
 	private EKConsole console;
 	
 	/**
@@ -24,7 +23,7 @@ public class BasicServer extends StoppableThread implements Runnable {
 	 * @param port this server's port
 	 * @param maxClients if -, then infinite
 	 */
-	public BasicServer(int port, int maxClients){
+	public Server(int port, int maxClients){
 		this.port = port;
 		this.maxClients = maxClients;
 		this.serverName = "Basic Server";
@@ -36,7 +35,7 @@ public class BasicServer extends StoppableThread implements Runnable {
 	 * @param maxClients if -, then infinite
 	 * @param name Server's name
 	 */
-	public BasicServer(int port, int maxClients, String name){
+	public Server(int port, int maxClients, String name){
 		this.port = port;
 		this.maxClients = maxClients;
 		this.serverName = name;
@@ -56,7 +55,7 @@ public class BasicServer extends StoppableThread implements Runnable {
 		try {
 			server = new ServerSocket(this.port);
 			
-			console = new EKConsole(new Dimension(800, 400), "Server Console", Color.black);
+			console = new EKConsole(new Dimension(800, 400), "Server Console", Color.black, Color.white);
 			Thread t = new Thread(console);
 			t.start();
 			System.out.println("Server EKConsole degugger launched");
@@ -76,16 +75,22 @@ public class BasicServer extends StoppableThread implements Runnable {
 		
 	}
 	
+	/*******
+	 * THE CIENT MUST INSTANTLY SEND ITS NAME TO SERVER
+	 */
+	
 	private void startLimitedServer(){
 		for(int i = 0; i < this.maxClients && this.isActive(); i++){
 			Socket socket;
 			try {
 				console.println("Wating for client to join: " + this.sockets.size() + "/" + this.maxClients);
 				socket = server.accept();
-				this.sockets.add(socket);
+				//Scanner in = new Scanner(socket.getInputStream());
+			//	String name = in.nextLine();
+				//this.sockets.add(new User(socket, name));
 				//System.out.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
-				BasicServerManager bSM = new BasicServerManager(socket, this.console, this.sockets.size() -1);
+				ServerManager bSM = new ServerManager(socket, this.console);
 				Thread t = new Thread(bSM);
 				t.start();
 				console.println();
@@ -106,10 +111,12 @@ public class BasicServer extends StoppableThread implements Runnable {
 			try {
 				console.println("Wating for client to join: " + this.sockets.size() + "/" + "infinite");
 				socket = server.accept();
-				this.sockets.add(socket);
+				Scanner in = new Scanner(socket.getInputStream());
+				String name = in.nextLine();
+				this.sockets.add(new User(socket, name));
 				//System.out.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
-				BasicServerManager bSM = new BasicServerManager(socket, console, this.sockets.size() -1);
+				ServerManager bSM = new ServerManager(socket, console);
 				Thread t = new Thread(bSM);
 				t.start();
 				console.println();

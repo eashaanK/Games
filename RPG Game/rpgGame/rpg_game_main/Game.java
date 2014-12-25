@@ -11,9 +11,9 @@ import rpg_game_input.Button;
 
 public class Game {
 	public static Player player;
-	public Floor floor;
-	public Button button;
-	private int mouseX, mouseY;
+	public static Floor floor;
+	public static Button button;
+	private static int mouseX, mouseY;
 	
 	public void init(){
 		player = new Player("Dad", RPGMain.WIDTH / 2, RPGMain.HEIGHT/2, 40, 40);

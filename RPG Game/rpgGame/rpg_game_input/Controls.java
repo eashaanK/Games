@@ -1,5 +1,6 @@
 package rpg_game_input;
 
+import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -10,6 +11,7 @@ import java.util.LinkedList;
 
 import rpg_game_components.Player;
 import rpg_game_helpers.ImageDirection;
+import rpg_game_main.Game;
 import rpg_game_main.RPGMain;
 
 public class Controls implements KeyListener, MouseListener {
@@ -75,16 +77,18 @@ public class Controls implements KeyListener, MouseListener {
 	// /////////////////////////MOUSE/////////////////////////////
 
 	public void mouseClicked(MouseEvent e) {
-		
 
 	}
 
 	public void mousePressed(MouseEvent e) {
-		
+		if(Game.button.isIntersectingMouse(mouseX, mouseY)){
+			Game.button.highlight(Color.yellow);
+		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		
+			Game.button.unHighlight();
+	
 	}
 
 	public void mouseEntered(MouseEvent e) {

@@ -15,6 +15,7 @@ public class Button {
 	private Rectangle bounds;
 	private Point textPos;
 	private String text;
+	private final Color defbC;
 	private Color buttonColor, textColor;
 	private Image buttonImage;
 	public boolean shadow = true;
@@ -24,6 +25,7 @@ public class Button {
 		this.text = text;
 		this.buttonColor = button;
 		this.buttonImage = null;
+		defbC = buttonColor;
 		this.textColor = textC;
 		this.textPos = new Point(tx, ty);
 	}
@@ -32,6 +34,7 @@ public class Button {
 		this.bounds = new Rectangle(x, y, w, h);
 		this.text = text;
 		this.buttonColor = null;
+		defbC = buttonColor;
 		this.buttonImage = buttonImage;
 		this.textColor = textC;
 		this.textPos = new Point(tx, ty);
@@ -59,8 +62,12 @@ public class Button {
 		DrawHelp.drawText(g, bounds.height, text, scTxtPos);
 	}
 	
-	public void highlight(){
-		
+	public void highlight(Color c){
+		this.buttonColor = c;
+	}
+	
+	public void unHighlight(){
+		this.buttonColor = this.defbC;
 	}
 	
 	public boolean isIntersectingMouse(int x, int y){

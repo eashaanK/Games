@@ -1,4 +1,4 @@
-package ek_Misc;
+package ek_server_basic;
 
 import java.sql.Timestamp;
 import java.util.Date;

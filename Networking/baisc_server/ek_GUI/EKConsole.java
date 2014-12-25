@@ -15,12 +15,12 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import ek_Misc.Helper;
-import ek_Misc.StoppableThread;
+import ek_server_basic.Helper;
+import ek_server_basic.StoppableThread;
 
 public class EKConsole extends StoppableThread implements Runnable {
 
-	private static JFrame mainWindow = new JFrame();
+	private JFrame mainWindow = new JFrame();
 
 	// private JTextArea ta_console = new JTextArea();
 	private JTextPane tp_console = new JTextPane();
