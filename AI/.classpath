@@ -3,15 +3,19 @@
 	<classpathentry kind="src" path="Speech"/>
 	<classpathentry kind="src" path="GUIStuff"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="lib/cmu_time_awb.jar"/>
-	<classpathentry kind="lib" path="lib/cmu_us_kal.jar"/>
-	<classpathentry kind="lib" path="lib/cmudict04.jar"/>
-	<classpathentry kind="lib" path="lib/cmulex.jar"/>
-	<classpathentry kind="lib" path="lib/cmutimelex.jar"/>
-	<classpathentry kind="lib" path="lib/en_us.jar"/>
-	<classpathentry kind="lib" path="lib/freetts-jsapi10.jar"/>
-	<classpathentry kind="lib" path="lib/freetts.jar"/>
-	<classpathentry kind="lib" path="lib/mbrola.jar"/>
 	<classpathentry kind="src" path="ComplexMathPlusOPs"/>
+	<classpathentry kind="lib" path="lib/Speech/cmu_time_awb.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/cmu_us_kal.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/cmudict04.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/cmulex.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/cmutimelex.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/en_us.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/freetts-jsapi10.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/freetts.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/jsapi.exe"/>
+	<classpathentry kind="lib" path="lib/Speech/jsapi.sh"/>
+	<classpathentry kind="lib" path="lib/Speech/mbrola.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/README.txt"/>
+	<classpathentry kind="lib" path="lib/Speech/voices.txt"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
