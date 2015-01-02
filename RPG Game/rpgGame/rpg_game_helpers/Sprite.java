@@ -24,6 +24,22 @@ public class Sprite {
 
 	}
 	
+	public void assignImageUp(int index){
+		this.currentImage = up.get(index);
+	}
+	
+	public void assignImageDown(int index){
+		this.currentImage = down.get(index);
+	}
+	
+	public void assignImageLeft(int index){
+		this.currentImage = left.get(index);
+	}
+	
+	public void assignImageRight(int index){
+		this.currentImage = right.get(index);
+	}
+	
 	public void addUp(String path){
 		up.add(Loader.loadImage(path));
 	}

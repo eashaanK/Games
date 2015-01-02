@@ -6,7 +6,6 @@ import java.awt.image.ImageObserver;
 
 import rpg_game_helpers.DrawHelp;
 import rpg_game_helpers.ImageDirection;
-import rpg_game_helpers.Loader;
 import rpg_game_helpers.Sprite;
 
 public class Player extends Component {
@@ -14,6 +13,7 @@ public class Player extends Component {
 	private String name;
 	private float health = 100;
 	private Sprite sprite;
+	private boolean canGoUp = true, canGoDown = true, canGoLeft = true, canGoRight = true;
 
 	public Player(String name, int x, int y, int w, int h) {
 		super(x, y, w, h);
@@ -28,20 +28,19 @@ public class Player extends Component {
 		sprite.addDown("rpgGame/rpg_game_images/boy down 1.png");
 		sprite.addDown("rpgGame/rpg_game_images/boy down 2.png");
 		sprite.addDown("rpgGame/rpg_game_images/boy down 3.png");
-		
+
 		// left
 		sprite.addLeft("rpgGame/rpg_game_images/boy left 1.png");
 		sprite.addLeft("rpgGame/rpg_game_images/boy left 2.png");
 		sprite.addLeft("rpgGame/rpg_game_images/boy left 3.png");
-		
-		//right
+
+		// right
 		sprite.addRight("rpgGame/rpg_game_images/boy right 1.png");
 		sprite.addRight("rpgGame/rpg_game_images/boy right 2.png");
 		sprite.addRight("rpgGame/rpg_game_images/boy right 3.png");
 		sprite.initCurrentImage(sprite.getDown().get(0));
 	}
-	
-	
+
 	public void updateImage(ImageDirection iDir) {
 		sprite.updateImage(iDir);
 	}
@@ -52,11 +51,14 @@ public class Player extends Component {
 
 	public void render(Graphics g, ImageObserver obs) {
 		if (this.isAlive()) {
-		//	g.setColor(Color.red);
-		//	g.fillRect(this.getX(), this.getY(), this.getWidth(),this.getHeight());
-			g.drawImage(sprite.currentImg(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), obs);
+			// g.setColor(Color.red);
+			// g.fillRect(this.getX(), this.getY(),
+			// this.getWidth(),this.getHeight());
+			g.drawImage(sprite.currentImg(), this.getX(), this.getY(),
+					this.getWidth(), this.getHeight(), obs);
 			g.setColor(Color.black);
-			DrawHelp.drawText(g, 15, name, this.getX() - name.length() * 3 / 2,  this.getY() - 10);
+			DrawHelp.drawText(g, 15, this.toString(),
+					this.getX() - name.length() * 3 / 2, this.getY() - 10);
 		} else {
 			System.out.println("Player died");
 		}
@@ -72,6 +74,52 @@ public class Player extends Component {
 
 	public void setHealth(float health) {
 		this.health = health;
+	}
+
+	@Override
+	public void moveBy(int x, int y) {
+		throw new IllegalStateException(
+				"Cant call this method on player. Use move methods");
+	}
+
+	public void moveUp(int amt) {
+		if (canGoUp())
+			super.moveBy(0, -amt);
+	}
+
+	public void moveDown(int amt) {
+		if (canGoDown())
+			super.moveBy(0, amt);
+	}
+
+	public void moveLeft(int amt) {
+		if (canGoLeft())
+			super.moveBy(-amt, 0);
+
+	}
+
+	public void moveRight(int amt) {
+		if (canGoRight())
+			super.moveBy(amt, 0);
+	}
+
+	public boolean canGoUp() {
+		return this.canGoUp;
+	}
+
+	public boolean canGoDown() {
+		return this.canGoDown;
+
+	}
+
+	public boolean canGoLeft() {
+		return this.canGoLeft;
+
+	}
+
+	public boolean canGoRight() {
+		return this.canGoRight;
+
 	}
 
 	/**
@@ -91,9 +139,32 @@ public class Player extends Component {
 		this.name = name;
 	}
 
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+	
+	public void setCanGoUp(boolean canGoUp) {
+		this.canGoUp = canGoUp;
+	}
+
+	public void setCanGoDown(boolean canGoDown) {
+		this.canGoDown = canGoDown;
+	}
+
+	public void setCanGoLeft(boolean canGoLeft) {
+		this.canGoLeft = canGoLeft;
+	}
+
+	public void setCanGoRight(boolean canGoRight) {
+		this.canGoRight = canGoRight;
+	}
+
+
 	@Override
 	public String toString() {
-		return this.getName() + ": " + this.getBounds().toString();
+		return this.getName() + " (" + this.getBounds().x + ", "
+				+ this.getBounds().y + ") w: " + this.getWidth() + " h: "
+				+ this.getHeight();
 	}
 
 }

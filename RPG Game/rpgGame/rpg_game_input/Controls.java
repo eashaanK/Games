@@ -37,20 +37,21 @@ public class Controls implements KeyListener, MouseListener {
 	//////////////////////////////////////////////////////////////////
 
 	public void updatePlayer(Player player) {
+		int speed =3;
 		if (keyHeld.contains(KeyEvent.VK_W)){
-			player.moveBy(0, -2);
+			player.moveUp(speed);
 			//player.updateImage(ImageDirection.up);
 		}
 		if (keyHeld.contains(KeyEvent.VK_S)){
-			player.moveBy(0, 2);
+			player.moveDown(speed);
 			//player.updateImage(ImageDirection.down);
 		}
 		if (keyHeld.contains(KeyEvent.VK_A)){
-			player.moveBy(-2, 0);
+			player.moveLeft(speed);
 			//player.updateImage(ImageDirection.left);
 		}
 		if (keyHeld.contains(KeyEvent.VK_D)){
-			player.moveBy(2, 0);
+			player.moveRight(speed);
 			//player.updateImage(ImageDirection.right);
 		}
 		
@@ -60,6 +61,7 @@ public class Controls implements KeyListener, MouseListener {
 		else if (keyHeld.contains(KeyEvent.VK_S)){
 			player.updateImage(ImageDirection.down);
 		}
+		
 		else if (keyHeld.contains(KeyEvent.VK_A)){
 			player.updateImage(ImageDirection.left);
 		}
@@ -67,6 +69,7 @@ public class Controls implements KeyListener, MouseListener {
 			player.updateImage(ImageDirection.right);
 		}
 		
+
 	}
 	
 	public void updateMouse(Point pW){
