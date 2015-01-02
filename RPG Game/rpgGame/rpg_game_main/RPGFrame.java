@@ -1,5 +1,6 @@
 package rpg_game_main;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import rpg_game_input.Controls;
@@ -23,6 +24,8 @@ public class RPGFrame extends JFrame{
 		
 		panel = new RPGPanel(controls);
 		add(panel);		
+		
+	
 	}
 	
 }

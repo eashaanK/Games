@@ -14,7 +14,7 @@ public class Game {
 	public static Player player;
 	public static Button button;
 	public static Level currentLevel;
-	private static int mouseX, mouseY;
+	public static int mouseX, mouseY;
 	
 	public void init(){
 		player = new Player("Dad", RPGMain.WIDTH / 2, RPGMain.HEIGHT/2, 40, 40);
@@ -24,6 +24,8 @@ public class Game {
 		currentLevel.addImageBoundary(0, RPGMain.HEIGHT - 34, RPGMain.WIDTH, 34, null); //bottom
 		currentLevel.addImageBoundary(RPGMain.WIDTH - 40, 0, 40, RPGMain.HEIGHT, null); //right
 
+		currentLevel.addImageBoundary(100, 100, 100, 100, null);
+		
 		initGUI();
 	}
 	
@@ -34,11 +36,8 @@ public class Game {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void update(Graphics g, ImageObserver obs){
-		mouseX = 	RPGPanel.controls.mouseX;
-		mouseY = 	RPGPanel.controls.mouseY;
-
+	
 		//moveable screen
-		g.translate(-player.getX() + RPGMain.WIDTH / 2, -player.getY() + RPGMain.HEIGHT / 2);
 		currentLevel.render(g, obs, true);
 		currentLevel.checkCollisions(player);
 		//

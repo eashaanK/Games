@@ -77,11 +77,15 @@ public class RPGPanel extends JPanel implements Runnable {
 	public void init() {
 		game = new Game();
 		game.init();
+
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		game.mouseX = 	RPGPanel.controls.mouseX;
+		game.mouseY = 	RPGPanel.controls.mouseY;
+		g.translate(-game.player.getX() + RPGMain.WIDTH / 2, -game.player.getY() + RPGMain.HEIGHT / 2);
 		game.update(g, this);
 		game.gui(g, this);
 		controls.updatePlayer(game.player);

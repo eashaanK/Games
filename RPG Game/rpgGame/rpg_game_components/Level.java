@@ -40,6 +40,7 @@ public class Level {
 	}
 
 	public void checkCollisions(Player player) {
+		boolean collidingAnything = false;
 		for (int i = 0; i < this.imageBoundaries.size(); i++) {
 			Rectangle imageRect = new Rectangle(imageBoundaries.get(i).getX(),
 					imageBoundaries.get(i).getY(), imageBoundaries.get(i)
@@ -47,34 +48,74 @@ public class Level {
 
 			if (player.isColliding(imageRect)) {
 
+				collidingAnything = true;
+				
 				Rectangle playerBound = player.getBounds();
 				
 				String temp = this.checkLeftRight(playerBound, imageRect);
 				if(temp==null)
 				{
-					
+					//center
 				}
 				else if(temp.equals("Left"))
 				{
 					player.blockLeft();
-					System.err.println("Colliding " + i + " from " + temp + " not freeing it up ");
+					//System.err.println("Colliding " + i + " from " + temp + " not freeing it up ");
 
 				}
 				else if(temp.equals("Right"))
 				{
+					player.blockRight();
+					//System.err.println("Colliding " + i + " from " + temp + " not freeing it up ");
+
+				}
+				
+				
+				else
+				{
+					//System.out.println("Not colliding " + i);
+					player.freeLeft();
+					player.freeRight();
 				}
 				
 
+				////////////////////////////////////////////////////////////////
+				temp = this.checkUpDown(playerBound, imageRect);
+				if(temp==null)
+				{
+					
+				}
+				else if(temp.equals("Up"))
+				{
+					player.blockUp();
+					//System.err.println("Colliding " + i + " from " + temp + " not freeing it up ");
+
+				}
+				else if(temp.equals("Down"))
+				{
+					player.blockDown();
+					//System.err.println("Colliding " + i + " from " + temp + " not freeing it up ");
+
+				}
+				
+				
+				else
+				{
+					//System.out.println("Not colliding " + i);
+					player.freeDown();
+					player.freeUp();
+				}
 			}
 			
-			else
-			{
-				System.out.println("Not colliding " + i);
+			if(!collidingAnything){
+				//System.out.println("Not colliding " + i);
 				player.freeDown();
 				player.freeLeft();
 				player.freeRight();
 				player.freeUp();
 			}
+				
+			
 		}
 	}
 	
