@@ -13,8 +13,8 @@ public class Player extends Component {
 	private String name;
 	private float health = 100;
 	private Sprite sprite;
-	private boolean canGoUp = true, canGoDown = true, canGoLeft = true, canGoRight = true;
-
+	private int leftMult = 1, rightMult = 1, upMult = 1, downMult = 1;
+	
 	public Player(String name, int x, int y, int w, int h) {
 		super(x, y, w, h);
 		this.name = name;
@@ -83,44 +83,22 @@ public class Player extends Component {
 	}
 
 	public void moveUp(int amt) {
-		if (canGoUp())
-			super.moveBy(0, -amt);
+		super.moveBy(0, -amt * this.upMult);
 	}
 
 	public void moveDown(int amt) {
-		if (canGoDown())
-			super.moveBy(0, amt);
+		super.moveBy(0, amt * this.downMult);
 	}
 
 	public void moveLeft(int amt) {
-		if (canGoLeft())
-			super.moveBy(-amt, 0);
+		super.moveBy(-amt * this.leftMult, 0);
 
 	}
 
 	public void moveRight(int amt) {
-		if (canGoRight())
-			super.moveBy(amt, 0);
+		super.moveBy(amt * this.rightMult, 0);
 	}
 
-	public boolean canGoUp() {
-		return this.canGoUp;
-	}
-
-	public boolean canGoDown() {
-		return this.canGoDown;
-
-	}
-
-	public boolean canGoLeft() {
-		return this.canGoLeft;
-
-	}
-
-	public boolean canGoRight() {
-		return this.canGoRight;
-
-	}
 
 	/**
 	 * Performs this operation: this.health -= amt;
@@ -143,20 +121,36 @@ public class Player extends Component {
 		return this.sprite;
 	}
 	
-	public void setCanGoUp(boolean canGoUp) {
-		this.canGoUp = canGoUp;
+	public void blockLeft(){
+		this.leftMult = 0;
 	}
-
-	public void setCanGoDown(boolean canGoDown) {
-		this.canGoDown = canGoDown;
+	
+	public void blockRight(){
+		this.rightMult = 0;
 	}
-
-	public void setCanGoLeft(boolean canGoLeft) {
-		this.canGoLeft = canGoLeft;
+	
+	public void blockUp(){
+		this.upMult = 0;
 	}
-
-	public void setCanGoRight(boolean canGoRight) {
-		this.canGoRight = canGoRight;
+	
+	public void blockDown(){
+		this.downMult = 0;
+	}
+/////////////////////
+	public void freeLeft(){
+		this.leftMult = 1;
+	}
+	
+	public void freeRight(){
+		this.rightMult = 1;
+	}
+	
+	public void freeUp(){
+		this.upMult = 1;
+	}
+	
+	public void freeDown(){
+		this.downMult = 1;
 	}
 
 

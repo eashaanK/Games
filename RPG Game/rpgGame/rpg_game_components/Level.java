@@ -52,41 +52,29 @@ public class Level {
 				String temp = this.checkLeftRight(playerBound, imageRect);
 				if(temp==null)
 				{
-					player.setCanGoRight(true);
-					player.setCanGoLeft(true);
-					System.out.print("Making L/R true ");
+					
 				}
 				else if(temp.equals("Left"))
 				{
-					player.setCanGoLeft(false);
-					player.setCanGoRight(true);
-					player.setCanGoUp(true);
-					player.setCanGoDown(true);					
-					System.out.print("Can't go left ");
+					player.blockLeft();
+					System.err.println("Colliding " + i + " from " + temp + " not freeing it up ");
+
 				}
 				else if(temp.equals("Right"))
 				{
-					player.setCanGoLeft(true);
-					player.setCanGoRight(false);
-					player.setCanGoUp(true);
-					player.setCanGoDown(true);
 				}
 				
-				System.out.println(temp);
 
-				//temp = this.checkUpDown(playerBound, imageRect);
-				//System.out.println(temp);
-			
 			}
 			
-			/*else {
-				player.setCanGoLeft(true);
-				player.setCanGoRight(true);
-				player.setCanGoUp(true);
-				player.setCanGoDown(true);
-			}*/
-
-
+			else
+			{
+				System.out.println("Not colliding " + i);
+				player.freeDown();
+				player.freeLeft();
+				player.freeRight();
+				player.freeUp();
+			}
 		}
 	}
 	
