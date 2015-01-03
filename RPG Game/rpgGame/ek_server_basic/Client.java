@@ -15,6 +15,8 @@ public class Client extends StoppableThread implements Runnable{
 	private PrintWriter out;
 	public String name = "Tester Client";
 	private static final String JOIN = "JOIN";
+	private static final String DISCONNECT = "DISCONNECT";
+	private static final String SEND_MESSAGE = "SEND_MESSAGE";
 	
 	public Client(String host, int port){
 		try {
@@ -45,6 +47,11 @@ public class Client extends StoppableThread implements Runnable{
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void sendMessage(String message){
+		out.println(SEND_MESSAGE + "/" + message);
+		out.flush();
 	}
 	
 }

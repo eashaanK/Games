@@ -15,7 +15,7 @@ public class Server extends StoppableThread implements Runnable {
 	private final int port, maxClients;
 	private ServerSocket server;
 	private final String serverName;
-	public ArrayList<User> sockets = new ArrayList<User>();
+	public static ArrayList<User> users = new ArrayList<User>();
 	private EKConsole console;
 	
 	/**
@@ -68,7 +68,7 @@ public class Server extends StoppableThread implements Runnable {
 		} catch (IOException e) {
 			String tempError = "Server: " + this.serverName + " could not start a server. Check BasicServer class.";
 			System.err.println(tempError);
-			console.println(tempError);
+			//console.println(tempError);
 			JOptionPane.showMessageDialog(null, tempError, this.getName(), JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
@@ -83,7 +83,7 @@ public class Server extends StoppableThread implements Runnable {
 		for(int i = 0; i < this.maxClients && this.isActive(); i++){
 			Socket socket;
 			try {
-				console.println("Wating for client to join: " + this.sockets.size() + "/" + this.maxClients);
+				console.println("Wating for client to join: " + this.users.size() + "/" + this.maxClients);
 				socket = server.accept();
 				//Scanner in = new Scanner(socket.getInputStream());
 			//	String name = in.nextLine();
@@ -109,12 +109,13 @@ public class Server extends StoppableThread implements Runnable {
 		while(this.isActive()){
 			Socket socket;
 			try {
-				console.println("Wating for client to join: " + this.sockets.size() + "/" + "infinite");
+				console.println("Wating for client to join: " + this.users.size() + "/" + "infinite");
 				socket = server.accept();
-				Scanner in = new Scanner(socket.getInputStream());
-				String name = in.nextLine();
-				this.sockets.add(new User(socket, name));
+			//	Scanner in = new Scanner(socket.getInputStream());
+			//	String name = in.nextLine();
+			//	this.sockets.add(new User(socket, name));
 				//System.out.println("Client joined: " + socket.toString());
+			//	console.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
 				ServerManager bSM = new ServerManager(socket, console);
 				Thread t = new Thread(bSM);
@@ -148,6 +149,11 @@ public class Server extends StoppableThread implements Runnable {
 			e.printStackTrace();
 		}
 		console.fullStop();
+	}
+	
+	
+	public static void addUser(User user){
+		Server.users.add(user);
 	}
 	
 	public boolean isActive(){

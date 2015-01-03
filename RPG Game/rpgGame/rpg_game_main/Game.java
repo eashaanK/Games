@@ -17,7 +17,7 @@ public class Game {
 	public static int mouseX, mouseY;
 	
 	public void init(){
-		player = new Player("Dad", RPGMain.WIDTH / 2, RPGMain.HEIGHT/2, 40, 40);
+		player = new Player("Test Person", RPGMain.WIDTH / 2, RPGMain.HEIGHT/2, 40, 40);
 		currentLevel = new Level("Testing Level", Loader.loadImage("rpgGame/rpg_game_images/Level1.png"));
 		currentLevel.addImageBoundary(0, 0, RPGMain.WIDTH, 30, null); //top
 		currentLevel.addImageBoundary(0, 0, 50, RPGMain.HEIGHT, null); //left
