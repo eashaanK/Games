@@ -9,6 +9,7 @@ import rpg_game_components.Player;
 import rpg_game_helpers.DrawHelp;
 import rpg_game_helpers.Loader;
 import rpg_game_input.Button;
+import ek_server_basic.Client;
 
 public class Game {
 	public static Player player;
@@ -61,7 +62,9 @@ public class Game {
 			player.render(g, obs);
 			break;
 		case MultiGame:
-			
+			Client client = new Client("loaclhost", 8888);
+			Thread tC = new Thread(client);
+			tC.start();
 			break;
 		case Pause:
 			currentLevel.render(g, obs, true);

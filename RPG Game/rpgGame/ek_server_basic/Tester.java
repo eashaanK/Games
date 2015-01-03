@@ -12,7 +12,7 @@ public class Tester {
 	
 		
 		
-		Client client = new Client("localhost", 8888);
+	/*	Client client = new Client("localhost", 8888);
 		Thread t2 = new Thread(client);
 		t2.start();
 		
@@ -24,6 +24,6 @@ public class Tester {
 		
 		client.sendPlayerBounds(new Rectangle(10, 10, 100, 100));
 		client.sendImage("I WILL SHIT MY PANTS", 69, 69);
-		
+	*/	
 	}
 }
