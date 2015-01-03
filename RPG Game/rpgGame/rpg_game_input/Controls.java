@@ -69,7 +69,12 @@ public class Controls implements KeyListener, MouseListener {
 		else if (keyHeld.contains(KeyEvent.VK_D)){
 			player.updateImage(ImageDirection.right);
 		}
-		this.highlightButton(Game.singlePlayerButton);
+		if(Game.gm == GameState.MainMenu){
+			this.highlightButton(Game.singlePlayerButton);
+		}
+		else if(Game.gm == GameState.Game){
+			this.highlightButton(Game.pause);
+		}
 
 	}
 	
@@ -102,6 +107,11 @@ public class Controls implements KeyListener, MouseListener {
 			//Game.button.highlight(Color.yellow);
 			Game.gm = GameState.Game;
 		}
+		
+	/*	if(Game.pause.isIntersectingMouse(mouseX, mouseY)){
+			//Game.button.highlight(Color.yellow);
+			Game.gm = GameState.Pause;
+		}*/
 	}
 	
 	private void highlightButton(Button button){

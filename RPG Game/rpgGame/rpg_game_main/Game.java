@@ -12,7 +12,7 @@ import rpg_game_input.Button;
 
 public class Game {
 	public static Player player;
-	public static Button singlePlayerButton;
+	public static Button singlePlayerButton, pause;
 	public static Level currentLevel;
 	public static int mouseX, mouseY;
 	public static GameState gm = GameState.MainMenu;
@@ -37,6 +37,8 @@ public class Game {
 	public void initGUI() {
 		singlePlayerButton = new Button(RPGMain.WIDTH / 2 - 220/2, RPGMain.HEIGHT / 2 - 135, 220, 50, "Single Player", Color.DARK_GRAY, Color.blue,
 				RPGMain.WIDTH / 2 - 220/2 + 20, RPGMain.HEIGHT / 2 - 100, 30);
+		pause = new Button(RPGMain.WIDTH -40, RPGMain.HEIGHT / 2 - 135, 30, 30, "||", Color.red, Color.DARK_GRAY,
+				RPGMain.WIDTH - 31, RPGMain.HEIGHT / 2 - 100, 20);
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +68,7 @@ public class Game {
 		}
 		
 		else if (gm == GameState.Game) {
-			
+			pause.render(g, obs);
 		}
 
 		DrawHelp.drawFixedText(g, "(" + mouseX + ", " + mouseY + ")",

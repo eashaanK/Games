@@ -2,5 +2,5 @@ package rpg_game_main;
 
 public enum GameState {
 
-	MainMenu, Game
+	MainMenu, Game, Pause
 }
