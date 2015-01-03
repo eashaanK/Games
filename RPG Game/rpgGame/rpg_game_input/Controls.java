@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import rpg_game_components.Player;
 import rpg_game_helpers.ImageDirection;
 import rpg_game_main.Game;
+import rpg_game_main.GameState;
 import rpg_game_main.RPGMain;
 
 public class Controls implements KeyListener, MouseListener {
@@ -68,7 +69,7 @@ public class Controls implements KeyListener, MouseListener {
 		else if (keyHeld.contains(KeyEvent.VK_D)){
 			player.updateImage(ImageDirection.right);
 		}
-		
+		this.highlightButton(Game.singlePlayerButton);
 
 	}
 	
@@ -97,13 +98,21 @@ public class Controls implements KeyListener, MouseListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		if(Game.button.isIntersectingMouse(mouseX, mouseY)){
-			Game.button.highlight(Color.yellow);
+		if(Game.singlePlayerButton.isIntersectingMouse(mouseX, mouseY)){
+			//Game.button.highlight(Color.yellow);
+			Game.gm = GameState.Game;
 		}
+	}
+	
+	private void highlightButton(Button button){
+		if(button.isIntersectingMouse(mouseX, mouseY))
+			button.highlight(Color.yellow);
+		else
+			button.unHighlight();
+		
 	}
 
 	public void mouseReleased(MouseEvent e) {
-			Game.button.unHighlight();
 	
 	}
 

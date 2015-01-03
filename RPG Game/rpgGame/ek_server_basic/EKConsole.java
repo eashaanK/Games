@@ -43,7 +43,6 @@ public class EKConsole extends StoppableThread implements Runnable {
 	}
 
 	public void run() {
-		System.err.println("EKConsole disabled");
 		ta_console = new JTextArea();
 		mainWindow();
 

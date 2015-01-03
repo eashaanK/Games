@@ -1,8 +1,6 @@
 package ek_server_basic;
 
-import java.awt.Color;
-
-import javax.swing.JFrame;
+import java.awt.Rectangle;
 
 public class Tester {
 
@@ -17,6 +15,15 @@ public class Tester {
 		Client client = new Client("localhost", 8888);
 		Thread t2 = new Thread(client);
 		t2.start();
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		client.sendPlayerBounds(new Rectangle(10, 10, 100, 100));
+		client.sendImage("I WILL SHIT MY PANTS", 69, 69);
 		
 	}
 }

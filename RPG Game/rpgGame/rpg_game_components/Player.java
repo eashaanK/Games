@@ -60,7 +60,7 @@ public class Player extends Component {
 			DrawHelp.drawText(g, 15, this.toString(),
 					this.getX() - name.length() * 3 / 2, this.getY() - 10);
 		} else {
-			System.out.println("Player died");
+			System.err.println("Player died");
 		}
 	}
 

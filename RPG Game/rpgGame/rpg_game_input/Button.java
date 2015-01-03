@@ -19,8 +19,9 @@ public class Button {
 	private Color buttonColor, textColor;
 	private Image buttonImage;
 	public boolean shadow = true;
+	private int textSize = 0;
 
-	public Button(int x, int y, int w, int h, String text, Color button, Color textC, int tx, int ty){
+	public Button(int x, int y, int w, int h, String text, Color button, Color textC, int tx, int ty, int textSize){
 		this.bounds = new Rectangle(x, y, w, h);
 		this.text = text;
 		this.buttonColor = button;
@@ -28,6 +29,7 @@ public class Button {
 		defbC = buttonColor;
 		this.textColor = textC;
 		this.textPos = new Point(tx, ty);
+		this.textSize = textSize;
 	}
 	
 	public Button(int x, int y, int w, int h, String text, Image buttonImage, Color textC, int tx, int ty){
@@ -59,7 +61,7 @@ public class Button {
 			g.drawImage(this.buttonImage, buPos.x, buPos.y, bounds.width, bounds.height, obs);
 		
 		g.setColor(this.textColor);
-		DrawHelp.drawText(g, bounds.height, text, scTxtPos);
+		DrawHelp.drawText(g, textSize, text, scTxtPos);
 	}
 	
 	public void highlight(Color c){
