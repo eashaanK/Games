@@ -28,6 +28,27 @@ public class Controls implements KeyListener, MouseListener {
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		keyHeld.add(key);
+		
+		switch(Game.gm){
+		case MainMenu:
+			break;
+		
+		case Game:
+			if(key == (KeyEvent.VK_ESCAPE)){
+				Game.gm = GameState.Pause;
+			}
+			break;
+			
+		case MultiGame:
+			break;
+			
+		case Pause:
+			if(keyHeld.contains(KeyEvent.VK_ESCAPE)){
+				Game.gm = GameState.Game;
+			}
+			break;
+		}
+	
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -38,6 +59,25 @@ public class Controls implements KeyListener, MouseListener {
 	//////////////////////////////////////////////////////////////////
 
 	public void updatePlayer(Player player) {
+		
+		////////////////////////////////////////////////////////////
+		switch(Game.gm){
+		case MainMenu:
+			this.highlightButton(Game.singlePlayerButton);
+			this.highlightButton(Game.multiPlayerButton);
+			break;
+		case Game:
+			this.allowControls(player);
+			break;
+		case MultiGame:
+			break;
+		case Pause:
+			
+			break;
+		}
+	}
+	
+	private void allowControls(Player player){
 		int speed =3;
 		if (keyHeld.contains(KeyEvent.VK_W)){
 			player.moveUp(speed);
@@ -69,13 +109,7 @@ public class Controls implements KeyListener, MouseListener {
 		else if (keyHeld.contains(KeyEvent.VK_D)){
 			player.updateImage(ImageDirection.right);
 		}
-		if(Game.gm == GameState.MainMenu){
-			this.highlightButton(Game.singlePlayerButton);
-		}
-		else if(Game.gm == GameState.Game){
-			this.highlightButton(Game.pause);
-		}
-
+		
 	}
 	
 	public void updateMouse(Point pW){
@@ -103,15 +137,33 @@ public class Controls implements KeyListener, MouseListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		if(Game.singlePlayerButton.isIntersectingMouse(mouseX, mouseY)){
-			//Game.button.highlight(Color.yellow);
-			Game.gm = GameState.Game;
-		}
+		//if on main menu
+		switch(Game.gm){
+		case MainMenu:
+			if(Game.singlePlayerButton.isIntersectingMouse(mouseX, mouseY)){
+				//Game.button.highlight(Color.yellow);
+				Game.gm = GameState.Game;
+			}
+			
+			if(Game.multiPlayerButton.isIntersectingMouse(mouseX, mouseY)){
+				//Game.button.highlight(Color.yellow);
+				Game.gm = GameState.MultiGame;
+			}
+			
+	
+			break;
 		
-	/*	if(Game.pause.isIntersectingMouse(mouseX, mouseY)){
-			//Game.button.highlight(Color.yellow);
-			Game.gm = GameState.Pause;
-		}*/
+		case Game:
+
+			break;
+			
+		case MultiGame:
+			break;
+			
+		case Pause:
+			
+			break;
+		}
 	}
 	
 	private void highlightButton(Button button){

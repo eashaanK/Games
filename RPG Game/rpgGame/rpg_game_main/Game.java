@@ -12,7 +12,7 @@ import rpg_game_input.Button;
 
 public class Game {
 	public static Player player;
-	public static Button singlePlayerButton, pause;
+	public static Button singlePlayerButton, multiPlayerButton;
 	public static Level currentLevel;
 	public static int mouseX, mouseY;
 	public static GameState gm = GameState.MainMenu;
@@ -35,40 +35,62 @@ public class Game {
 	}
 
 	public void initGUI() {
-		singlePlayerButton = new Button(RPGMain.WIDTH / 2 - 220/2, RPGMain.HEIGHT / 2 - 135, 220, 50, "Single Player", Color.DARK_GRAY, Color.blue,
-				RPGMain.WIDTH / 2 - 220/2 + 20, RPGMain.HEIGHT / 2 - 100, 30);
-		pause = new Button(RPGMain.WIDTH -40, RPGMain.HEIGHT / 2 - 135, 30, 30, "||", Color.red, Color.DARK_GRAY,
-				RPGMain.WIDTH - 31, RPGMain.HEIGHT / 2 - 100, 20);
+		singlePlayerButton = new Button(RPGMain.WIDTH / 2 - 220 / 2,
+				RPGMain.HEIGHT / 2 - 135, 220, 50, "Single Player",
+				Color.DARK_GRAY, Color.blue, RPGMain.WIDTH / 2 - 220 / 2 + 20,
+				RPGMain.HEIGHT / 2 - 100, 30);
+		multiPlayerButton = new Button(RPGMain.WIDTH / 2 - 220 / 2,
+				RPGMain.HEIGHT / 2 - 45, 220, 50, "Multiplayer",
+				Color.DARK_GRAY, Color.blue, RPGMain.WIDTH / 2 - 220 / 2 + 20,
+				RPGMain.HEIGHT / 2 - 10, 30);
 	}
 
-	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void update(Graphics g, ImageObserver obs) {
 
-		if (gm == GameState.MainMenu) {
-
-		}
-
-		else if (gm == GameState.Game) {
+		switch (gm) {
+		case MainMenu:
+			break;
+		case Game:
 			// moveable screen
 			currentLevel.render(g, obs, true);
 			currentLevel.checkCollisions(player);
-			//
+			/////////////////////////////
 			player.update();
 			player.render(g, obs);
+			break;
+		case MultiGame:
+			
+			break;
+		case Pause:
+			currentLevel.render(g, obs, true);
+			player.render(g, obs);
+			break;
 		}
-
 	}
 
 	public void gui(Graphics g, ImageObserver obs) {
-		DrawHelp.drawFixedText(g, RPGPanel.currentFPS + "", Color.black, 10,
-				20, player.getX(), player.getY());
-		if (gm == GameState.MainMenu) {
+		DrawHelp.drawFixedText(g, RPGPanel.currentFPS + "", Color.black,
+				RPGMain.WIDTH - 40, 20, player.getX(), player.getY());
+		DrawHelp.drawFixedText(g, this.gm + "", Color.black,
+				RPGMain.WIDTH / 2 - 40, 20, player.getX(), player.getY());
+
+		switch (gm) {
+		case MainMenu:
 			singlePlayerButton.render(g, obs);
-		}
-		
-		else if (gm == GameState.Game) {
-			pause.render(g, obs);
+			multiPlayerButton.render(g, obs);
+			break;
+		case Game:
+
+			break;
+		case MultiGame:
+			break;
+			
+		case Pause:
+			DrawHelp.fillFixedRect(g, new Color(0, 0, 0, 220), 0, 0, RPGMain.WIDTH, RPGMain.HEIGHT, player.getX(), player.getY());
+			DrawHelp.drawFixedText(g, "Paused", Color.red, RPGMain.WIDTH /2 - 50 , RPGMain.HEIGHT / 2, player.getX(), player.getY(), 50);
+			break;
 		}
 
 		DrawHelp.drawFixedText(g, "(" + mouseX + ", " + mouseY + ")",
