@@ -16,6 +16,7 @@ public class Game {
 	public static Button singlePlayerButton, multiPlayerButton;
 	public static Level currentLevel;
 	public static int mouseX, mouseY;
+	public static boolean isConnectedAsClient = false;
 	public static GameState gm = GameState.MainMenu;
 
 	public void init() {
@@ -62,9 +63,19 @@ public class Game {
 			player.render(g, obs);
 			break;
 		case MultiGame:
-			Client client = new Client("loaclhost", 8888);
-			Thread tC = new Thread(client);
-			tC.start();
+			if(!this.isConnectedAsClient){
+				Client client = new Client("localhost", 8888);
+				Thread tC = new Thread(client);
+				tC.start();
+				this.isConnectedAsClient = true;
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				client.joinRequest(player.getName());
+			}
 			break;
 		case Pause:
 			currentLevel.render(g, obs, true);

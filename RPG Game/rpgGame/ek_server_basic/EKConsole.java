@@ -77,37 +77,46 @@ public class EKConsole extends StoppableThread implements Runnable {
 		sp_console.setBounds(0, 0, mainWindow.getWidth() ,
 				mainWindow.getHeight() - 20);
 		mainWindow.add(sp_console);
+	}
 	
-
+	private void autoScroll(){
+		ta_console.setCaretPosition(ta_console.getDocument().getLength());
 
 	}
 	
 	public void appendToPane(String message){
 		ta_console.append(message);
+		autoScroll();
 	}
 
 	public void printTimeStamp() {
 		appendToPane("(" + Helper.getTimeStamp() + ") ");
+		autoScroll();
 	}
 
 	public void printlnTimeStamp() {
 		appendToPane("(" + Helper.getTimeStamp() + ") " + "\n");
+		autoScroll();
 	}
 
 	public void print() {
 		appendToPane("");
+		autoScroll();
 	}
 
 	public void println() {
 		appendToPane("\n");
+		autoScroll();
 	}
 
 	public void print(String message) {
 		appendToPane( "(" + Helper.getTimeStamp() + ") " + message);
+		autoScroll();
 	}
 
 	public void println(String message) {
 		appendToPane( "(" + Helper.getTimeStamp() + ") " + message + "\n");
+		autoScroll();
 	}
 	
 	

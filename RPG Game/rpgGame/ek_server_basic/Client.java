@@ -16,8 +16,8 @@ public class Client extends StoppableThread implements Runnable{
 	public static EKConsole console;
 	private Scanner in;
 	private PrintWriter out;
-	public String name = "Tester Client";
 	private static final String JOIN = "JOIN";
+	private static final String FETCH = "FETCH";
 	private static final String DISCONNECT = "DISCONNECT";
 	private static final String SEND_MESSAGE = "SEND_MESSAGE";
 	private static final String SEND_PLAYER_BOUNDS = "SEND_PLAYER_BOUNDS";
@@ -25,34 +25,58 @@ public class Client extends StoppableThread implements Runnable{
 
 	
 	public Client(String host, int port){
+		console = new EKConsole(500, 500, "RPG Game Client Debugger", Color.white, Color.GREEN);
 		try {
 			this.socket = new Socket(host, port);
-			console = new EKConsole(500, 500, "RPG Game Client Debugger", Color.white, Color.GREEN);
 			Thread t1 = new Thread(console);
 			t1.start();
 		} catch (UnknownHostException e) {
 			console.println("UKNOWN HOST: " + e.toString());
 			e.printStackTrace();
+			this.fullStop();
 		} catch (IOException e) {
 			console.println(e.toString());
 			e.printStackTrace();
+			this.fullStop();
 		}
 	}
 
 	//SEND THE NAME FIRST
 	@Override
 	public void run() {
-		try {
-			in = new Scanner(socket.getInputStream());
-			out = new PrintWriter(socket.getOutputStream());
-			out.println(JOIN + "/" + name);
-			out.flush();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(this.isActive()){
+			try {
+				
+				Thread t = new Thread(console);
+				t.start();
+				
+				in = new Scanner(socket.getInputStream());
+				out = new PrintWriter(socket.getOutputStream());
+				
+				ClientFetch fetch = new ClientFetch(in);
+				Thread tFetch = new Thread(fetch);
+				tFetch.start();
+				
+				while(this.isActive()){
+					fetch();
+				}
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
+	}
+	
+	private void fetch(){
+		out.println(this.FETCH);
+		out.flush();
+	}
+	
+	public void joinRequest(String name){
+		out.println(JOIN + "/" + name);
+		out.flush();
 	}
 	
 	//x , y, w, h
