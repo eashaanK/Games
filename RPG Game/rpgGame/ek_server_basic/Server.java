@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.JOptionPane;
 
@@ -16,6 +17,7 @@ public class Server extends StoppableThread implements Runnable {
 	private ServerSocket server;
 	private final String serverName;
 	public static ArrayList<User> users = new ArrayList<User>();
+	public static Queue<String> allMessages = new LinkedList<String>();
 	private EKConsole console;
 	
 	/**

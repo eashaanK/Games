@@ -11,6 +11,9 @@ public class ServerManager extends StoppableThread implements Runnable{
 	private EKConsole console;
 	private User user;
 	private static final String JOIN = "JOIN";
+	private static final String JOIN_SUCCESSFUL = "JOIN_SUCCESSFUL";
+	private static final String JOIN_FAIL = "JOIN_FAIL";
+	private static final String LIST = "LIST";
 	private static final String FETCH = "FETCH"; //user request to get the next message
 	private static final String DISCONNECT = "DISCONNECT";
 	private static final String SEND_MESSAGE = "SEND_MESSAGE"; //if user wants to make everyone see meessage
@@ -38,7 +41,7 @@ public class ServerManager extends StoppableThread implements Runnable{
 					String[] parts = message.split("/");
 					//Join request
 					if(parts[0].equals(JOIN)){
-						this.handleJoin(parts);
+						this.handleJoin(parts, out);
 					}
 					else if(parts[0].equals(SEND_MESSAGE)){
 						this.handleSendMessage(parts);
@@ -57,7 +60,11 @@ public class ServerManager extends StoppableThread implements Runnable{
 					}
 					
 					else if(parts[0].equals(FETCH)){
-						handleFetch(parts);
+						handleFetch(parts, out);
+					}
+					
+					else if(parts[0].equals(LIST)){
+						handleList(out);
 					}
 				}
 			}
@@ -77,27 +84,59 @@ public class ServerManager extends StoppableThread implements Runnable{
 		return names;
 	}
 	
+	private String getRestOfMessage(int index, String[] parts){
+		String ans = "";
+		for(int i = index; i < parts.length; i++)
+			ans += parts[i];
+		return ans;
+	}
+	/**
+	 * LIST
+	 */
+	private void handleList(PrintWriter out){
+		console.println("Server recieved LIST");
+		out.println(LIST + "/" + getUserNames().toString());
+		out.flush();
+	}
+	
 	/**
 	 * FETCH
 	 */
-	private void handleFetch(String[] parts){
+	private void handleFetch(String[] parts, PrintWriter out){
 		console.println("Server recieved Fetch");
+		String messageToSend = Server.allMessages.poll();
+		if(messageToSend != null)
+		out.println(FETCH + "/" + messageToSend);
+		out.flush();
 	}
 	
 	/**
 	 * JOIN
+	 * check the name illigebility and stuff. Deny Join request of doens match rules
 	 */
-	private void handleJoin(String[] parts){
+	private void handleJoin(String[] parts, PrintWriter out){
 		user.name = parts[1];
+		boolean success = false;
+		if(success){
 		Server.addUser(user);
 		console.println(user.name + " joined" + " Total number of people: " + Server.users.size());
+		out.println(this.JOIN_SUCCESSFUL);
+		}
+		else{
+			console.println(user.name + " was denied connection based on his/her info");
+			out.println(this.JOIN_FAIL);
+			this.fullStop();
+		}
 	}
 	
 	/**
 	 * SEND MESSAGE
 	 */
 	private void handleSendMessage(String[] parts){
-		console.println("Server received message: " + parts[1]);
+		String actualMessage = this.getRestOfMessage(1, parts);
+		console.println("Server received message: " + actualMessage);
+		Server.allMessages.add(user.name + " said: " + actualMessage);
+		
 
 	}
 	
@@ -131,8 +170,9 @@ public class ServerManager extends StoppableThread implements Runnable{
 	 */
 	//add "disconnected to the server List" and delete itself
 	private void handleDisconnect(PrintWriter out){
-		//Server.allMessages.add(this.user.name + " disconnected");
-		//if(PServer.users.contains(this.user.name))
+		Server.allMessages.add(this.user.name + " disconnected.");
+		out.println(this.DISCONNECT);
+		out.flush();
 		int index = getUserNames().indexOf(this.user.name);
 		Server.users.remove(index);
 		this.fullStop();

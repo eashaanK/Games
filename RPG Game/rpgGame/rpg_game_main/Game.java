@@ -18,6 +18,7 @@ public class Game {
 	public static int mouseX, mouseY;
 	public static boolean isConnectedAsClient = false;
 	public static GameState gm = GameState.MainMenu;
+	private static Client client = null;
 
 	public void init() {
 		player = new Player("Test Person", RPGMain.WIDTH / 2,
@@ -32,6 +33,8 @@ public class Game {
 				RPGMain.HEIGHT, null); // right
 
 		currentLevel.addImageBoundary(100, 100, 100, 100, null);
+		
+		client = null;
 
 		initGUI();
 	}
@@ -75,6 +78,8 @@ public class Game {
 					e.printStackTrace();
 				}
 				client.joinRequest(player.getName());
+				
+				client.sendMessage("THIS IS A TEST MESSAGE FROM CLIENT");
 			}
 			break;
 		case Pause:
@@ -110,6 +115,15 @@ public class Game {
 		DrawHelp.drawFixedText(g, "(" + mouseX + ", " + mouseY + ")",
 				Color.blue, mouseX, mouseY, player.getX(), player.getY());
 
+	}
+	
+	public void attempDisconnect(){
+		if(client != null)
+			client.disconnect();
+	}
+	
+	public static void stopClient(){
+		client.fullStop();
 	}
 
 }

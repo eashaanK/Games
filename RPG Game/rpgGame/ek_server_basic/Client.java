@@ -16,12 +16,15 @@ public class Client extends StoppableThread implements Runnable{
 	public static EKConsole console;
 	private Scanner in;
 	private PrintWriter out;
-	private static final String JOIN = "JOIN";
-	private static final String FETCH = "FETCH";
-	private static final String DISCONNECT = "DISCONNECT";
-	private static final String SEND_MESSAGE = "SEND_MESSAGE";
-	private static final String SEND_PLAYER_BOUNDS = "SEND_PLAYER_BOUNDS";
-	private static final String SEND_IMAGE = "SEND_IMAGE";
+	public static final String JOIN = "JOIN";
+	public static final String JOIN_SUCCESSFUL = "JOIN_SUCCESSFUL";
+	public static final String JOIN_FAIL = "JOIN_FAIL";
+	public static final String LIST = "LIST";
+	public static final String FETCH = "FETCH";
+	public static final String DISCONNECT = "DISCONNECT";
+	public static final String SEND_MESSAGE = "SEND_MESSAGE";
+	public static final String SEND_PLAYER_BOUNDS = "SEND_PLAYER_BOUNDS";
+	public static final String SEND_IMAGE = "SEND_IMAGE";
 
 	
 	public Client(String host, int port){
@@ -58,7 +61,10 @@ public class Client extends StoppableThread implements Runnable{
 				tFetch.start();
 				
 				while(this.isActive()){
-					fetch();
+					if(System.nanoTime() % 100000 == 0)
+						fetch();
+					if(System.nanoTime() % 10000000 == 0)
+						list();
 				}
 				
 			} catch (IOException e) {
@@ -66,11 +72,22 @@ public class Client extends StoppableThread implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		
+		System.err.println("Client Run method ended");
+	}
+	
+	@Override
+	public void fullStop(){
+		super.fullStop();
+		this.console.fullStop();
 	}
 	
 	private void fetch(){
 		out.println(this.FETCH);
+		out.flush();
+	}
+	
+	private void list(){
+		out.println(this.LIST);
 		out.flush();
 	}
 	

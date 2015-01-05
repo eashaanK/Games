@@ -65,6 +65,12 @@ public class RPGPanel extends JPanel implements Runnable {
 		     }
 		     this.deltaTime = delta;
 		}
+		
+		System.err.println("Loop in RPGPanel ended");
+		if(game != null)
+			game.attempDisconnect();
+		System.err.println("Game Client Disconnected");
+
 	}
 
 	public void start() {
