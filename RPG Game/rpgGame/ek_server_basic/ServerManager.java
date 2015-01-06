@@ -115,16 +115,21 @@ public class ServerManager extends StoppableThread implements Runnable{
 	 * check the name illigebility and stuff. Deny Join request of doens match rules
 	 */
 	private void handleJoin(String[] parts, PrintWriter out){
-		user.name = parts[1];
 		boolean success = false;
+		//check if name is allowed
+		String failMessage = "Connection Denied! ";
+		if(!getUserNames().contains(parts[1])) //if name doesn't exist and...
+			success = true;
 		if(success){
+		user.name = parts[1];
 		Server.addUser(user);
 		console.println(user.name + " joined" + " Total number of people: " + Server.users.size());
 		out.println(this.JOIN_SUCCESSFUL);
 		}
 		else{
+			
 			console.println(user.name + " was denied connection based on his/her info");
-			out.println(this.JOIN_FAIL);
+			out.println(this.JOIN_FAIL + "/" + failMessage);
 			this.fullStop();
 		}
 	}

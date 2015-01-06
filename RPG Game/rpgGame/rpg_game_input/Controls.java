@@ -27,7 +27,9 @@ public class Controls implements KeyListener, MouseListener {
 
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		keyHeld.add(key);
+		if(!keyHeld.contains(key))
+			keyHeld.add(key);
+
 		
 		switch(Game.gm){
 		case MainMenu:

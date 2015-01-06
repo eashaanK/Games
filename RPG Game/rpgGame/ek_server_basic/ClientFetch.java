@@ -30,7 +30,7 @@ public class ClientFetch extends StoppableThread implements Runnable{
 					else if(parts[0].equals(Client.JOIN_SUCCESSFUL))
 						handleJoinSuccess();
 					else if(parts[0].equals(Client.JOIN_FAIL))
-						handleJoinFail();
+						handleJoinFail(parts);
 				}
 			}
 		}
@@ -42,9 +42,9 @@ public class ClientFetch extends StoppableThread implements Runnable{
 	 * Brings Player back to home screen
 	 * stops the client
 	 */
-	private void handleJoinFail(){
-		System.err.println("Connection denied! The Info You Entered Did Not Meet The Criteria. Try Again.");
-		JOptionPane.showMessageDialog(null, "Server Connection Denied", "Connection denied! The Info You Entered Did Not Meet The Criteria. Try Again.", JOptionPane.ERROR_MESSAGE);
+	private void handleJoinFail(String[] parts){
+		System.err.println(parts[1] + ". Try Again");
+		JOptionPane.showMessageDialog(null, "Server Connection Denied", parts[1] + ". Try Again.", JOptionPane.ERROR_MESSAGE);
 		Game.stopClient();
 		Game.gm = GameState.MainMenu;
 	}
