@@ -81,6 +81,10 @@ public class Game {
 				
 				client.sendMessage("THIS IS A TEST MESSAGE FROM CLIENT");
 			}
+			if(this.isConnectedAsClient)
+			{
+				multiplayerGame();
+			}
 			break;
 		case Pause:
 			currentLevel.render(g, obs, true);
@@ -114,7 +118,9 @@ public class Game {
 
 		DrawHelp.drawFixedText(g, "(" + mouseX + ", " + mouseY + ")",
 				Color.blue, mouseX, mouseY, player.getX(), player.getY());
-
+	}
+	
+	private void multiplayerGame(){
 	}
 	
 	public void attempDisconnect(){
