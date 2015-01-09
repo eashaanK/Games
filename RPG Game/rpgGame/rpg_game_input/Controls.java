@@ -56,7 +56,7 @@ public class Controls implements KeyListener, MouseListener {
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
 		keyHeld.remove(new Integer(key));
-		System.out.println(this.keyHeld.toString());
+		//System.out.println(this.keyHeld.toString());
 		
 	}
 

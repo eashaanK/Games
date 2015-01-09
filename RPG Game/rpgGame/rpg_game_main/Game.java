@@ -22,13 +22,11 @@ public class Game {
 	private static Client client = null;
 
 	public void init() {
-		player = new Player("Test Person", RPGMain.WIDTH / 2,
-				RPGMain.HEIGHT / 2, 40, 40);
+		player = new Player("Test Person", 800,
+				950, 40, 40);
 		mapPack = new MapPack();
 		
 		currentLevel = mapPack.getLodgeMap();
-		
-		
 		client = null;
 
 		initGUI();
@@ -57,9 +55,7 @@ public class Game {
 			currentLevel.render(g, obs, true);
 			currentLevel.checkCollisions(player);
 			
-		
 			
-
 
 			/////////////////////////////
 			player.update();

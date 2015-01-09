@@ -59,6 +59,8 @@ public class Player extends Component {
 			g.setColor(Color.black);
 			DrawHelp.drawText(g, 15, this.toString(),
 					this.getX() - name.length() * 3 / 2, this.getY() - 10);
+			DrawHelp.drawText(g, 15, ".",
+					this.getX(), this.getY());
 		} else {
 			System.err.println("Player died");
 		}

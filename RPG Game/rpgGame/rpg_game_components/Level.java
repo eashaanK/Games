@@ -63,7 +63,7 @@ public class Level {
 				else if(temp.equals("Left"))
 				{
 					player.blockLeft();
-					System.err.println("Colliding " + i + " from " + temp + " not freeing it up ");
+					//System.err.println("Colliding " + i + " from " + temp + " not freeing it up ");
 
 				}
 				else if(temp.equals("Right"))
@@ -137,8 +137,7 @@ public class Level {
 	private String checkLeftRight(Rectangle playerBound, Rectangle imageRect){
 		Rectangle inter = playerBound.intersection(imageRect);
 		if (inter.width <= inter.height) {
-			System.out.println("Detecting " + (playerBound.x >= imageRect.x  + playerBound.width) + " player X: " + playerBound.x + " >= " + imageRect.x + "  +  player width: " + playerBound.width);
-			if (playerBound.x >= imageRect.x  + playerBound.width) {
+			if (playerBound.x >= imageRect.x) {
 				return "Left";
 			} else if (playerBound.x <= imageRect.x) {
 				return "Right";
