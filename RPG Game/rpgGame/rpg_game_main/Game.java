@@ -3,6 +3,10 @@ package rpg_game_main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+import javax.swing.JOptionPane;
 
 import rpg_game_components.Level;
 import rpg_game_components.Player;
@@ -19,15 +23,19 @@ public class Game {
 	public static int mouseX, mouseY;
 	public static boolean isConnectedAsClient = false;
 	public static GameState gm = GameState.MainMenu;
-	private static Client client = null;
+	public static Client client = null;
+	public static ArrayList<String> userNamesOnline;
 
 	public void init() {
-		player = new Player("Test Person", 800,
+		String tempName = JOptionPane.showInputDialog("Enter your name: ");
+		player = new Player(tempName, 800,
 				950, 40, 40);
 		mapPack = new MapPack();
 		
 		currentLevel = mapPack.getLodgeMap();
 		client = null;
+		
+		userNamesOnline = new ArrayList<String>();
 
 		initGUI();
 	}
@@ -52,7 +60,7 @@ public class Game {
 			break;
 		case Game:
 			// moveable screen
-			currentLevel.render(g, obs, true);
+			currentLevel.render(g, obs, false);
 			currentLevel.checkCollisions(player);
 			
 			
@@ -63,7 +71,7 @@ public class Game {
 			break;
 		case MultiGame:
 			if(!this.isConnectedAsClient){
-				Client client = new Client("localhost", 8888);
+				client = new Client("localhost", 8888);
 				Thread tC = new Thread(client);
 				tC.start();
 				this.isConnectedAsClient = true;
@@ -79,7 +87,7 @@ public class Game {
 			}
 			if(this.isConnectedAsClient)
 			{
-				multiplayerGame();
+				multiplayerGame(g, obs);
 			}
 			break;
 		case Pause:
@@ -104,6 +112,11 @@ public class Game {
 
 			break;
 		case MultiGame:
+			//black rectangle with list of player
+			DrawHelp.fillFixedRect(g, new Color(0, 0, 0, 200), RPGMain.WIDTH - 200, 40, 180, RPGMain.HEIGHT - 150, player.getX(), player.getY());
+			for(int i = 0; i < userNamesOnline.size(); i++){
+				DrawHelp.drawFixedText(g, userNamesOnline.get(i), Color.white, RPGMain.WIDTH - 200, 60 + 15 * i, player.getX(), player.getY(), 15);
+			}
 			break;
 			
 		case Pause:
@@ -116,7 +129,21 @@ public class Game {
 				Color.blue, mouseX, mouseY, player.getX(), player.getY());
 	}
 	
-	private void multiplayerGame(){
+	public static void updateUserOnline(String[] names){
+		userNamesOnline.clear();
+		for(int i = 0; i < names.length; i++){
+			userNamesOnline.add(names[i]);
+		}
+	}
+	
+	private void multiplayerGame(Graphics g, ImageObserver obs){
+		// moveable screen
+		currentLevel.render(g, obs, false);
+		currentLevel.checkCollisions(player);
+		
+		/////////////////////////////
+		player.update();
+		player.render(g, obs);
 	}
 	
 	public void attempDisconnect(){
@@ -125,7 +152,11 @@ public class Game {
 	}
 	
 	public static void stopClient(){
-		client.fullStop();
+		if(client != null){
+			client.fullStop();
+			isConnectedAsClient = false;
+		}
+		System.out.println(client == null);
 	}
 
 }

@@ -16,6 +16,7 @@ public class Client extends StoppableThread implements Runnable{
 	public static EKConsole console;
 	private Scanner in;
 	private PrintWriter out;
+	private ClientFetch fetch;
 	public static final String JOIN = "JOIN";
 	public static final String JOIN_SUCCESSFUL = "JOIN_SUCCESSFUL";
 	public static final String JOIN_FAIL = "JOIN_FAIL";
@@ -56,7 +57,7 @@ public class Client extends StoppableThread implements Runnable{
 				in = new Scanner(socket.getInputStream());
 				out = new PrintWriter(socket.getOutputStream());
 				
-				ClientFetch fetch = new ClientFetch(in);
+				fetch = new ClientFetch(in);
 				Thread tFetch = new Thread(fetch);
 				tFetch.start();
 				
@@ -79,6 +80,8 @@ public class Client extends StoppableThread implements Runnable{
 	public void fullStop(){
 		super.fullStop();
 		this.console.fullStop();
+		fetch.fullStop();
+		System.out.println("Disconnected everything");
 	}
 	
 	private void fetch(){

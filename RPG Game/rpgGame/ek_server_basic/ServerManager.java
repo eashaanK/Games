@@ -94,7 +94,7 @@ public class ServerManager extends StoppableThread implements Runnable{
 	 * LIST
 	 */
 	private void handleList(PrintWriter out){
-		console.println("Server recieved LIST");
+		//console.println("Server recieved LIST");
 		out.println(LIST + "/" + getUserNames().toString());
 		out.flush();
 	}
@@ -103,7 +103,7 @@ public class ServerManager extends StoppableThread implements Runnable{
 	 * FETCH
 	 */
 	private void handleFetch(String[] parts, PrintWriter out){
-		console.println("Server recieved Fetch");
+		//console.println("Server recieved Fetch");
 		String messageToSend = Server.allMessages.poll();
 		if(messageToSend != null)
 		out.println(FETCH + "/" + messageToSend);
@@ -130,7 +130,7 @@ public class ServerManager extends StoppableThread implements Runnable{
 			
 			console.println(user.name + " was denied connection based on his/her info");
 			out.println(this.JOIN_FAIL + "/" + failMessage);
-			this.fullStop();
+		//	this.fullStop();
 		}
 	}
 	
@@ -139,7 +139,7 @@ public class ServerManager extends StoppableThread implements Runnable{
 	 */
 	private void handleSendMessage(String[] parts){
 		String actualMessage = this.getRestOfMessage(1, parts);
-		console.println("Server received message: " + actualMessage);
+	//	console.println("Server received message: " + actualMessage);
 		Server.allMessages.add(user.name + " said: " + actualMessage);
 		
 

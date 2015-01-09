@@ -65,7 +65,17 @@ public class MapPack {
 
 		lodgeMap.addImageBoundary(1500, 430, 4, 980, null); //left most border1240 - 580
 
+		lodgeMap.addImageBoundary(885, 470, 4, 400, null); 
 		
+		lodgeMap.addImageBoundary(1110, 470, 4, 400, null); 
+		
+		lodgeMap.addImageBoundary(885, 985, 4, 400, null); 
+		
+		lodgeMap.addImageBoundary(1110, 985, 4, 400, null); 
+//995, 1430
+		lodgeMap.addImageBoundary(1000, 1430, 4, 230, null); 
+
+
 	}
 	
 	public Level getLodgeMap(){

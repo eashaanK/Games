@@ -36,15 +36,16 @@ public class Controls implements KeyListener, MouseListener {
 			break;
 		
 		case Game:
-			if(key == (KeyEvent.VK_ESCAPE)){
-				Game.gm = GameState.Pause;
-			}
+			givePauseAbility(key);
 			break;
 			
 		case MultiGame:
+			givePauseAbility(key);
+
 			break;
 			
 		case Pause:
+			//unpause game
 			if(keyHeld.contains(KeyEvent.VK_ESCAPE)){
 				Game.gm = GameState.Game;
 			}
@@ -74,12 +75,20 @@ public class Controls implements KeyListener, MouseListener {
 			this.allowControls(player);
 			break;
 		case MultiGame:
+			this.allowMutiplayerControls(player);
+
 			break;
 		case Pause:
 			
 			break;
 		}
 	}
+	private void allowMutiplayerControls(Player player){
+		allowControls(player);
+		Game.client.sendPlayerBounds(player.getBounds());
+		//Game.client.sendImage(player.imagePath, player.getWidth(), player.getHeight());
+	}
+	
 	
 	private void allowControls(Player player){
 		int speed =3;
@@ -190,5 +199,10 @@ public class Controls implements KeyListener, MouseListener {
 		canUpdateMousePos = false;
 	}
 	
+	private void givePauseAbility(int key){
+		if(key == (KeyEvent.VK_ESCAPE))
+			Game.gm = GameState.Pause;
+		
+	}
 
 }

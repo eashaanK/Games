@@ -16,7 +16,6 @@ public class RPGMain {
 	public static final String TITLE = "RPG GAME";
 	
 	public RPGMain(){
-		
 		RPGFrame frame = new RPGFrame();
 		frame.setSize(WIDTH, HEIGHT);
 		frame.setLocationRelativeTo(null);

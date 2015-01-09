@@ -64,6 +64,11 @@ public class ClientFetch extends StoppableThread implements Runnable{
 	private void handleList(String[] parts){
 		Client.console.println("LIST: " + parts[1]);
 		//update the list of players
+		parts[1] = parts[1].replace("[", "");
+		parts[1] = parts[1].replace("]", "");
+
+		String[] userNames = parts[1].split(", ");
+		Game.updateUserOnline(userNames);
 	}
 	
 	/**
