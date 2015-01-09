@@ -25,9 +25,12 @@ public class Game {
 	public static GameState gm = GameState.MainMenu;
 	public static Client client = null;
 	public static ArrayList<String> userNamesOnline;
+	private String host;
 
 	public void init() {
 		String tempName = JOptionPane.showInputDialog("Enter your name: ");
+		host = JOptionPane.showInputDialog("Enter host IP address");
+
 		player = new Player(tempName, 800,
 				950, 40, 40);
 		mapPack = new MapPack();
@@ -70,20 +73,25 @@ public class Game {
 			player.render(g, obs);
 			break;
 		case MultiGame:
-			if(!this.isConnectedAsClient){
-				client = new Client("localhost", 8888);
+			if(!this.isConnectedAsClient){				
+				client = new Client(host, 8888);
 				Thread tC = new Thread(client);
 				tC.start();
 				this.isConnectedAsClient = true;
+
+				client.joinRequest(player.getName());
+				
+				client.sendMessage("THIS IS A TEST MESSAGE FROM CLIENT");
+				
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
+					this.isConnectedAsClient = false;
+
 					e.printStackTrace();
 				}
-				client.joinRequest(player.getName());
 				
-				client.sendMessage("THIS IS A TEST MESSAGE FROM CLIENT");
 			}
 			if(this.isConnectedAsClient)
 			{
