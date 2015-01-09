@@ -7,14 +7,15 @@ import java.awt.image.ImageObserver;
 import rpg_game_components.Level;
 import rpg_game_components.Player;
 import rpg_game_helpers.DrawHelp;
-import rpg_game_helpers.Loader;
 import rpg_game_input.Button;
+import rpg_game_map_packs.MapPack;
 import ek_server_basic.Client;
 
 public class Game {
 	public static Player player;
 	public static Button singlePlayerButton, multiPlayerButton;
 	public static Level currentLevel;
+	public static MapPack mapPack;
 	public static int mouseX, mouseY;
 	public static boolean isConnectedAsClient = false;
 	public static GameState gm = GameState.MainMenu;
@@ -23,16 +24,10 @@ public class Game {
 	public void init() {
 		player = new Player("Test Person", RPGMain.WIDTH / 2,
 				RPGMain.HEIGHT / 2, 40, 40);
-		currentLevel = new Level("Testing Level",
-				Loader.loadImage("rpgGame/rpg_game_images/Level1.png"));
-		currentLevel.addImageBoundary(0, 0, RPGMain.WIDTH, 30, null); // top
-		currentLevel.addImageBoundary(0, 0, 50, RPGMain.HEIGHT, null); // left
-		currentLevel.addImageBoundary(0, RPGMain.HEIGHT - 34, RPGMain.WIDTH,
-				34, null); // bottom
-		currentLevel.addImageBoundary(RPGMain.WIDTH - 40, 0, 40,
-				RPGMain.HEIGHT, null); // right
-
-		currentLevel.addImageBoundary(100, 100, 100, 100, null);
+		mapPack = new MapPack();
+		
+		currentLevel = mapPack.getLodgeMap();
+		
 		
 		client = null;
 
@@ -61,6 +56,11 @@ public class Game {
 			// moveable screen
 			currentLevel.render(g, obs, true);
 			currentLevel.checkCollisions(player);
+			
+		
+			
+
+
 			/////////////////////////////
 			player.update();
 			player.render(g, obs);

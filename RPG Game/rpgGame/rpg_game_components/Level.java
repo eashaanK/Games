@@ -14,11 +14,13 @@ public class Level {
 	private String name;
 	private Image image;
 	private ArrayList<Boundary> imageBoundaries;
+	private Rectangle bounds;
 
-	public Level(String name, Image image) {
+	public Level(String name, Image image, int x, int y, int width, int height) {
 		this.name = name;
 		this.image = image;
 		this.imageBoundaries = new ArrayList<Boundary>();
+		this.bounds = new Rectangle(x, y, width, height);
 	}
 
 	public void addImageBoundary(int x, int y, int w, int h, Image i) {
@@ -26,7 +28,7 @@ public class Level {
 	}
 
 	public void render(Graphics g, ImageObserver obs, boolean renderBound) {
-		g.drawImage(this.image, 0, 0, RPGMain.WIDTH, RPGMain.HEIGHT, obs);
+		g.drawImage(this.image, bounds.x, bounds.y, this.getWidth(), this.getHeight(), obs);
 		// draws the individual boundaries
 		for (Boundary i : imageBoundaries) {
 			if (i.getImage() != null)
@@ -53,6 +55,7 @@ public class Level {
 				Rectangle playerBound = player.getBounds();
 				
 				String temp = this.checkLeftRight(playerBound, imageRect);
+				//System.out.println(temp);
 				if(temp==null)
 				{
 					//center
@@ -60,7 +63,7 @@ public class Level {
 				else if(temp.equals("Left"))
 				{
 					player.blockLeft();
-					//System.err.println("Colliding " + i + " from " + temp + " not freeing it up ");
+					System.err.println("Colliding " + i + " from " + temp + " not freeing it up ");
 
 				}
 				else if(temp.equals("Right"))
@@ -134,7 +137,7 @@ public class Level {
 	private String checkLeftRight(Rectangle playerBound, Rectangle imageRect){
 		Rectangle inter = playerBound.intersection(imageRect);
 		if (inter.width <= inter.height) {
-			// check left and right
+			System.out.println("Detecting " + (playerBound.x >= imageRect.x  + playerBound.width) + " player X: " + playerBound.x + " >= " + imageRect.x + "  +  player width: " + playerBound.width);
 			if (playerBound.x >= imageRect.x  + playerBound.width) {
 				return "Left";
 			} else if (playerBound.x <= imageRect.x) {
@@ -146,6 +149,22 @@ public class Level {
 
 	public String getName() {
 		return name;
+	}
+	
+	public int getWidth(){
+		return this.bounds.width;
+	}
+	
+	public int getHeight(){
+		return this.bounds.height;
+	}
+	
+	public void setWidth(int w){
+		this.bounds.width = w;
+	}
+	
+	public void setHeight(int h){
+		this.bounds.height = h;
 	}
 
 }
