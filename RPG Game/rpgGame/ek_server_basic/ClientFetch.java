@@ -50,8 +50,8 @@ public class ClientFetch extends StoppableThread implements Runnable{
 		String imagePath = parts[7];
 		int imageW = Integer.parseInt(parts[8]);
 		int imageH = Integer.parseInt(parts[9]);
-		Client.console.println("Bounds : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height);
-		Client.console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
+	//	Client.console.println("Bounds : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height);
+	//	Client.console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
 
 		MultiplayerPlayer mult = new MultiplayerPlayer(xPos, yPos, width, height, name);
 		/*
@@ -59,9 +59,10 @@ public class ClientFetch extends StoppableThread implements Runnable{
 		 * 2nd Option: the player name exists in userList but not in Player list. In that case, add the player to the list
 		 * 3rd Option: the player name does't exist in any List
 		 */
+
 		if(!(name.equals(Game.player.getName()))){
 			boolean inUserNameList = Game.userNamesOnline.contains(name), inMultPlayerList =  this.onlineListContains(mult.getName());
-			Game.onlinePlayers.add(mult);
+			Client.console.println("Now drawing " + name);
 
 		/*	System.out.println(name);
 			if(inUserNameList && inMultPlayerList){

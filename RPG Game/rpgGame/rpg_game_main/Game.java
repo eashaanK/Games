@@ -171,8 +171,10 @@ public class Game {
 	public void attempDisconnect(){
 		if(client != null){
 			client.disconnect();
+			this.onlinePlayers.clear();
+			System.out.println("List Cleared");
 		}
-		this.onlinePlayers.clear();
+	
 	}
 	
 	public static void stopClient(){
@@ -180,6 +182,8 @@ public class Game {
 			client.fullStop();
 			isConnectedAsClient = false;
 			onlinePlayers.clear();
+			System.out.println("List Cleared");
+
 		}
 	}
 
