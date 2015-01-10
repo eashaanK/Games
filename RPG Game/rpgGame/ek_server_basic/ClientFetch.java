@@ -60,7 +60,10 @@ public class ClientFetch extends StoppableThread implements Runnable{
 		 * 3rd Option: the player name does't exist in any List
 		 */
 		if(!(name.equals(Game.player.getName()))){
-			boolean inUserNameList = Game.userNamesOnline.contains(name), inMultPlayerList = Game.onlinePlayers.contains(mult);
+			boolean inUserNameList = Game.userNamesOnline.contains(name), inMultPlayerList =  this.onlineListContains(mult.getName());
+			Game.onlinePlayers.add(mult);
+
+		/*	System.out.println(name);
 			if(inUserNameList && inMultPlayerList){
 				System.out.println("Player: " + name + " is in both lists");
 				for(int i = 0; i < Game.onlinePlayers.size(); i++){
@@ -79,11 +82,19 @@ public class ClientFetch extends StoppableThread implements Runnable{
 			
 			else{
 				System.err.println("Player: " + name + " was not found in userName List / playerList");
-			}
+			}*/
 		}
 		
 	}
 	
+	private boolean onlineListContains(String name){
+		for(int i = 0; i < Game.onlinePlayers.size(); i++){
+			if(Game.onlinePlayers.get(i).getName().equals(name)){
+				return true;	
+			}
+		}
+		return false;
+	}
 	/**
 	 * JOin Fail
 	 * Brings Player back to home screen

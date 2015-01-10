@@ -56,8 +56,15 @@ public class MultiplayerPlayer extends Component{
 	
 	@Override
 	public boolean equals(Object o){
-		MultiplayerPlayer temp = (MultiplayerPlayer)o;
-		return this.name.equals(temp.getName());
+		if(o instanceof MultiplayerPlayer){
+			MultiplayerPlayer temp = (MultiplayerPlayer)o;
+			return this.name.equals(temp.getName());
+		}
+		else if(o instanceof String){
+			String temp = (String)o;
+			return this.name.equals(temp);
+		}
+		return false;
 	}
 
 }

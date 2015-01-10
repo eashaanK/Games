@@ -162,6 +162,8 @@ public class Game {
 			p.render(g, obs);
 		}
 		
+		System.out.println(onlinePlayers.size());
+		
 		player.update();
 		player.render(g, obs);
 	}
