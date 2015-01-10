@@ -59,25 +59,27 @@ public class ClientFetch extends StoppableThread implements Runnable{
 		 * 2nd Option: the player name exists in userList but not in Player list. In that case, add the player to the list
 		 * 3rd Option: the player name does't exist in any List
 		 */
-		boolean inUserNameList = Game.userNamesOnline.contains(name), inMultPlayerList = Game.onlinePlayers.contains(mult);
-		if(inUserNameList && inMultPlayerList){
-			System.out.println("Player: " + name + " is in both lists");
-			for(int i = 0; i < Game.onlinePlayers.size(); i++){
-				if(Game.onlinePlayers.get(i).equals(mult)){
-					Game.onlinePlayers.set(i, mult);
-					break;
+		if(!(name.equals(Game.player.getName()))){
+			boolean inUserNameList = Game.userNamesOnline.contains(name), inMultPlayerList = Game.onlinePlayers.contains(mult);
+			if(inUserNameList && inMultPlayerList){
+				System.out.println("Player: " + name + " is in both lists");
+				for(int i = 0; i < Game.onlinePlayers.size(); i++){
+					if(Game.onlinePlayers.get(i).equals(mult)){
+						Game.onlinePlayers.set(i, mult);
+						break;
+					}
 				}
 			}
-		}
-		
-		else if(inUserNameList && !inMultPlayerList){
-			System.out.println("Player: " + name + " is only in userList and not Player list. So adding Player to list to be drawn");
-			Game.onlinePlayers.add(mult);
-			Client.console.println(name + " added to be drawn");
-		}
-		
-		else{
-			System.err.println("Player: " + name + " was not found in userName List / playerList");
+			
+			else if(inUserNameList && !inMultPlayerList){
+				System.out.println("Player: " + name + " is only in userList and not Player list. So adding Player to list to be drawn");
+				Game.onlinePlayers.add(mult);
+				Client.console.println(name + " added to be drawn");
+			}
+			
+			else{
+				System.err.println("Player: " + name + " was not found in userName List / playerList");
+			}
 		}
 		
 	}

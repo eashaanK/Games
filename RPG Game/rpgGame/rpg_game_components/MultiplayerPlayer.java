@@ -32,13 +32,17 @@ public class MultiplayerPlayer extends Component{
 	@Override
 	public void render(Graphics g, ImageObserver obs) {
 		// TODO Auto-generated method stub
-		g.drawImage(currentImage, this.getX(), this.getY(),
+		/*g.drawImage(currentImage, this.getX(), this.getY(),
 				this.getWidth(), this.getHeight(), obs);
 		g.setColor(Color.black);
 		DrawHelp.drawText(g, 15, this.toString(),
 				this.getX() - name.length() * 3 / 2, this.getY() - 10);
 		DrawHelp.drawText(g, 15, ".",
-				this.getX(), this.getY());
+				this.getX(), this.getY());*/
+		g.setColor(Color.blue);
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
+		
+		
 	}
 	
 	public String getName(){
