@@ -82,8 +82,13 @@ public class ServerManager extends StoppableThread implements Runnable{
 	}
 	
 	private String getRestOfMessage(int index, String[] parts){
+	
+		return getRestOfMessage(index, parts.length, parts);
+	}
+	
+	private String getRestOfMessage(int index, int endIndex, String[] parts){
 		String ans = "";
-		for(int i = index; i < parts.length; i++)
+		for(int i = index; i < endIndex; i++)
 			ans += parts[i];
 		return ans;
 	}
@@ -153,15 +158,16 @@ public class ServerManager extends StoppableThread implements Runnable{
 		int width = Integer.parseInt(parts[4]);
 		int height = Integer.parseInt(parts[5]);
 		String imageType = parts[6];
-		String imagePath = parts[7];
-	//	System.out.println(parts[8] + " " + parts[9]);
-	//	int imageW = Integer.parseInt(parts[8]);
-	//	int imageH = Integer.parseInt(parts[9]);
+		String imagePath = this.getRestOfMessage(7, 9, parts);
+		int imageW = Integer.parseInt(parts[10]);
+		int imageH = Integer.parseInt(parts[11]);
 		console.println("Server received Player : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height );
-	//	console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
+		
 
-	//	out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height + "/" + imageType + "/" + imagePath + "/" + imageW + "/" + imageH);
-	//	out.flush();
+		console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
+
+		out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height + "/" + imageType + "/" + imagePath + "/" + imageW + "/" + imageH);
+		out.flush();
 	}
 	
 	/**
