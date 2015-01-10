@@ -73,6 +73,7 @@ public class ClientFetch extends StoppableThread implements Runnable{
 		else if(inUserNameList && !inMultPlayerList){
 			System.out.println("Player: " + name + " is only in userList and not Player list. So adding Player to list to be drawn");
 			Game.onlinePlayers.add(mult);
+			Client.console.println(name + " added to be drawn");
 		}
 		
 		else{
