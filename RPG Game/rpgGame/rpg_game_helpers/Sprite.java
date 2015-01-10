@@ -5,23 +5,22 @@ import java.util.ArrayList;
 
 public class Sprite {
 
-	private ArrayList<Image> up, down, left, right;
-	private Image currentImage;
+	private ArrayList<MyImage> up, down, left, right;
+	private MyImage currentImage;
 	private int uI, dI, lI, rI;
 	private float currentImgCount, imageChangeSpeed = 0.20f;
 	
 	public Sprite(float imageChangeSpeed){
 		this.imageChangeSpeed = imageChangeSpeed;
 		
-		this.up = new ArrayList<Image>();
-		this.down = new ArrayList<Image>();
-		this.left = new ArrayList<Image>();
-		this.right = new ArrayList<Image>();
+		this.up = new ArrayList<MyImage>();
+		this.down = new ArrayList<MyImage>();
+		this.left = new ArrayList<MyImage>();
+		this.right = new ArrayList<MyImage>();
 	}
 	
-	public void initCurrentImage(Image img){
+	public void initCurrentImage(MyImage img){
 		currentImage = img;
-
 	}
 	
 	public void assignImageUp(int index){
@@ -30,10 +29,12 @@ public class Sprite {
 	
 	public void assignImageDown(int index){
 		this.currentImage = down.get(index);
+
 	}
 	
 	public void assignImageLeft(int index){
 		this.currentImage = left.get(index);
+		
 	}
 	
 	public void assignImageRight(int index){
@@ -41,19 +42,19 @@ public class Sprite {
 	}
 	
 	public void addUp(String path){
-		up.add(Loader.loadImage(path));
+		up.add(new MyImage(Loader.loadImage(path), path));
 	}
 	
 	public void addDown(String path){
-		down.add(Loader.loadImage(path));
+		down.add(new MyImage(Loader.loadImage(path), path));
 	}
 	
 	public void addLeft(String path){
-		left.add(Loader.loadImage(path));
+		left.add(new MyImage(Loader.loadImage(path), path));
 	}
 	
 	public void addRight(String path){
-		right.add(Loader.loadImage(path));
+		right.add(new MyImage(Loader.loadImage(path), path));
 	}
 	
 	public void updateImage(ImageDirection iDir) {
@@ -75,7 +76,7 @@ public class Sprite {
 		
 	}
 	
-	private int updateImg(ArrayList<Image> list, int counter){
+	private int updateImg(ArrayList<MyImage> list, int counter){
 		final float maxCount = 1;
 		if(this.currentImgCount >= maxCount){
 			counter++;
@@ -89,22 +90,26 @@ public class Sprite {
 	}
 	
 	public Image currentImg(){
-		return this.currentImage;
+		return this.currentImage.image;
+	}
+	
+	public String currentPath(){
+		return this.currentImage.path;
 	}
 
-	public ArrayList<Image> getUp(){
+	public ArrayList<MyImage> getUp(){
 		return this.up;
 	}
 	
-	public ArrayList<Image> getDown(){
+	public ArrayList<MyImage> getDown(){
 		return this.down;
 	}
 	
-	public ArrayList<Image> getLeft(){
+	public ArrayList<MyImage> getLeft(){
 		return this.left;
 	}
 	
-	public ArrayList<Image> getRight(){
+	public ArrayList<MyImage> getRight(){
 		return this.right;
 	}
 

@@ -46,7 +46,7 @@ public class Player extends Component {
 	}
 
 	public void update() {
-
+		System.out.println(sprite.currentPath());
 	}
 
 	public void render(Graphics g, ImageObserver obs) {

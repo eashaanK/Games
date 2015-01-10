@@ -86,7 +86,7 @@ public class Controls implements KeyListener, MouseListener {
 	private void allowMutiplayerControls(Player player){
 		allowControls(player);
 		Game.client.sendPlayerBounds(player.getBounds());
-		//Game.client.sendImage(player.imagePath, player.getWidth(), player.getHeight());
+		Game.client.sendImage(player.getSprite().currentPath(), player.getWidth(), player.getHeight());
 	}
 	
 	
