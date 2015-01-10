@@ -48,7 +48,7 @@ public class ServerManager extends StoppableThread implements Runnable{
 					}
 					
 					else if(parts[0].equals(SEND_PLAYER_BOUNDS)){
-						this.handleSendPlayerBounds(parts);
+						this.handleSendPlayerBounds(parts, out);
 					}
 					
 					else if(parts[0].equals(ServerManager.SEND_IMAGE)){
@@ -161,14 +161,15 @@ public class ServerManager extends StoppableThread implements Runnable{
 	 * PLAYER BOUNDS
 	 * @param parts
 	 */
-	private void handleSendPlayerBounds(String[] parts){
+	private void handleSendPlayerBounds(String[] parts, PrintWriter out){
 		String name = parts[1];
 		int xPos = Integer.parseInt(parts[2]);
 		int yPos = Integer.parseInt(parts[3]);
 		int width = Integer.parseInt(parts[4]);
 		int height = Integer.parseInt(parts[5]);
 		console.println("Server received Player : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height);
-		
+		out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height);
+		out.flush();
 	}
 	
 	/**
