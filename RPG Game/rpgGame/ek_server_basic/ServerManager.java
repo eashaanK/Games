@@ -154,13 +154,14 @@ public class ServerManager extends StoppableThread implements Runnable{
 		int height = Integer.parseInt(parts[5]);
 		String imageType = parts[6];
 		String imagePath = parts[7];
-		int imageW = Integer.parseInt(parts[8]);
-		int imageH = Integer.parseInt(parts[9]);
+	//	System.out.println(parts[8] + " " + parts[9]);
+	//	int imageW = Integer.parseInt(parts[8]);
+	//	int imageH = Integer.parseInt(parts[9]);
 		console.println("Server received Player : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height );
-		console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
+	//	console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
 
-		out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height + "/" + imageType + "/" + imagePath + "/" + imageW + "/" + imageH);
-		out.flush();
+	//	out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height + "/" + imageType + "/" + imagePath + "/" + imageW + "/" + imageH);
+	//	out.flush();
 	}
 	
 	/**
