@@ -62,7 +62,7 @@ public class Client extends StoppableThread implements Runnable{
 				tFetch.start();
 				
 				while(this.isActive()){
-					if(System.nanoTime() % 10000000 == 0)
+					if(System.nanoTime() % 1000000 == 0)
 						fetch();
 					if(System.nanoTime() % 10000000 == 0)
 						list();
@@ -100,8 +100,8 @@ public class Client extends StoppableThread implements Runnable{
 	}
 	
 	//x , y, w, h
-	public void sendPlayerBounds(Rectangle rect){
-		out.println(Client.SEND_PLAYER_BOUNDS + "/" + rect.x + "/" + rect.y + "/" + rect.width + "/" + rect.height);
+	public void sendPlayerBounds(String name, Rectangle rect){
+		out.println(Client.SEND_PLAYER_BOUNDS + "/" + name + "/" + rect.x + "/" + rect.y + "/" + rect.width + "/" + rect.height);
 		out.flush();
 	}
 	

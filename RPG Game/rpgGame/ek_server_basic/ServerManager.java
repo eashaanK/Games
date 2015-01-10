@@ -162,11 +162,13 @@ public class ServerManager extends StoppableThread implements Runnable{
 	 * @param parts
 	 */
 	private void handleSendPlayerBounds(String[] parts){
-		int xPos = Integer.parseInt(parts[1]);
-		int yPos = Integer.parseInt(parts[2]);
-		int width = Integer.parseInt(parts[3]);
-		int height = Integer.parseInt(parts[4]);
-		console.println("Server received Player Bounds: x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height);
+		String name = parts[1];
+		int xPos = Integer.parseInt(parts[2]);
+		int yPos = Integer.parseInt(parts[3]);
+		int width = Integer.parseInt(parts[4]);
+		int height = Integer.parseInt(parts[5]);
+		console.println("Server received Player : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height);
+		
 	}
 	
 	/**
