@@ -79,6 +79,12 @@ public class Game {
 				tC.start();
 				this.isConnectedAsClient = true;
 
+				try {
+					Thread.sleep(1000); //wait for client to start
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				client.joinRequest(player.getName());
 				
 				client.sendMessage("THIS IS A TEST MESSAGE FROM CLIENT");
