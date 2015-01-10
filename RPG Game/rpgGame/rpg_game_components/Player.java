@@ -10,35 +10,40 @@ import rpg_game_helpers.Sprite;
 
 public class Player extends Component {
 
+	public static String BOY = "BOY";
+	private final String currentImageType;
 	private String name;
 	private float health = 100;
 	private Sprite sprite;
 	private int leftMult = 1, rightMult = 1, upMult = 1, downMult = 1;
 	
-	public Player(String name, int x, int y, int w, int h) {
+	public Player(String name, int x, int y, int w, int h, String imageName) {
 		super(x, y, w, h);
+		currentImageType = imageName;
 		this.name = name;
 		sprite = new Sprite(0.2f);
-		// up
-		sprite.addUp("rpgGame/rpg_game_images/boy up 1.png");
-		sprite.addUp("rpgGame/rpg_game_images/boy up 2.png");
-		sprite.addUp("rpgGame/rpg_game_images/boy up 3.png");
-
-		// down
-		sprite.addDown("rpgGame/rpg_game_images/boy down 1.png");
-		sprite.addDown("rpgGame/rpg_game_images/boy down 2.png");
-		sprite.addDown("rpgGame/rpg_game_images/boy down 3.png");
-
-		// left
-		sprite.addLeft("rpgGame/rpg_game_images/boy left 1.png");
-		sprite.addLeft("rpgGame/rpg_game_images/boy left 2.png");
-		sprite.addLeft("rpgGame/rpg_game_images/boy left 3.png");
-
-		// right
-		sprite.addRight("rpgGame/rpg_game_images/boy right 1.png");
-		sprite.addRight("rpgGame/rpg_game_images/boy right 2.png");
-		sprite.addRight("rpgGame/rpg_game_images/boy right 3.png");
-		sprite.initCurrentImage(sprite.getDown().get(0));
+		if(imageName.equals(BOY)){
+			// up
+			sprite.addUp("rpgGame/rpg_game_images/boy up 1.png");
+			sprite.addUp("rpgGame/rpg_game_images/boy up 2.png");
+			sprite.addUp("rpgGame/rpg_game_images/boy up 3.png");
+	
+			// down
+			sprite.addDown("rpgGame/rpg_game_images/boy down 1.png");
+			sprite.addDown("rpgGame/rpg_game_images/boy down 2.png");
+			sprite.addDown("rpgGame/rpg_game_images/boy down 3.png");
+	
+			// left
+			sprite.addLeft("rpgGame/rpg_game_images/boy left 1.png");
+			sprite.addLeft("rpgGame/rpg_game_images/boy left 2.png");
+			sprite.addLeft("rpgGame/rpg_game_images/boy left 3.png");
+	
+			// right
+			sprite.addRight("rpgGame/rpg_game_images/boy right 1.png");
+			sprite.addRight("rpgGame/rpg_game_images/boy right 2.png");
+			sprite.addRight("rpgGame/rpg_game_images/boy right 3.png");
+			sprite.initCurrentImage(sprite.getDown().get(0));
+		}
 	}
 
 	public void updateImage(ImageDirection iDir) {
@@ -160,6 +165,10 @@ public class Player extends Component {
 		return this.getName() + " (" + this.getBounds().x + ", "
 				+ this.getBounds().y + ") w: " + this.getWidth() + " h: "
 				+ this.getHeight();
+	}
+	
+	public String currentImageType(){
+		return currentImageType;
 	}
 
 }

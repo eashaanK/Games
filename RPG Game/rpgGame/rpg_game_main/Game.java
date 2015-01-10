@@ -32,7 +32,7 @@ public class Game {
 		host = JOptionPane.showInputDialog("Enter host IP address");
 
 		player = new Player(tempName, 800,
-				950, 40, 40);
+				950, 40, 40, Player.BOY);
 		mapPack = new MapPack();
 		
 		currentLevel = mapPack.getLodgeMap();

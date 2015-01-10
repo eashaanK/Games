@@ -167,8 +167,9 @@ public class ServerManager extends StoppableThread implements Runnable{
 		int yPos = Integer.parseInt(parts[3]);
 		int width = Integer.parseInt(parts[4]);
 		int height = Integer.parseInt(parts[5]);
-		console.println("Server received Player : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height);
-		out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height);
+		String imageType = parts[6];
+		console.println("Server received Player : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height + " imageType: " + imageType);
+		out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height + "/" + imageType);
 		out.flush();
 	}
 	

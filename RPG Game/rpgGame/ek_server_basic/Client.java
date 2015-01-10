@@ -100,8 +100,8 @@ public class Client extends StoppableThread implements Runnable{
 	}
 	
 	//x , y, w, h
-	public void sendPlayerBounds(String name, Rectangle rect){
-		out.println(Client.SEND_PLAYER_BOUNDS + "/" + name + "/" + rect.x + "/" + rect.y + "/" + rect.width + "/" + rect.height);
+	public void sendPlayerBounds(String name, Rectangle rect, String imageType){
+		out.println(Client.SEND_PLAYER_BOUNDS + "/" + name + "/" + rect.x + "/" + rect.y + "/" + rect.width + "/" + rect.height + "/" + imageType);
 		out.flush();
 	}
 	

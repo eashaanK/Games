@@ -1,9 +1,11 @@
 package ek_server_basic;
 
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
+import rpg_game_components.Player;
 import rpg_game_main.Game;
 import rpg_game_main.GameState;
 
@@ -31,10 +33,23 @@ public class ClientFetch extends StoppableThread implements Runnable{
 						handleJoinSuccess();
 					else if(parts[0].equals(Client.JOIN_FAIL))
 						handleJoinFail(parts);
+					else if(parts[0].equals(Client.SEND_PLAYER_BOUNDS))
+						handleSendPlayerBounds(parts);
 				}
 			}
 		}
 		
+	}
+	
+	private void handleSendPlayerBounds(String[] parts){
+		String name = parts[1];
+		int xPos = Integer.parseInt(parts[2]);
+		int yPos = Integer.parseInt(parts[3]);
+		int width = Integer.parseInt(parts[4]);
+		int height = Integer.parseInt(parts[5]);
+		String imageName = parts[6];
+		Client.console.println("Bounds : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height + " imageName: " + imageName);
+		//Player player = new Player();
 	}
 	
 	/**
