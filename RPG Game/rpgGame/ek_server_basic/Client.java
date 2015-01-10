@@ -62,7 +62,7 @@ public class Client extends StoppableThread implements Runnable{
 				tFetch.start();
 				
 				while(this.isActive()){
-					if(System.nanoTime() % 100000 == 0)
+					if(System.nanoTime() % 10000000 == 0)
 						fetch();
 					if(System.nanoTime() % 10000000 == 0)
 						list();
