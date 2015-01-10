@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
 import rpg_game_components.Level;
+import rpg_game_components.MultiplayerPlayer;
 import rpg_game_components.Player;
 import rpg_game_helpers.DrawHelp;
 import rpg_game_input.Button;
@@ -25,6 +25,7 @@ public class Game {
 	public static GameState gm = GameState.MainMenu;
 	public static Client client = null;
 	public static ArrayList<String> userNamesOnline;
+	public static ArrayList<MultiplayerPlayer> onlinePlayers;
 	private String host;
 
 	public void init() {
@@ -78,7 +79,7 @@ public class Game {
 				Thread tC = new Thread(client);
 				tC.start();
 				this.isConnectedAsClient = true;
-
+				this.onlinePlayers = new ArrayList<MultiplayerPlayer>();
 				try {
 					Thread.sleep(1000); //wait for client to start
 				} catch (InterruptedException e1) {
@@ -156,21 +157,28 @@ public class Game {
 		currentLevel.checkCollisions(player);
 		
 		/////////////////////////////
+		for(MultiplayerPlayer p: onlinePlayers){
+			p.update();
+			p.render(g, obs);
+		}
+		
 		player.update();
 		player.render(g, obs);
 	}
 	
 	public void attempDisconnect(){
-		if(client != null)
+		if(client != null){
 			client.disconnect();
+		}
+		this.onlinePlayers.clear();
 	}
 	
 	public static void stopClient(){
 		if(client != null){
 			client.fullStop();
 			isConnectedAsClient = false;
+			onlinePlayers.clear();
 		}
-		System.out.println(client == null);
 	}
 
 }

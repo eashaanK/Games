@@ -18,7 +18,6 @@ public class ServerManager extends StoppableThread implements Runnable{
 	private static final String DISCONNECT = "DISCONNECT";
 	private static final String SEND_MESSAGE = "SEND_MESSAGE"; //if user wants to make everyone see meessage
 	private static final String SEND_PLAYER_BOUNDS = "SEND_PLAYER_BOUNDS";
-	private static final String SEND_IMAGE = "SEND_IMAGE";
 
 	//private static final String JOIN = "JOIN";*/
 
@@ -51,9 +50,7 @@ public class ServerManager extends StoppableThread implements Runnable{
 						this.handleSendPlayerBounds(parts, out);
 					}
 					
-					else if(parts[0].equals(ServerManager.SEND_IMAGE)){
-						this.handleSendImage(parts);
-					}
+					
 					
 					else if(parts[0].equals(DISCONNECT)){
 						handleDisconnect(out);
@@ -146,18 +143,6 @@ public class ServerManager extends StoppableThread implements Runnable{
 	}
 	
 	/**
-	 * IMAGE
-	 */
-	private void handleSendImage(String[] parts){
-		int width = Integer.parseInt(parts[1]);
-		int height = Integer.parseInt(parts[2]);
-		String path = "";
-		for(int i = 3; i < parts.length; i++)
-			path += parts[i];
-		console.println("Server received image: " + path + " w: " + width + " h: " + height);
-	}
-	
-	/**
 	 * PLAYER BOUNDS
 	 * @param parts
 	 */
@@ -168,8 +153,13 @@ public class ServerManager extends StoppableThread implements Runnable{
 		int width = Integer.parseInt(parts[4]);
 		int height = Integer.parseInt(parts[5]);
 		String imageType = parts[6];
-		console.println("Server received Player : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height + " imageType: " + imageType);
-		out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height + "/" + imageType);
+		String imagePath = parts[7];
+		int imageW = Integer.parseInt(parts[8]);
+		int imageH = Integer.parseInt(parts[9]);
+		console.println("Server received Player : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height );
+		console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
+
+		out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height + "/" + imageType + "/" + imagePath + "/" + imageW + "/" + imageH);
 		out.flush();
 	}
 	

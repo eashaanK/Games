@@ -25,7 +25,6 @@ public class Client extends StoppableThread implements Runnable{
 	public static final String DISCONNECT = "DISCONNECT";
 	public static final String SEND_MESSAGE = "SEND_MESSAGE";
 	public static final String SEND_PLAYER_BOUNDS = "SEND_PLAYER_BOUNDS";
-	public static final String SEND_IMAGE = "SEND_IMAGE";
 
 	
 	public Client(String host, int port){
@@ -100,8 +99,8 @@ public class Client extends StoppableThread implements Runnable{
 	}
 	
 	//x , y, w, h
-	public void sendPlayerBounds(String name, Rectangle rect, String imageType){
-		out.println(Client.SEND_PLAYER_BOUNDS + "/" + name + "/" + rect.x + "/" + rect.y + "/" + rect.width + "/" + rect.height + "/" + imageType);
+	public void sendPlayerBounds(String name, Rectangle rect, String imageType, String path, int width, int height){
+		out.println(Client.SEND_PLAYER_BOUNDS + "/" + name + "/" + rect.x + "/" + rect.y + "/" + rect.width + "/" + rect.height + "/" + imageType + "/" + path + "/" + width + "/" + height);
 		out.flush();
 	}
 	
@@ -110,9 +109,5 @@ public class Client extends StoppableThread implements Runnable{
 		out.flush();
 	}
 	
-	public void sendImage(String path, int width, int height){
-		out.println(Client.SEND_IMAGE + "/" + width + "/" + height + "/" + path);
-		out.flush();
-	}
 	
 }
