@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.JOptionPane;
 
@@ -25,13 +28,13 @@ public class Game {
 	public static GameState gm = GameState.MainMenu;
 	public static Client client = null;
 	public static ArrayList<String> userNamesOnline;
-	public static ArrayList<MultiplayerPlayer> onlinePlayers;
+	public static Queue<MultiplayerPlayer> onlinePlayers;
 	private String host;
 
 	public void init() {
 		String tempName = JOptionPane.showInputDialog("Enter your name: ");
-		host = JOptionPane.showInputDialog("Enter host IP address");
-
+	//	host = JOptionPane.showInputDialog("Enter host IP address");
+		host = "localhost";
 		player = new Player(tempName, 800,
 				950, 40, 40, Player.BOY);
 		mapPack = new MapPack();
@@ -79,7 +82,7 @@ public class Game {
 				Thread tC = new Thread(client);
 				tC.start();
 				this.isConnectedAsClient = true;
-				this.onlinePlayers = new ArrayList<MultiplayerPlayer>();
+				this.onlinePlayers = new LinkedList<MultiplayerPlayer>();
 				try {
 					Thread.sleep(1000); //wait for client to start
 				} catch (InterruptedException e1) {
@@ -157,12 +160,17 @@ public class Game {
 		currentLevel.checkCollisions(player);
 		
 		/////////////////////////////
-		for(MultiplayerPlayer p: onlinePlayers){
+	/*	for(MultiplayerPlayer p: onlinePlayers){
+			p.update();
+			p.render(g, obs);
+		}*/
+		MultiplayerPlayer p = onlinePlayers.poll();
+		if(p != null){
 			p.update();
 			p.render(g, obs);
 		}
 		
-		System.out.println(onlinePlayers.size());
+		//System.out.println(onlinePlayers.size());
 		
 		player.update();
 		player.render(g, obs);

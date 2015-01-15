@@ -22,9 +22,7 @@ public class RPGMain {
 		frame.setResizable(false);
 		frame.setTitle(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		
-		
+		frame.setVisible(true);		
 	}
 	
 	public static void main(String[] args){

@@ -32,15 +32,19 @@ public class ClientFetch extends StoppableThread implements Runnable{
 						handleJoinSuccess();
 					else if(parts[0].equals(Client.JOIN_FAIL))
 						handleJoinFail(parts);
-					else if(parts[0].equals(Client.SEND_PLAYER_BOUNDS))
-						handleSendPlayerBounds(parts);
+					else if(parts[0].equals(Client.FETCH_PLAYER_BOUNDS))
+						handleFetchPlayerBounds(parts);
 				}
 			}
 		}
 		
 	}
 	
-	private void handleSendPlayerBounds(String[] parts){
+	private void handleFetchPlayerBounds(String[] parts){
+		//Client.console.println(Client.FETCH_PLAYER_BOUNDS);
+		if(parts[1].equals("NULL")){
+			return;
+		}
 		String name = parts[1];
 		int xPos = Integer.parseInt(parts[2]);
 		int yPos = Integer.parseInt(parts[3]);
@@ -48,56 +52,30 @@ public class ClientFetch extends StoppableThread implements Runnable{
 		int height = Integer.parseInt(parts[5]);
 		String imageType = parts[6];
 		String imagePath = parts[7];
-		int imageW = Integer.parseInt(parts[8]);
-		int imageH = Integer.parseInt(parts[9]);
+		
 	//	Client.console.println("Bounds : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height);
 	//	Client.console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
 
-		MultiplayerPlayer mult = new MultiplayerPlayer(xPos, yPos, width, height, name);
-		/*
-		 * 1st Option: the player name exists in both places. If so, update all its components
-		 * 2nd Option: the player name exists in userList but not in Player list. In that case, add the player to the list
-		 * 3rd Option: the player name does't exist in any List
-		 */
-
-		if(!(name.equals(Game.player.getName()))){
-			boolean inUserNameList = Game.userNamesOnline.contains(name), inMultPlayerList =  this.onlineListContains(mult.getName());
-			Client.console.println("Now drawing " + name);
-
-		/*	System.out.println(name);
-			if(inUserNameList && inMultPlayerList){
-				System.out.println("Player: " + name + " is in both lists");
-				for(int i = 0; i < Game.onlinePlayers.size(); i++){
-					if(Game.onlinePlayers.get(i).equals(mult)){
-						Game.onlinePlayers.set(i, mult);
-						break;
-					}
-				}
-			}
-			
-			else if(inUserNameList && !inMultPlayerList){
-				System.out.println("Player: " + name + " is only in userList and not Player list. So adding Player to list to be drawn");
-				Game.onlinePlayers.add(mult);
-				Client.console.println(name + " added to be drawn");
-			}
-			
-			else{
-				System.err.println("Player: " + name + " was not found in userName List / playerList");
-			}*/
-		}
+		MultiplayerPlayer mult = new MultiplayerPlayer(xPos, yPos, width, height, name, imageType, imagePath);
 		
+		if(!mult.getName().equals(Game.player.getName()))
+		{
+			System.out.println("This client belongs to : " + Game.player.getName() + " name recieved: " + name);
+			if(Game.onlinePlayers.contains(mult.getName()))
+				Game.onlinePlayers.add(mult);	
+		}
 	}
 	
-	private boolean onlineListContains(String name){
+/*	private boolean onlineListContains(String name){
 		for(int i = 0; i < Game.onlinePlayers.size(); i++){
 			if(Game.onlinePlayers.get(i).getName().equals(name)){
 				return true;	
 			}
 		}
 		return false;
-	}
+	}*/
 	/**
-	 * JOin Fail
+	 * Join Fail
 	 * Brings Player back to home screen
 	 * stops the client
 	 */
@@ -121,7 +99,7 @@ public class ClientFetch extends StoppableThread implements Runnable{
 	 * @param parts
 	 */
 	private void handleList(String[] parts){
-		Client.console.println("LIST: " + parts[1]);
+		//Client.console.println("LIST: " + parts[1]);
 		//update the list of players
 		parts[1] = parts[1].replace("[", "");
 		parts[1] = parts[1].replace("]", "");
@@ -138,7 +116,7 @@ public class ClientFetch extends StoppableThread implements Runnable{
 		String message = this.getRestOfMessage(1, parts);
 		if(message == null)
 			return;
-		Client.console.println("MESSAGE: " + message);
+		//Client.console.println("MESSAGE: " + message);
 		//do rest of fetch
 	}
 	

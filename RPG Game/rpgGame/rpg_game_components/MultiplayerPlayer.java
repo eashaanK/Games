@@ -14,9 +14,12 @@ public class MultiplayerPlayer extends Component{
 
 	private final String name;
 	private Image currentImage;
-	public MultiplayerPlayer(int x, int y, int w, int h, String name) {
+	private String imagePath, imageType;
+	
+	public MultiplayerPlayer(int x, int y, int w, int h, String name, String imagePath, String imageType) {
 		super(x, y, w, h);
 		this.name = name;
+		this.setImage(imagePath);
 	}
 
 	@Override
@@ -25,24 +28,37 @@ public class MultiplayerPlayer extends Component{
 		
 	}
 	
-	public void setImage(Image image){
-		this.currentImage = image;
+	public void setImage(String path){
+		this.currentImage = Loader.loadImage(path);
+		this.imagePath = path;
 	}
 
 	@Override
 	public void render(Graphics g, ImageObserver obs) {
 		// TODO Auto-generated method stub
-		/*g.drawImage(currentImage, this.getX(), this.getY(),
+		g.drawImage(currentImage, this.getX(), this.getY(),
 				this.getWidth(), this.getHeight(), obs);
 		g.setColor(Color.black);
 		DrawHelp.drawText(g, 15, this.toString(),
 				this.getX() - name.length() * 3 / 2, this.getY() - 10);
 		DrawHelp.drawText(g, 15, ".",
-				this.getX(), this.getY());*/
-		g.setColor(Color.blue);
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
+				this.getX(), this.getY());
+	//	g.setColor(Color.blue);
+	//	g.fillRect(getX(), getY(), getWidth(), getHeight());
 		
 		
+	}
+	
+	public Image getImage(){
+		return this.currentImage;
+	}
+	
+	public String getImagePath(){
+		return this.imagePath;
+	}
+	
+	public String getImageType(){
+		return this.imageType;
 	}
 	
 	public String getName(){

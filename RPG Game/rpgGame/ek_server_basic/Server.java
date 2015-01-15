@@ -11,6 +11,8 @@ import java.util.Queue;
 
 import javax.swing.JOptionPane;
 
+import rpg_game_components.MultiplayerPlayer;
+
 public class Server extends StoppableThread implements Runnable {
 
 	private final int port, maxClients;
@@ -18,6 +20,7 @@ public class Server extends StoppableThread implements Runnable {
 	private final String serverName;
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static Queue<String> allMessages = new LinkedList<String>();
+	public static Queue<MultiplayerPlayer> allMultiPlayers= new LinkedList<MultiplayerPlayer>();
 	private EKConsole console;
 	
 	/**

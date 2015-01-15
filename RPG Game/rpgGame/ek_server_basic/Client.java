@@ -21,11 +21,11 @@ public class Client extends StoppableThread implements Runnable{
 	public static final String JOIN_SUCCESSFUL = "JOIN_SUCCESSFUL";
 	public static final String JOIN_FAIL = "JOIN_FAIL";
 	public static final String LIST = "LIST";
-	public static final String FETCH = "FETCH";
+	public static final String FETCH = "FETCH"; //user request to get the next message
+	public static final String FETCH_PLAYER_BOUNDS = "FETCH_PLAYER_BOUNDS"; //user request to get the next message
 	public static final String DISCONNECT = "DISCONNECT";
-	public static final String SEND_MESSAGE = "SEND_MESSAGE";
+	public static final String SEND_MESSAGE = "SEND_MESSAGE"; //if user wants to make everyone see meessage
 	public static final String SEND_PLAYER_BOUNDS = "SEND_PLAYER_BOUNDS";
-
 	
 	public Client(String host, int port){
 		console = new EKConsole(500, 500, "RPG Game Client Debugger", Color.white, Color.GREEN);
@@ -61,8 +61,14 @@ public class Client extends StoppableThread implements Runnable{
 				tFetch.start();
 				
 				while(this.isActive()){
-					if(System.nanoTime() % 1000000 == 0)
+					if(System.nanoTime() % 10000000 == 0){
 						fetch();
+					}
+					
+					if(System.nanoTime() % 100000 == 0){
+						fetchPlayerBounds();
+					}
+					
 					if(System.nanoTime() % 10000000 == 0)
 						list();
 				}
@@ -83,6 +89,11 @@ public class Client extends StoppableThread implements Runnable{
 		System.out.println("Disconnected everything");
 	}
 	
+	private void fetchPlayerBounds(){
+		out.println(this.FETCH_PLAYER_BOUNDS);
+		out.flush();
+	}
+	
 	private void fetch(){
 		out.println(this.FETCH);
 		out.flush();
@@ -99,8 +110,8 @@ public class Client extends StoppableThread implements Runnable{
 	}
 	
 	//x , y, w, h
-	public void sendPlayerBounds(String name, Rectangle rect, String imageType, String path, int width, int height){
-		out.println(Client.SEND_PLAYER_BOUNDS + "/" + name + "/" + rect.x + "/" + rect.y + "/" + rect.width + "/" + rect.height + "/" + imageType + "/" + path + "/" + width + "/" + height);
+	public void sendPlayerBounds(String name, Rectangle rect, String imageType, String path){
+		out.println(Client.SEND_PLAYER_BOUNDS + "/" + name + "/" + rect.x + "/" + rect.y + "/" + rect.width + "/" + rect.height + "/" + imageType + "/" + path);
 		out.flush();
 	}
 	

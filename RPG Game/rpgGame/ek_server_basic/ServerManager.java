@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import rpg_game_components.MultiplayerPlayer;
+
 public class ServerManager extends StoppableThread implements Runnable{
 
 	private EKConsole console;
@@ -15,9 +17,11 @@ public class ServerManager extends StoppableThread implements Runnable{
 	private static final String JOIN_FAIL = "JOIN_FAIL";
 	private static final String LIST = "LIST";
 	private static final String FETCH = "FETCH"; //user request to get the next message
+	private static final String FETCH_PLAYER_BOUNDS = "FETCH_PLAYER_BOUNDS"; //user request to get the next message
 	private static final String DISCONNECT = "DISCONNECT";
 	private static final String SEND_MESSAGE = "SEND_MESSAGE"; //if user wants to make everyone see meessage
 	private static final String SEND_PLAYER_BOUNDS = "SEND_PLAYER_BOUNDS";
+
 
 	//private static final String JOIN = "JOIN";*/
 
@@ -47,9 +51,12 @@ public class ServerManager extends StoppableThread implements Runnable{
 					}
 					
 					else if(parts[0].equals(SEND_PLAYER_BOUNDS)){
-						this.handleSendPlayerBounds(parts, out);
+						this.handleSendPlayerBounds(parts);
 					}
 					
+					else if(parts[0].equals(FETCH_PLAYER_BOUNDS)){
+						handleFetchPlayerBounds(out);
+					}
 					
 					
 					else if(parts[0].equals(DISCONNECT)){
@@ -57,7 +64,7 @@ public class ServerManager extends StoppableThread implements Runnable{
 					}
 					
 					else if(parts[0].equals(FETCH)){
-						handleFetch(parts, out);
+						handleFetch(out);
 					}
 					
 					else if(parts[0].equals(LIST)){
@@ -104,7 +111,7 @@ public class ServerManager extends StoppableThread implements Runnable{
 	/**
 	 * FETCH
 	 */
-	private void handleFetch(String[] parts, PrintWriter out){
+	private void handleFetch(PrintWriter out){
 		//console.println("Server recieved Fetch");
 		String messageToSend = Server.allMessages.poll();
 		if(messageToSend != null)
@@ -148,10 +155,26 @@ public class ServerManager extends StoppableThread implements Runnable{
 	}
 	
 	/**
-	 * PLAYER BOUNDS
+	 * Fetch Player bOUnds
+	 */
+	private void handleFetchPlayerBounds(PrintWriter out){
+		MultiplayerPlayer player = Server.allMultiPlayers.poll();
+		if(player != null){
+			out.println(FETCH_PLAYER_BOUNDS + "/" + player.getName() + "/" + player.getX() + "/" + player.getY() + "/" + player.getWidth() + "/" + player.getHeight() + "/" + player.getImageType() + "/" + player.getImagePath());
+		}
+		else
+		{
+			out.println(FETCH_PLAYER_BOUNDS + "/" + "NULL");
+		}
+		out.flush();
+	//console.println(FETCH_PLAYER_BOUNDS);
+	}
+	
+	/**
+	 * Send PLAYER BOUNDS
 	 * @param parts
 	 */
-	private void handleSendPlayerBounds(String[] parts, PrintWriter out){
+	private void handleSendPlayerBounds(String[] parts){
 		String name = parts[1];
 		int xPos = Integer.parseInt(parts[2]);
 		int yPos = Integer.parseInt(parts[3]);
@@ -159,15 +182,15 @@ public class ServerManager extends StoppableThread implements Runnable{
 		int height = Integer.parseInt(parts[5]);
 		String imageType = parts[6];
 		String imagePath = this.getRestOfMessage(7, 9, parts);
-		int imageW = Integer.parseInt(parts[10]);
-		int imageH = Integer.parseInt(parts[11]);
-		console.println("Server received Player : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height );
+		//console.println("Server received Player : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height );
 		
 
-		console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
+		//console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
 
-		out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height + "/" + imageType + "/" + imagePath + "/" + imageW + "/" + imageH);
-		out.flush();
+	//	out.println(SEND_PLAYER_BOUNDS + "/" + name + "/" + xPos + "/" + yPos + "/" + width + "/" + height + "/" + imageType + "/" + imagePath + "/" + imageW + "/" + imageH);
+	//	out.flush();
+		
+		Server.allMultiPlayers.add(new MultiplayerPlayer(xPos, yPos, width, height, name, imagePath, imageType));
 	}
 	
 	/**
