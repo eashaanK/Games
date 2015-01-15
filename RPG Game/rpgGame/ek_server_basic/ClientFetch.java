@@ -53,6 +53,8 @@ public class ClientFetch extends StoppableThread implements Runnable{
 		String imageType = parts[6];
 		String imagePath = parts[7];
 		
+		System.out.println(imagePath); //not collective!!!!!!
+
 	//	Client.console.println("Bounds : name: " + name + " x:" + xPos + " y:" + yPos + " w: " + width + " h:" + height);
 	//	Client.console.println("imageType: " + imageType + " imagePath: " + imagePath + " image Width: " + imageW + " imageHeight: " + imageH);
 
@@ -60,8 +62,8 @@ public class ClientFetch extends StoppableThread implements Runnable{
 		
 		if(!mult.getName().equals(Game.player.getName()))
 		{
-			System.out.println("This client belongs to : " + Game.player.getName() + " name recieved: " + name);
-			if(Game.onlinePlayers.contains(mult.getName()))
+			//System.out.println("This client belongs to : " + Game.player.getName() + " name recieved: " + name);
+			if(!Game.onlinePlayers.contains(mult.getName()))
 				Game.onlinePlayers.add(mult);	
 		}
 	}

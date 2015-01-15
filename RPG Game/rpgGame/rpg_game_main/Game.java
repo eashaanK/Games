@@ -165,7 +165,6 @@ public class Game {
 			p.render(g, obs);
 		}*/
 		MultiplayerPlayer p = onlinePlayers.poll();
-		System.out.println(p==null);
 		if(p != null){
 			p.update();
 			p.render(g, obs);
