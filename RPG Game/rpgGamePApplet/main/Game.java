@@ -1,8 +1,12 @@
 package main;
 
+import controlP5.Button;
+import controlP5.ControlEvent;
+import controlP5.ControlP5;
 import controls.Controls;
 import controls.Key;
 import gameObject.Player;
+import helpers.DrawHelp;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -17,17 +21,24 @@ public class Game extends PApplet{
 
 	public static Player player;
 	private Controls controls;
-	
+	public static final int WIDTH = 800, HEIGHT = 800;
+	public static ControlP5 gui;
+
 	
 	public void setup(){
-		size(800, 800);
+		size(WIDTH, WIDTH);
 		controls = new Controls();
-		player = new Player(this, width/2f, height/2f, "BOB");
+		player = new Player(this, "boy_images/BlueBoySpriteSheet122X163.png", width/2f, height/2f, "BOB");
+		initGUI();
 	}
 	
 	public void draw(){
 		background(255, 255, 255);
 		//draw everything relative to world
+		textSize(15);
+		fill(0, 0, 0);
+		text("(" + mouseX + " , " + mouseY + ")", mouseX, mouseY);
+	
 		this.moveWorld();
 		fill(1, 1, 255);
 		rect(10, 10, 100, 20);
@@ -35,11 +46,12 @@ public class Game extends PApplet{
 		
 		
 		//draw everything relative to screen
-		player.update(this);
-		player.draw(this);
+		player.update();
+		player.draw();
 		updatePlayerMovements();
-			
 		
+	
+
 	}
 	
 	
@@ -65,7 +77,19 @@ public class Game extends PApplet{
 		controls.removeButton(e.getButton());
 	}
 	
+	public void controlEvent(ControlEvent theEvent){
+		 if(theEvent.getController().getName().equals("Button 1")){
+			 System.out.println("Button 1 pressed");
+		 }
+	}
+	
 	/////////////////////////////////////////////////////////////////////////
+	
+	private void initGUI(){
+		gui = new ControlP5(this);
+		Button tempB = gui.addButton("Button 1");	
+	}
+	
 	private void moveWorld(){
 		g.translate(-player.X() + width / 2, -player.Y() + height / 2);
 		fill(0, 255, 0);

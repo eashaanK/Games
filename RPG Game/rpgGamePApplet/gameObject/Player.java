@@ -1,37 +1,39 @@
 package gameObject;
 
+import java.awt.Color;
+
+import main.Game;
+import helpers.DrawHelp;
 import processing.core.PApplet;
-import processing.core.PImage;
-import sprite.Sprite;
+
+
 
 public class Player extends GameObject{
+	
+	public static final float MAX_HEALTH = 10;
 
-	public Player(PApplet p, float x, float y,
-			String name) {
-		super(p, x, y, 40, 40, name);
-		Sprite sprite = this.getSprite();
-		sprite.addUp("rpgGame/rpg_game_images/boy up 1.png");
-		sprite.addUp("rpgGame/rpg_game_images/boy up 2.png");
-		sprite.addUp("rpgGame/rpg_game_images/boy up 3.png");
+	public Player(PApplet p, String spritePath, float x, float y, String name) {
+		super(p, spritePath, x, y, 40, 40, name);
+		this.getSprite().changeSpeed(0.3f);
+		this.setHealth(MAX_HEALTH);
+		System.out.println(health);
 
-		// down
-		sprite.addDown("rpgGame/rpg_game_images/boy down 1.png");
-		sprite.addDown("rpgGame/rpg_game_images/boy down 2.png");
-		sprite.addDown("rpgGame/rpg_game_images/boy down 3.png");
-
-		// left
-		sprite.addLeft("rpgGame/rpg_game_images/boy left 1.png");
-		sprite.addLeft("rpgGame/rpg_game_images/boy left 2.png");
-		sprite.addLeft("rpgGame/rpg_game_images/boy left 3.png");
-
-		// right
-		sprite.addRight("rpgGame/rpg_game_images/boy right 1.png");
-		sprite.addRight("rpgGame/rpg_game_images/boy right 2.png");
-		sprite.addRight("rpgGame/rpg_game_images/boy right 3.png");
-		sprite.initCurrentPImage(sprite.getDown().get(0));
 	}
+	
+	@Override
+	public void draw(){
+		super.draw();
+		//draw health bar
+		float percentHealth = (health / MAX_HEALTH);
+		int redColor = (int)(255 - 255 * percentHealth);
+		int greenColor = (int)(255 * percentHealth);
+		DrawHelp.drawFixedRect(parent, Color.white, 30, 740, 740, 12, pos.x, pos.y);
+		if(redColor <= 255 && greenColor >= 0){
+			DrawHelp.drawFixedRect(parent, new Color(redColor, greenColor, 0, 255), 31, 741, 739 * percentHealth, 11, pos.x, pos.y);
+		}
 
+	}
 	
-	
+
 	
 }
