@@ -6,9 +6,9 @@ import sprite.Sprite;
 
 public class Player extends GameObject{
 
-	public Player(PApplet p, float x, float y, float width, float height,
+	public Player(PApplet p, float x, float y,
 			String name) {
-		super(p, x, y, width, height, name);
+		super(p, x, y, 40, 40, name);
 		Sprite sprite = this.getSprite();
 		sprite.addUp("rpgGame/rpg_game_images/boy up 1.png");
 		sprite.addUp("rpgGame/rpg_game_images/boy up 2.png");

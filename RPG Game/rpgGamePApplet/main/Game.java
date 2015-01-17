@@ -9,6 +9,10 @@ import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
+//204, 2, 255 hair
+//eyes 201, 127, 246
+//skin 193, 137, 228
+//clothes 214, 192, 227
 public class Game extends PApplet{
 
 	public static Player player;

@@ -40,7 +40,6 @@ public class GameObject {
 	}
 	
 	public void update(PApplet parent){
-		sprite.update();
 	}
 	
 	public PVector getPos() {
