@@ -20,6 +20,14 @@ public class Player extends GameObject{
 
 	}
 	
+	public Player(PApplet p, int[] pixels, float x, float y, String name) {
+		super(p, pixels, x, y, 40, 40, name);
+		this.getSprite().changeSpeed(0.3f);
+		this.setHealth(MAX_HEALTH);
+		System.out.println(health);
+
+	}
+	
 	@Override
 	public void draw(){
 		super.draw();

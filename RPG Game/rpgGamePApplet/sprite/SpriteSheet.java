@@ -32,7 +32,35 @@ public class SpriteSheet {
 		}
 		
 		setSpriteString(spriteSheet.pixels);
+	}
+	
+	private void init(int[] pixels, int width, int height){
+		spriteSheet = parent.loadImage("boy_images/SpriteSheetTemplate.png");
 		
+		System.out.println(spriteSheet.pixels.length + " " + pixels.length);
+
+		
+		spriteSheet.loadPixels();
+		spriteSheet.pixels = pixels;
+		spriteSheet.updatePixels();
+		
+		
+		spriteSheetPixels = new int[120][160];
+		int[][] D1 = new int[40][40];
+
+		this.changeTo2D(spriteSheet.pixels, spriteSheetPixels);
+		// spriteSheetPixels contains the correct values. Next, assign the
+		// correct the image values to arrays
+
+		for (int r = 0; r < spriteSheetPixels.length; r++) {
+			for (int c = 0; c < spriteSheetPixels[r].length; c++) {
+				if (r < 40 && c < 40) {// still in D1
+					D1[r][c] = spriteSheetPixels[r][c];
+				}
+			}
+		}
+		
+		setSpriteString(spriteSheet.pixels);
 	}
 
 	public SpriteSheet(PApplet parent, String path, float w, float h, float speed) {
@@ -43,8 +71,15 @@ public class SpriteSheet {
 		init(path);	
 	}
 	
+	public SpriteSheet(PApplet parent, int[] pixels, float w, float h, float speed) {
+		this.width = w;
+		this.height = h;
+		this.inc = speed; 
+		this.parent = parent;
+		init(pixels, (int)w, (int)h);	
+	}
 	
-	public SpriteSheet(PApplet parent, float w, float h, String path) {
+	public SpriteSheet(PApplet parent, String path, float w, float h) {
 		this(parent, path, w, h, 0.25f);
 	}
 
@@ -73,8 +108,6 @@ public class SpriteSheet {
 		int iR = (int)(currC * width);
 		int iC = (int)(currR * height);
 		
-	
-		System.out.println("Row: " + iR + " Col: " + iC);
 
 
 		int index = 0;

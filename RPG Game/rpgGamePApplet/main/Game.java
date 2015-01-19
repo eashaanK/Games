@@ -1,6 +1,9 @@
 package main;
 
+import java.awt.Color;
+
 import gameObject.Player;
+import helpers.DrawHelp;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -26,24 +29,32 @@ public class Game extends PApplet{
 		
 		singlePlayer = new SinglePlayerGame(this);
 		multiPlayer = new MultiPlayerGame(this);
+		
+
 	}
 	
 	public void draw(){
 		background(255, 255, 255);
 		//draw everything relative to world
+
 		switch(gameState){
 		case Welcome:
+			g.resetMatrix();
+			textSize(20);
+			fill(0, 0, 0);
+			text(gameState + "", width/2 - 100, 50);
+			//DrawHelp.drawFixedText(this, gameState + "", Color.black, width/2 - 100, 50, 0, 0);
 			break;
 		case SinglePlayer:
 			this.moveWorld(singlePlayer.player);
 			//draw the level here
 			this.singlePlayer.drawPostTranslate();
-	
+			DrawHelp.drawFixedText(this, gameState + "", Color.black, width/2 - 100, 50, singlePlayer.player.X(), singlePlayer.player.Y(), 20);
 			break;
 		case MultiPlayer:
 			this.moveWorld(multiPlayer.player);
 			this.multiPlayer.drawPostTranslate();
-			
+			DrawHelp.drawFixedText(this, gameState + "", Color.black, width/2 - 100, 50, multiPlayer.player.X(), multiPlayer.player.Y(), 20);
 			break;
 		case Options:
 			break;
@@ -60,6 +71,7 @@ public class Game extends PApplet{
 	@Override
 	public void keyPressed(KeyEvent e){
 		controls.addKey(e.getKeyCode());
+
 		switch(gameState){
 		case Welcome:
 		//	this.welcome.keyPressed(e);

@@ -1,6 +1,6 @@
 package main;
 
-import ek_server_basic.Server;
+import serverComponents.Server;
 
 public class TemporaryServer {
 

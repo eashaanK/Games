@@ -25,6 +25,15 @@ public class GameObject {
 		this.name = name;
 	}
 	
+	public GameObject(PApplet p, int[] pixels, float x, float y, float width, float height, String name) {
+		this.parent = p;
+		this.pos = new PVector(x, y);
+		this.width = width;
+		this.height = height;
+		this.sprite = new SpriteSheet(parent, pixels, width, height, 0.20f);
+		this.name = name;
+	}
+	
 	public GameObject(PApplet p, String spritePath, float x, float y, float width, float height, String name){
 		this(p, spritePath, new PVector(x, y), width, height, name);
 	}
@@ -148,7 +157,7 @@ public class GameObject {
 		return health;
 	}
 	
-	protected void setHealth(float h){
+	public void setHealth(float h){
 		this.health = h;
 	}
 	public PApplet getParent(){

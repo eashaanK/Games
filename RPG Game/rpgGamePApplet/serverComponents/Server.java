@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.JOptionPane;
 
@@ -17,6 +19,14 @@ public class Server extends StoppableThread implements Runnable {
 	private final String serverName;
 	public ArrayList<Socket> sockets = new ArrayList<Socket>();
 	private EKConsole console;
+	
+	public static Queue<String> ai = new LinkedList<String>();
+	public static Queue<String> messages = new LinkedList<String>();
+	public static Queue<String> mgs = new LinkedList<String>();
+	public static Queue<String> map = new LinkedList<String>();
+	public static Queue<String> players = new LinkedList<String>();
+
+	public static ArrayList<String> names = new ArrayList<String>();
 	
 	/**
 	 * Starts a new Server on the current computer

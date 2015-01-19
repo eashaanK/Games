@@ -1,6 +1,11 @@
 package main;
 
 import gameObject.Player;
+
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import processing.core.PApplet;
 import processing.core.PVector;
 import processing.event.KeyEvent;
@@ -9,27 +14,43 @@ import serverComponents.Client;
 import controls.Key;
 
 public class MultiPlayerGame {
-	public PApplet parent;
+	public static PApplet parent;
 	private float width, height;
-	public Player player;
+	public static Player player;
 	public Client client;
+	public static boolean isJoined = false;
+	
+	public static ArrayList<MultiPlayer> onlinePlayers = new ArrayList<MultiPlayer>();
 
 	public MultiPlayerGame(PApplet parent){
 		this.parent = parent;
 		this.width = parent.width;
 		this.height = parent.height;
-		player = new Player(parent, "boy_images/BlueBoySpriteSheet122X163.png", width/2f, height/2f, "BOB");
-		this.attempConnect();
+		player = new Player(parent, "boy_images/BlueBoySpriteSheet122X163.png", width/2f, height/2f, JOptionPane.showInputDialog("Enter name:"));
+		System.out.println("PRESS A KEY ONE TO JOIN SERVER");
+		this.attempConnect(); //REMOVE THIS
+
 	}
 	
-	private void attempConnect(){
+	public void attempConnect(){
 		client = new Client("localhost", 8888);
+		Thread clientT = new Thread(client);
+		clientT.start();
 	}
 	
 	public void drawPostTranslate(){
-		player.update();
-		player.draw();
-		updatePlayerMovements();
+		if(isJoined){
+			player.update();
+			player.draw();
+			updatePlayerMovements();
+			if(System.nanoTime()%10000 == 0)
+				client.sendPlayer(player);
+			for(Player p : onlinePlayers)
+			{
+				p.update();
+				p.draw();
+			}
+		}
 	}
 	
 	public void keyPressed(KeyEvent e){
