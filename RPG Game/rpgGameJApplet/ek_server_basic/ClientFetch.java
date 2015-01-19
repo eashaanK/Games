@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import rpg_game_components.MultiplayerPlayer;
 import rpg_game_main.Game;
 import rpg_game_main.GameState;
+import serverComponents.StoppableThread;
 
 public class ClientFetch extends StoppableThread implements Runnable{
 

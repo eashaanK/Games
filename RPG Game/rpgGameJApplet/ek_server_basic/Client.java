@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import serverComponents.StoppableThread;
+
 public class Client extends StoppableThread implements Runnable{
 
 	private Socket socket;

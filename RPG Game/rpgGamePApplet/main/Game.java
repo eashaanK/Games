@@ -1,17 +1,10 @@
 package main;
 
-import controlP5.Button;
-import controlP5.ControlEvent;
-import controlP5.ControlP5;
-import controls.Controls;
-import controls.Key;
 import gameObject.Player;
-import helpers.DrawHelp;
 import processing.core.PApplet;
-import processing.core.PImage;
-import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
+import controls.Controls;
 
 //204, 2, 255 hair
 //eyes 201, 127, 246
@@ -19,38 +12,45 @@ import processing.event.MouseEvent;
 //clothes 214, 192, 227
 public class Game extends PApplet{
 
-	public static Player player;
-	private Controls controls;
+	public static Controls controls;
 	public static final int WIDTH = 800, HEIGHT = 800;
-	public static ControlP5 gui;
+	public SinglePlayerGame singlePlayer;
+	public MultiPlayerGame multiPlayer;
+	public static GameState gameState = GameState.MultiPlayer;
+//	public static ControlP5 gui;
 
 	
 	public void setup(){
 		size(WIDTH, WIDTH);
 		controls = new Controls();
-		player = new Player(this, "boy_images/BlueBoySpriteSheet122X163.png", width/2f, height/2f, "BOB");
-		initGUI();
+		
+		singlePlayer = new SinglePlayerGame(this);
+		multiPlayer = new MultiPlayerGame(this);
 	}
 	
 	public void draw(){
 		background(255, 255, 255);
 		//draw everything relative to world
-		textSize(15);
-		fill(0, 0, 0);
-		text("(" + mouseX + " , " + mouseY + ")", mouseX, mouseY);
+		switch(gameState){
+		case Welcome:
+			break;
+		case SinglePlayer:
+			this.moveWorld(singlePlayer.player);
+			//draw the level here
+			this.singlePlayer.drawPostTranslate();
 	
-		this.moveWorld();
-		fill(1, 1, 255);
-		rect(10, 10, 100, 20);
-		text("10, 10", 10, 10);
-		
-		
-		//draw everything relative to screen
-		player.update();
-		player.draw();
-		updatePlayerMovements();
-		
-	
+			break;
+		case MultiPlayer:
+			this.moveWorld(multiPlayer.player);
+			this.multiPlayer.drawPostTranslate();
+			
+			break;
+		case Options:
+			break;
+		case Pause:
+			break;
+		}
+			
 
 	}
 	
@@ -60,69 +60,105 @@ public class Game extends PApplet{
 	@Override
 	public void keyPressed(KeyEvent e){
 		controls.addKey(e.getKeyCode());
+		switch(gameState){
+		case Welcome:
+		//	this.welcome.keyPressed(e);
+			break;
+		case SinglePlayer:			
+			this.singlePlayer.keyPressed(e);
+			break;
+		case MultiPlayer:
+			this.multiPlayer.keyPressed(e);
+			break;
+		case Options:
+		//	this.options.keyPressed(e);
+			break;
+		case Pause:
+		//	this.pause.keyPressed(e);
+			break;
+		}
 	}
 	
 	@Override
 	public void keyReleased(KeyEvent e){
 		controls.removeKey(e.getKeyCode());
+		switch(gameState){
+		case Welcome:
+		//	this.welcome.keyReleased(e);
+			break;
+		case SinglePlayer:			
+			this.singlePlayer.keyReleased(e);
+			break;
+		case MultiPlayer:
+			this.multiPlayer.keyReleased(e);
+			break;
+		case Options:
+		//	this.options.keyReleased(e);
+			break;
+		case Pause:
+		//	this.pause.keyReleased(e);
+			break;
+		}
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent e){
 		controls.addButton(e.getButton());
+		switch(gameState){
+		case Welcome:
+		//	this.welcome.mousePressed(e);
+			break;
+		case SinglePlayer:			
+			this.singlePlayer.mousePressed(e);
+			break;
+		case MultiPlayer:
+			this.multiPlayer.mousePressed(e);
+			break;
+		case Options:
+		//	this.options.mousePressed(e);
+			break;
+		case Pause:
+		//	this.pause.mousePressed(e);
+			break;
+		}
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent e){
 		controls.removeButton(e.getButton());
+		switch(gameState){
+		case Welcome:
+		//	this.welcome.mouseReleased(e);
+			break;
+		case SinglePlayer:			
+			this.singlePlayer.mouseReleased(e);
+			break;
+		case MultiPlayer:
+			this.multiPlayer.mouseReleased(e);
+			break;
+		case Options:
+		//	this.options.mouseReleased(e);
+			break;
+		case Pause:
+		//	this.pause.mouseReleased(e);
+			break;
+		}
 	}
 	
-	public void controlEvent(ControlEvent theEvent){
+/*	public void controlEvent(ControlEvent theEvent){
 		 if(theEvent.getController().getName().equals("Button 1")){
 			 System.out.println("Button 1 pressed");
 		 }
 	}
-	
+	*/
 	/////////////////////////////////////////////////////////////////////////
 	
-	private void initGUI(){
-		gui = new ControlP5(this);
-		Button tempB = gui.addButton("Button 1");	
-	}
-	
-	private void moveWorld(){
+	private void moveWorld(Player player){
 		g.translate(-player.X() + width / 2, -player.Y() + height / 2);
-		fill(0, 255, 0);
-		rect(0, 0, width, height);
 	}
 	
-	public static void allowMovement(){
-		player.setCanMove(true);
-	}
 	
-	public static void disallowMovement(){
-		player.setCanMove(false);
-	}
 	
-	private void updatePlayerMovements(){
-		if(!player.canMove()){
-			System.err.println("Player could not move");
-			return;
-		}
-		PVector speed = new PVector(5, 5);
-		if(controls.keyHeld(Key.W))
-			player.moveBy(0, -speed.y); 
-		
-		if(controls.keyHeld(Key.S))
-			player.moveBy(0, speed.y);
 
-		if(controls.keyHeld(Key.A))
-			player.moveBy(-speed.x, 0); 
-		
-		if(controls.keyHeld(Key.D))
-			player.moveBy(speed.x, 0); 
-
-	
-	}
 }
 

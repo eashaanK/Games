@@ -1,4 +1,4 @@
-package ek_server_basic;
+package serverComponents;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,22 +6,16 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import javax.swing.JOptionPane;
 
-import rpg_game_components.MultiplayerPlayer;
-import serverComponents.StoppableThread;
 
 public class Server extends StoppableThread implements Runnable {
 
 	private final int port, maxClients;
 	private ServerSocket server;
 	private final String serverName;
-	public static ArrayList<User> users = new ArrayList<User>();
-	public static Queue<String> allMessages = new LinkedList<String>();
-	public static Queue<MultiplayerPlayer> allMultiPlayers= new LinkedList<MultiplayerPlayer>();
+	public ArrayList<Socket> sockets = new ArrayList<Socket>();
 	private EKConsole console;
 	
 	/**
@@ -74,29 +68,23 @@ public class Server extends StoppableThread implements Runnable {
 		} catch (IOException e) {
 			String tempError = "Server: " + this.serverName + " could not start a server. Check BasicServer class.";
 			System.err.println(tempError);
-			//console.println(tempError);
+			console.println(tempError);
 			JOptionPane.showMessageDialog(null, tempError, this.getName(), JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 		
 	}
 	
-	/*******
-	 * THE CIENT MUST INSTANTLY SEND ITS NAME TO SERVER
-	 */
-	
 	private void startLimitedServer(){
 		for(int i = 0; i < this.maxClients && this.isActive(); i++){
 			Socket socket;
 			try {
-				console.println("Wating for client to join: " + this.users.size() + "/" + this.maxClients);
+				console.println("Wating for client to join: " + this.sockets.size() + "/" + this.maxClients);
 				socket = server.accept();
-				//Scanner in = new Scanner(socket.getInputStream());
-			//	String name = in.nextLine();
-				//this.sockets.add(new User(socket, name));
+				this.sockets.add(socket);
 				//System.out.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
-				ServerManager bSM = new ServerManager(socket, this.console);
+				Manager bSM = new Manager(socket, this.console, this.sockets.size() -1);
 				Thread t = new Thread(bSM);
 				t.start();
 				console.println();
@@ -115,15 +103,12 @@ public class Server extends StoppableThread implements Runnable {
 		while(this.isActive()){
 			Socket socket;
 			try {
-				console.println("Wating for client to join: " + this.users.size() + "/" + "infinite");
+				console.println("Wating for client to join: " + this.sockets.size() + "/" + "infinite");
 				socket = server.accept();
-			//	Scanner in = new Scanner(socket.getInputStream());
-			//	String name = in.nextLine();
-			//	this.sockets.add(new User(socket, name));
+				this.sockets.add(socket);
 				//System.out.println("Client joined: " + socket.toString());
-			//	console.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
-				ServerManager bSM = new ServerManager(socket, console);
+				Manager bSM = new Manager(socket, console, this.sockets.size() -1);
 				Thread t = new Thread(bSM);
 				t.start();
 				console.println();
@@ -155,11 +140,6 @@ public class Server extends StoppableThread implements Runnable {
 			e.printStackTrace();
 		}
 		console.fullStop();
-	}
-	
-	
-	public static void addUser(User user){
-		Server.users.add(user);
 	}
 	
 	public boolean isActive(){

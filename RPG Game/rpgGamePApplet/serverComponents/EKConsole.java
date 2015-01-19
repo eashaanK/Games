@@ -1,4 +1,4 @@
-package ek_server_basic;
+package serverComponents;
 
 import java.awt.Color;
 import java.awt.Dimension;

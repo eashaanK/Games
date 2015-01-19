@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import rpg_game_components.MultiplayerPlayer;
+import serverComponents.StoppableThread;
 
 public class ServerManager extends StoppableThread implements Runnable{
 
