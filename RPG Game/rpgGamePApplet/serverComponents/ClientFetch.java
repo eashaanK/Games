@@ -103,24 +103,24 @@ public class ClientFetch extends StoppableThread implements Runnable{
 		byte currC = Byte.parseByte(parts[9]);
 		String soundFileName = parts[10];
 		
-		pixelsString = pixelsString.replace("(", "");
-		pixelsString = pixelsString.replace(")", "");
-		pixelsString = pixelsString.replace(" ", "");
 		
-		String[] pixelStringArray = pixelsString.split(",");
-		int[] playerImagePixels = new int[pixelStringArray.length];
-		
-		for(int i = 0; i < playerImagePixels.length; i++){
-			playerImagePixels[i] = Integer.parseInt(pixelStringArray[i]);
-		}
 
 
 	///	System.out.println(x + " " + y + " " + width + " " + height + " " + name + " " + health + " " + currR+ " " + currC + " " + soundFileName);
 	//	System.out.println(pixelsString);
 		int index = MGameHasName(MultiPlayerGame.onlinePlayers, name);
 		if( index == -1){ //its name is not in the list, meaning its not there
-			//System.out.println(x + " " + y + " " + width + " " + height + " " + name);
-		//	System.out.println(pixelsString.trim());
+			pixelsString = pixelsString.replace("(", "");
+			pixelsString = pixelsString.replace(")", "");
+			pixelsString = pixelsString.replace(" ", "");
+			
+			String[] pixelStringArray = pixelsString.split(",");
+			int[] playerImagePixels = new int[pixelStringArray.length];
+			
+			for(int i = 0; i < playerImagePixels.length; i++){
+				playerImagePixels[i] = Integer.parseInt(pixelStringArray[i]);
+			}
+			//playerImagePixels must not be the entire sprite sheet?
 			MultiPlayer p = new MultiPlayer(MultiPlayerGame.parent, playerImagePixels, x, y, name);
 			p.setWidth(width);
 			p.setHeight(height);
