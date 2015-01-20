@@ -38,7 +38,7 @@ public class Client extends StoppableThread implements Runnable {
 
 			join(MultiPlayerGame.player.getName());
 			while (this.isActive()) {
-				if (System.nanoTime() % 100000000 == 0) {
+			/*	if (System.nanoTime() % 100000000 == 0) {
 					this.fetchMap();
 				}
 				
@@ -50,7 +50,7 @@ public class Client extends StoppableThread implements Runnable {
 				if (System.nanoTime() % 100000 == 0) {
 					this.fetchPlayer();
 
-				}
+				}*/
 			}
 
 		} catch (UnknownHostException e) {
@@ -111,7 +111,7 @@ public class Client extends StoppableThread implements Runnable {
 		out.println(C.PLAYER + C.REGEX + p.X() + C.REGEX + p.Y() + C.REGEX
 				+ p.getWidth() + C.REGEX + p.getHeight() + C.REGEX + p.getName() + C.REGEX
 				+ p.getHealth() + C.REGEX
-				+ this.turnIntArrayToString(p.getSprite().spriteSheet.pixels) + C.REGEX
+				+ this.turnIntArrayToString(p.getCurrentImage().pixels) + C.REGEX
 				+ p.getSprite().currR + C.REGEX + p.getSprite().currC + C.REGEX
 				+ "NO SOUND FILE YET");
 		out.flush();

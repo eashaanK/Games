@@ -99,54 +99,62 @@ public class ClientFetch extends StoppableThread implements Runnable{
 			return;
 		float health = Float.parseFloat(parts[6]);
 		String pixelsString = parts[7];
-		byte currR = Byte.parseByte(parts[8]);
-		byte currC = Byte.parseByte(parts[9]);
+		byte currR = Byte.parseByte(parts[8]); //dont care
+		byte currC = Byte.parseByte(parts[9]); //dont care
 		String soundFileName = parts[10];
 		
 		
-
+		pixelsString = pixelsString.replace("(", "");
+		pixelsString = pixelsString.replace(")", "");
+		pixelsString = pixelsString.replace(" ", "");
+		
+		String[] pixelStringArray = pixelsString.split(",");
+		int[] playerImagePixels = new int[pixelStringArray.length];
+		
+		for(int i = 0; i < playerImagePixels.length; i++){
+			playerImagePixels[i] = Integer.parseInt(pixelStringArray[i]);
+		}
 
 	///	System.out.println(x + " " + y + " " + width + " " + height + " " + name + " " + health + " " + currR+ " " + currC + " " + soundFileName);
 	//	System.out.println(pixelsString);
 		int index = MGameHasName(MultiPlayerGame.onlinePlayers, name);
 		if( index == -1){ //its name is not in the list, meaning its not there
-			pixelsString = pixelsString.replace("(", "");
-			pixelsString = pixelsString.replace(")", "");
-			pixelsString = pixelsString.replace(" ", "");
 			
-			String[] pixelStringArray = pixelsString.split(",");
-			int[] playerImagePixels = new int[pixelStringArray.length];
-			
-			for(int i = 0; i < playerImagePixels.length; i++){
-				playerImagePixels[i] = Integer.parseInt(pixelStringArray[i]);
-			}
 			//playerImagePixels must not be the entire sprite sheet?
-			MultiPlayer p = new MultiPlayer(MultiPlayerGame.parent, playerImagePixels, x, y, name);
-			p.setWidth(width);
-			p.setHeight(height);
-			p.setHealth(health);
+			MultiPlayer p = new MultiPlayer(x, y, width, height, name, playerImagePixels, health);
+		//	p.setWidth(width);
+			//p.setHeight(height);
+		//	p.setHealth(health);
 			MultiPlayerGame.onlinePlayers.add(p);
 		}
 		
 		else
 		{
 			MultiPlayer p = MultiPlayerGame.onlinePlayers.get(index);
-			p.setX(x);
-			p.setY(y);
-			p.setWidth(width);
-			p.setHeight(height);
-			p.setName(name);
-			p.setHealth(health);
-			p.setCurrentR(currR);
-			p.setCurrentC(currC);
-			p.setCurrentSoundFile(soundFileName);
+			p.x = x;
+			p.y = y;
+			p.width = width;
+			p.height = height;
+			p.name = name;
+			p.health = health;
+			p.setCurrentPixels(playerImagePixels);
+			//p.setCurrentSoundFile(soundFileName);
+
+		//	p.setX(x);
+		//	p.setY(y);
+		//	p.setWidth(width);
+		//	p.setHeight(height);
+		//	p.setName(name);
+		//	p.setHealth(health);
+			//p.setCurrentR(currR);
+			//p.setCurrentC(currC);
 		}
 
 	}
 	
 	private int MGameHasName(ArrayList<MultiPlayer> array, String name){
 		for(int i = 0; i < array.size(); i++){
-			if(array.get(i).getName().equals(name))
+			if(array.get(i).name.equals(name))
 				return i;
 		}
 		

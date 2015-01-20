@@ -11,6 +11,7 @@ import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import serverComponents.Client;
+import serverComponents.MultiPlayer;
 import controls.Key;
 
 public class MultiPlayerGame {
@@ -45,10 +46,9 @@ public class MultiPlayerGame {
 			updatePlayerMovements();
 			if(System.nanoTime()%10000 == 0)
 				client.sendPlayer(player);
-			for(Player p : onlinePlayers)
+			for(MultiPlayer p : onlinePlayers)
 			{
-				p.update();
-				p.draw();
+				p.draw(this.parent);
 			}
 		}
 	}
