@@ -42,7 +42,7 @@ public class Client extends StoppableThread implements Runnable{
 						System.out.println("YAYA!!!!!!!!");
 					}
 					else if(parts[0].equals(C.JOIN_FAIL)){
-						JOptionPane.showMessageDialog(null,  "Server denied your connection on terms of your information.", C.JOIN_FAIL + " Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,  "Server denied your connection on terms of : " + parts[1], C.JOIN_FAIL + " Error", JOptionPane.ERROR_MESSAGE);
 						this.fullStop();
 					}
 					else if(parts[0].equals(C.PLAYER_INFO)){
@@ -62,7 +62,7 @@ public class Client extends StoppableThread implements Runnable{
 		}
 	}
 	
-	public void sendGameObject(GameObject p){
+	public void sendPlayer(GameObject p){
 		if(p == null)
 			throw new NullPointerException("U tried to send a null object to the server");
 		out.println(C.PLAYER_INFO +C.REGEX + C.DECOY + C.REGEX + p.getName() + C.REGEX + p.X() + C.REGEX + p.Y() + C.REGEX + p.A() + C.REGEX + p.C().getRed() + 

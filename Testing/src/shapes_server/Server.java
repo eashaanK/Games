@@ -17,16 +17,17 @@ public class Server extends StoppableThread implements Runnable {
 	private final int port, maxClients;
 	private ServerSocket server;
 	private final String serverName;
-	public ArrayList<Socket> sockets = new ArrayList<Socket>();
+	public static ArrayList<User> users = new ArrayList<User>();
 	private EKConsole console;
 	
-	public static Queue<String> ai = new LinkedList<String>();
+/*	public static Queue<String> ai = new LinkedList<String>();
 	public static Queue<String> messages = new LinkedList<String>();
 	public static Queue<String> mgs = new LinkedList<String>();
 	public static Queue<String> map = new LinkedList<String>();
 	public static Queue<String> players = new LinkedList<String>();
 
-	public static ArrayList<String> names = new ArrayList<String>();
+	public static ArrayList<String> names = new ArrayList<String>();*/
+	
 	
 	/**
 	 * Starts a new Server on the current computer
@@ -89,12 +90,11 @@ public class Server extends StoppableThread implements Runnable {
 		for(int i = 0; i < this.maxClients && this.isActive(); i++){
 			Socket socket;
 			try {
-				console.println("Wating for client to join: " + this.sockets.size() + "/" + this.maxClients);
+				console.println("Wating for client to join: " + this.users.size() + "/" + this.maxClients);
 				socket = server.accept();
-				this.sockets.add(socket);
 				//System.out.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
-				Manager bSM = new Manager(socket, this.console, this.sockets.size() -1);
+				Manager bSM = new Manager(socket, this.console, this.users.size());
 				Thread t = new Thread(bSM);
 				t.start();
 				console.println();
@@ -113,12 +113,11 @@ public class Server extends StoppableThread implements Runnable {
 		while(this.isActive()){
 			Socket socket;
 			try {
-				console.println("Wating for client to join: " + this.sockets.size() + "/" + "infinite");
+				console.println("Wating for client to join: " + this.users.size() + "/" + "infinite");
 				socket = server.accept();
-				this.sockets.add(socket);
 				//System.out.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
-				Manager bSM = new Manager(socket, console, this.sockets.size() -1);
+				Manager bSM = new Manager(socket, console, this.users.size());
 				Thread t = new Thread(bSM);
 				t.start();
 				console.println();

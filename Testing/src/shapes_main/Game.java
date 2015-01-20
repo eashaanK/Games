@@ -69,7 +69,8 @@ public class Game extends PApplet{
 		if(gameConnected){
 			if(otherPlayer != null && otherPlayer.isConnected){
 				otherPlayer.draw();
-				client.sendGameObject(player);
+				System.out.println("Now drawing the player");
+				client.sendPlayer(player);
 				otherPlayer.isConnected = client.isActive();
 			}
 		}
