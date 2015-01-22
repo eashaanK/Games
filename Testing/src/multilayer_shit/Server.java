@@ -1,4 +1,4 @@
-package shapes_server;
+package multilayer_shit;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,17 +17,16 @@ public class Server extends StoppableThread implements Runnable {
 	private final int port, maxClients;
 	private ServerSocket server;
 	private final String serverName;
-	public static ArrayList<User> users = new ArrayList<User>();
+	public ArrayList<Socket> sockets = new ArrayList<Socket>();
 	private EKConsole console;
 	
-/*	public static Queue<String> ai = new LinkedList<String>();
+	public static Queue<String> ai = new LinkedList<String>();
 	public static Queue<String> messages = new LinkedList<String>();
 	public static Queue<String> mgs = new LinkedList<String>();
 	public static Queue<String> map = new LinkedList<String>();
 	public static Queue<String> players = new LinkedList<String>();
 
-	public static ArrayList<String> names = new ArrayList<String>();*/
-	
+	public static ArrayList<String> names = new ArrayList<String>();
 	
 	/**
 	 * Starts a new Server on the current computer
@@ -60,7 +59,7 @@ public class Server extends StoppableThread implements Runnable {
 			String tempError = "Server: " + this.serverName + " quit right before it could do anything. Check class that starts Server Thread.";
 			System.err.println(tempError);
 			JOptionPane.showMessageDialog(null, tempError, this.getName(), JOptionPane.ERROR_MESSAGE);
-			this.fullStop();
+			this.stopThread();
 		}
 		
 		try {
@@ -90,11 +89,12 @@ public class Server extends StoppableThread implements Runnable {
 		for(int i = 0; i < this.maxClients && this.isActive(); i++){
 			Socket socket;
 			try {
-				console.println("Wating for client to join: " + this.users.size() + "/" + this.maxClients);
+				console.println("Wating for client to join: " + this.sockets.size() + "/" + this.maxClients);
 				socket = server.accept();
+				this.sockets.add(socket);
 				//System.out.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
-				Manager bSM = new Manager(socket, this.console, this.users.size());
+				Manager bSM = new Manager(socket, this.console, this.sockets.size() -1);
 				Thread t = new Thread(bSM);
 				t.start();
 				console.println();
@@ -113,11 +113,12 @@ public class Server extends StoppableThread implements Runnable {
 		while(this.isActive()){
 			Socket socket;
 			try {
-				console.println("Wating for client to join: " + this.users.size() + "/" + "infinite");
+				console.println("Wating for client to join: " + this.sockets.size() + "/" + "infinite");
 				socket = server.accept();
+				this.sockets.add(socket);
 				//System.out.println("Client joined: " + socket.toString());
 				console.println("Client joined: " + socket.toString());
-				Manager bSM = new Manager(socket, console, this.users.size());
+				Manager bSM = new Manager(socket, console, this.sockets.size() -1);
 				Thread t = new Thread(bSM);
 				t.start();
 				console.println();
@@ -132,8 +133,8 @@ public class Server extends StoppableThread implements Runnable {
 	}
 	
 	public void disconnect(boolean displayMessage){
-		this.stop();
-		this.disconnect();
+		this.stopThread();
+
 		//System.out.println(this.serverName + " isActive: " + this.isActive());
 		console.println(this.serverName + " isActive: " + this.isActive());
 		try {
@@ -148,7 +149,8 @@ public class Server extends StoppableThread implements Runnable {
 				JOptionPane.showMessageDialog(null, tempError, this.getName(), JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		console.fullStop();
+		console.stopThread();
+
 	}
 	
 	public boolean isActive(){

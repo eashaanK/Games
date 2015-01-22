@@ -1,4 +1,4 @@
-package shapes_server;
+package multilayer_shit;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,7 +13,6 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-
 
 public class EKConsole extends StoppableThread implements Runnable {
 
