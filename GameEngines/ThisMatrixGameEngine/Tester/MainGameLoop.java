@@ -1,42 +1,56 @@
 package Tester;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.RawModel;
 import renderEngine.Renderer;
+import shaders.StaticShader;
+
+/**
+ * https://www.youtube.com/watch?v=SPt-aogu72A&index=6&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP
+ * @author eashaan
+ *
+ */
 
 public class MainGameLoop {
 
 	public static void main(String[] args) {
+
 		DisplayManager.createDisplay();
-		
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
+		StaticShader shader = new StaticShader();
 		
-		float[] tempVertices = {
-				//left bottom triangle
-				-0.5f, 0.5f, 0f,
-				-0.5f, -0.5f, 0f, 
-				0.5f, -0.5f, 0f,
-				//RIght top triangle
-				0.5f, -0.5f, 0f,
-				0.5f, 0.5f, 0f,
-				-0.5f, 0.5f, 0f,
+		float[] vertices = {			
+				-0.5f,0.5f,0,	//V0
+				-0.5f,-0.5f,0,	//V1
+				0.5f,-0.5f,0,	//V2
+				0.5f,0.5f,0		//V3
 		};
 		
-		RawModel model = loader.loadToVao(tempVertices);
+		int[] indices = {
+				0,1,3,	//Top left triangle (V0,V1,V3)
+				3,1,2	//Bottom right triangle (V3,V1,V2)
+		};
+		
+		RawModel model = loader.loadToVAO(vertices,indices);
 		
 		while(!Display.isCloseRequested()){
-			renderer.prepare();
 			//game logic
-			//render
+			renderer.prepare();
+			shader.start();
 			renderer.render(model);
-			DisplayManager.updateDisplay();
+			shader.stop();
+			DisplayManager.updateDisplay();			
 		}
-		
+
+		shader.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
+
 	}
+
 }
