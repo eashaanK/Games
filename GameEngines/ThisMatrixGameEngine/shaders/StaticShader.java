@@ -9,9 +9,16 @@ public class StaticShader extends ShaderProgram{
 		super(VERTEX_FILE, FRAGMENT_FILE);
 	}
 
+	/**
+	 * The Attributes MUST MATCH the input variables
+	 * in the vertex shader since this method passes these to
+	 * the vertex shader
+	 */
 	@Override
 	protected void bindAttributes() {
 		super.bindAttribute(0, "position");
+		super.bindAttribute(1, "textureCoords");
+
 	}
 	
 	
