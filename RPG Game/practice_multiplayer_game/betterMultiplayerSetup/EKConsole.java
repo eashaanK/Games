@@ -1,3 +1,4 @@
+package betterMultiplayerSetup;
 
 
 import java.awt.Color;

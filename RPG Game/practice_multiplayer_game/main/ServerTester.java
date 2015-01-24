@@ -1,7 +1,7 @@
 package main;
 
-import multilayer_shit.Client;
-import multilayer_shit.Server;
+import betterMultiplayerSetup.Server;
+
 
 public class ServerTester {
 

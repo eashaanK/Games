@@ -1,3 +1,4 @@
+package betterMultiplayerSetup;
 
 public class ServerMain {
 

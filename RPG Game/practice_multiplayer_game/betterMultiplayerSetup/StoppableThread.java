@@ -1,4 +1,5 @@
-package multilayer_shit;
+package betterMultiplayerSetup;
+
 
 public class StoppableThread {
 

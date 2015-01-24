@@ -1,21 +1,27 @@
 package gameObjects;
 
-import multilayer_shit.C;
-import processing.core.PVector;
+import java.io.Serializable;
 
-public class GameObject {
+import processing.core.PVector;
+import betterMultiplayerSetup.Client;
+
+public class GameObject implements Serializable{
 
 	private PVector pos;
 	private float w, h;
 	private String name;
+	
+	private final int id;
 
-	public GameObject(float x, float y, float w, float h, String name){
+	public GameObject(float x, float y, float w, float h, String name, int id){
 		this.pos = new PVector(x, y);
 		this.w = w;
 		this.h = h;
 		this.name = name;
+		this.id = id;
 	}
 	
+
 	public float getW() {
 		return w;
 	}
@@ -62,11 +68,18 @@ public class GameObject {
 	}
 	
 	public String toString(){
-		return name + " " + pos.toString() + " w: " + w + " h: " + h;
+		return name + " " + pos.toString() + " w: " + w + " h: " + h + " id: " + this.id;
 	}
 	
-	public String toMultString(){
-		return name + C.REGEX + pos.toString() + C.REGEX + w + C.REGEX + h;
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof GameObject){
+			GameObject other = (GameObject)o;
+			return (other.id == this.id);
+		}
+		
+		
+		return false;
 	}
 	
 }

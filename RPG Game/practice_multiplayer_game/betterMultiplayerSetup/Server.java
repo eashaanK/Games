@@ -1,4 +1,5 @@
-package multilayer_shit;
+package betterMultiplayerSetup;
+
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,14 +20,6 @@ public class Server extends StoppableThread implements Runnable {
 	private final String serverName;
 	public ArrayList<Socket> sockets = new ArrayList<Socket>();
 	private EKConsole console;
-	
-	public static ArrayList<String> ai = new ArrayList<String>();
-	public static ArrayList<String> messages = new ArrayList<String>();
-	public static ArrayList<String> mgs = new ArrayList<String>();
-	public static ArrayList<String> map = new ArrayList<String>();
-	public static ArrayList<String> gameObjects = new ArrayList<String>();
-
-	public static ArrayList<String> names = new ArrayList<String>();
 	
 	/**
 	 * Starts a new Server on the current computer

@@ -1,4 +1,5 @@
-package multilayer_shit;
+package betterMultiplayerSetup;
+
 
 import java.sql.Timestamp;
 import java.util.Date;
