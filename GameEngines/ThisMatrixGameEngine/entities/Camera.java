@@ -1,6 +1,7 @@
 package entities;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
@@ -22,6 +23,12 @@ public class Camera {
 	
 	public void updateMove(){
 		float speed = 0.02f;
+		float sensitivityX = 10;
+		float sensitivityY = 2;
+		
+		this.pitch = -(float)Math.toRadians(Mouse.getY()) * sensitivityY;
+		this.yaw = (float)Math.toRadians(Mouse.getX()) * sensitivityX;
+
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			this.moveBy(0, 0, -speed);
 		}
@@ -37,6 +44,7 @@ public class Camera {
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
 			this.moveBy(0, 0, speed);
 		}
+		
 	}
 	
 	public Vector3f getPos() {
