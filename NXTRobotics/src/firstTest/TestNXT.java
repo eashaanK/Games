@@ -1,13 +1,14 @@
 package firstTest;
 
-import lejos.nxt.Motor;
+import lejos.nxt.Button;
+import lejos.nxt.LCD;
 
 
 public class TestNXT {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Motor.A.rotate(100);
+		System.out.println("LEGOS WORKS!!!!!");
+		Button.waitForAnyPress();
 	}
 
 }
