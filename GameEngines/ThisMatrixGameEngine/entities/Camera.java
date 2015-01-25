@@ -26,8 +26,8 @@ public class Camera {
 		float sensitivityX = 10;
 		float sensitivityY = 2;
 		
-		this.pitch = -(float)Math.toRadians(Mouse.getY()) * sensitivityY;
-		this.yaw = (float)Math.toRadians(Mouse.getX()) * sensitivityX;
+		/*this.pitch = -(float)Math.toRadians(Mouse.getY()) * sensitivityY;
+		this.yaw = (float)Math.toRadians(Mouse.getX()) * sensitivityX;*/
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			this.moveBy(0, 0, -speed);
