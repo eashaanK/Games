@@ -10,7 +10,7 @@ import textures.ModelTexture;
 public class ToolBox {
 
 	public static TexturedModel createTexturedModel(Loader loader, String objPath, String texturePath, boolean hasTransparency, boolean useFakeLighting, float shineDamper, float reflectivity){
-	
+
 		ModelData data = OBJFileLoader.loadOBJ(objPath);
 		RawModel rawModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
 		TexturedModel model = new TexturedModel(rawModel, new ModelTexture(
