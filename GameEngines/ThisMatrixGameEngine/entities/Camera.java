@@ -11,8 +11,8 @@ public class Camera {
 	private float yaw; //y axis left or right
 	private float roll;  //z axis tilted
 	
-	public Camera(){
-		
+	public Camera(Vector3f pos){
+		this.pos = pos;
 	}
 
 	public void moveBy(float dx, float dy, float dz){

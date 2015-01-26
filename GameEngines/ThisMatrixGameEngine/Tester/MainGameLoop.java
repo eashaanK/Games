@@ -1,73 +1,48 @@
 package Tester;
 
-import java.util.ArrayList;
-
-import models.TexturedModel;
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
-import renderEngine.OBJLoader;
 import terrains.Terrain;
 import textures.ModelTexture;
+import toolbox.ToolBox;
+import entities.Bush;
 import entities.Camera;
-import entities.Entity;
+import entities.Grass;
 import entities.Light;
+import entities.Tree;
 
 /**
  * https://www.youtube.com/watch?v=ZyzXBYVvjsg&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&index=15
- * 15
+ * 16
  * @author eashaan
  * 
  */
 
 public class MainGameLoop {
+	
+	private static Terrain terrain;
+	private static Camera camera = new Camera(new Vector3f(0, 1, 0));
+	private static Light light;
+
 
 	public static void main(String[] args) {
 
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
-
-		TexturedModel dragonModel = new TexturedModel(OBJLoader.loadObjModel(
-				"Stall Model and Texture/stall.obj", loader), new ModelTexture(
-				loader.loadTexture("Stall Model and Texture/stallTexture")));
-		ModelTexture texture = dragonModel.getTexture();
-		texture.setShineDamper(10);
-		texture.setReflectivity(1);
-
-		ArrayList<Entity> allEntities = new ArrayList<Entity>();
-		
-		for(int i = 0; i < 1; i++){
-			float x = (float)(Math.random() * 100 - 50);
-			float y = (float)(Math.random() * 100 - 50);
-			float z = (float)(Math.random() * -300);
-			
-			Entity entity = new Entity(dragonModel, new Vector3f(x, y, z), (float)(Math.random() * 180f), (float)(Math.random() * 180f), 0, 1);
-			allEntities.add(entity);
-		}
-		
-		Light light = new Light(new Vector3f(0, 20, -20f), new Vector3f(1, 1, 1));
-
-		Terrain terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("Terrain/grass")));
-		Terrain terrain2 = new Terrain(1, -1, loader, new ModelTexture(loader.loadTexture("Terrain/sand")));
+		init(loader);
 
 		
-		Camera camera = new Camera();
-		camera.moveBy(0, 1, 0);
-
 		MasterRenderer mRenderer = new MasterRenderer();
 		while (!Display.isCloseRequested()) {
-			camera.updateMove();
+			update();
 			//terrains
 			mRenderer.processTerrain(terrain);
-			mRenderer.processTerrain(terrain2);
 			//entities
-			for(Entity e: allEntities){
-				mRenderer.processEntity(e);
-			}
+			
 			//camera and light
 			mRenderer.render(light, camera);
 			//display
@@ -78,6 +53,22 @@ public class MainGameLoop {
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
 
+	}
+	
+	private static void init(Loader loader){
+		terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grassFlowers")));
+		light = new Light(new Vector3f(2000, 3000, 2000), new Vector3f(1, 1, 1));
+		for(int i = 0; i < 100; i++)
+			terrain.addTree(new Tree(ToolBox.createTexturedModel(loader, "tree.obj", "tree", false, false, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, 1));
+		for(int i = 0; i < 100; i++) //GrassModel comes in groups
+			terrain.addGrass(new Grass(ToolBox.createTexturedModel(loader, "grassModel.obj", "grassTexture", true, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.5f + 0.2f)));
+		for(int i = 0; i < 100; i++) //GrassModel comes in groups
+			terrain.addBush(new Bush(ToolBox.createTexturedModel(loader, "fern.obj", "fern", true, true,10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.2f)));
+	}
+	
+	private static void update(){
+		camera.updateMove();
+		//light.setPos(camera.getPos());
 	}
 
 }

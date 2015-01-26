@@ -1,18 +1,35 @@
 package terrains;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import models.RawModel;
+import models.TexturedModel;
+
+import org.lwjgl.util.vector.Vector3f;
+
 import renderEngine.Loader;
 import textures.ModelTexture;
+import entities.Bush;
+import entities.Grass;
+import entities.Rock;
+import entities.Tree;
 
 public class Terrain {
 
-	private static final float SIZE = 800;
+	public static final float SIZE = 100;
 	private static final int VERTEX_COUNT = 128;
 	
 	private float x;
 	private float z;
 	private RawModel model;
 	private ModelTexture texture;
+	
+	private static ArrayList<Tree> trees = new ArrayList<Tree>();
+	private static ArrayList<Grass> grass = new ArrayList<Grass>();
+	private static ArrayList<Bush> bushes = new ArrayList<Bush>();
+	private static ArrayList<Rock> rocks = new ArrayList<Rock>();
+
 
 	public Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture){
 		this.texture = texture;
@@ -31,7 +48,7 @@ public class Terrain {
 		for(int i=0;i<VERTEX_COUNT;i++){
 			for(int j=0;j<VERTEX_COUNT;j++){
 				vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
-				vertices[vertexPointer*3+1] = 0;
+				vertices[vertexPointer*3+1] = 0; //actual height???
 				vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * SIZE;
 				normals[vertexPointer*3] = 0;
 				normals[vertexPointer*3+1] = 1;
@@ -57,6 +74,54 @@ public class Terrain {
 			}
 		}
 		return loader.loadToVAO(vertices, textureCoords, normals, indices);
+	}
+	
+	public void addTree(Tree tree){
+		this.trees.add(tree);
+	}
+	
+	public void addGrass(Grass grass){
+		this.grass.add(grass);
+	}
+	
+	public void addBush(Bush bush){
+		this.bushes.add(bush);
+	}
+	
+	public void addRock(Rock rock){
+		this.rocks.add(rock);
+	}
+	
+	public void addTree(TexturedModel model, Vector3f pos, float rotX, float rotY, float rotZ, float scale){
+		this.trees.add(new Tree(model, pos, rotX, rotY, rotZ, scale));
+	}
+	
+	public void addGrass(TexturedModel model, Vector3f pos, float rotX, float rotY, float rotZ, float scale){
+		this.grass.add(new Grass(model, pos, rotX, rotY, rotZ, scale));
+	}
+	
+	public void addBush(TexturedModel model, Vector3f pos, float rotX, float rotY, float rotZ, float scale){
+		this.bushes.add(new Bush(model, pos, rotX, rotY, rotZ, scale));
+	}
+	
+	public void addRock(TexturedModel model, Vector3f pos, float rotX, float rotY, float rotZ, float scale){
+		this.rocks.add(new Rock(model, pos, rotX, rotY, rotZ, scale));
+	}
+
+	public List<Tree> getTrees(){
+		return this.trees;
+	}
+	
+	public List<Grass> getGrass(){
+		return this.grass;
+	}
+	
+	public List<Bush> getBushes(){
+		return this.bushes;
+	}
+	
+	public List<Rock> getRocks(){
+		return this.rocks;
 	}
 
 	public float getX() {

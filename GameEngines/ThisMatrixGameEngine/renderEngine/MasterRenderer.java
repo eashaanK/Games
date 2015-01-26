@@ -14,9 +14,13 @@ import org.lwjgl.util.vector.Matrix4f;
 import shaders.StaticShader;
 import shaders.TerrainShader;
 import terrains.Terrain;
+import entities.Bush;
 import entities.Camera;
 import entities.Entity;
+import entities.Grass;
 import entities.Light;
+import entities.Rock;
+import entities.Tree;
 
 public class MasterRenderer {
 
@@ -36,12 +40,20 @@ public class MasterRenderer {
 
 	
 	public MasterRenderer(){
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glCullFace(GL11.GL_BACK);
+		enableCulling();
 		this.createProjectionMatrix();
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		
 		this.terrainRenderer = new TerrainRenderer(this.terrainShader, this.projectionMatrix);
+	}
+	
+	public static void enableCulling(){
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
+	}
+	
+	public static void disableCulling(){
+		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 	
 	public void render(Light sun, Camera camera){
@@ -65,6 +77,21 @@ public class MasterRenderer {
 	
 	public void processTerrain(Terrain terrain){
 		this.terrains.add(terrain);
+		for(Tree tree : terrain.getTrees()){
+			this.processEntity(tree);
+		}
+		
+		for(Grass grass : terrain.getGrass()){
+			this.processEntity(grass);
+		}
+		
+		for(Bush bush : terrain.getBushes()){
+			this.processEntity(bush);
+		}
+		
+		for(Rock rock : terrain.getRocks()){
+			this.processEntity(rock);
+		}
 		
 	}
 	
