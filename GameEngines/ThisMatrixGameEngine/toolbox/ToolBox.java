@@ -1,15 +1,19 @@
 package toolbox;
 
+import models.RawModel;
 import models.TexturedModel;
 import renderEngine.Loader;
-import renderEngine.OBJLoader;
+import renderEngine.ModelData;
+import renderEngine.OBJFileLoader;
 import textures.ModelTexture;
 
 public class ToolBox {
 
 	public static TexturedModel createTexturedModel(Loader loader, String objPath, String texturePath, boolean hasTransparency, boolean useFakeLighting, float shineDamper, float reflectivity){
-		TexturedModel model = new TexturedModel(OBJLoader.loadObjModel(
-				objPath, loader), new ModelTexture(
+	
+		ModelData data = OBJFileLoader.loadOBJ(objPath);
+		RawModel rawModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
+		TexturedModel model = new TexturedModel(rawModel, new ModelTexture(
 				loader.loadTexture(texturePath)));
 		model.getTexture().setHasTransparency(hasTransparency);
 		model.getTexture().setUseFakeLighting(useFakeLighting);

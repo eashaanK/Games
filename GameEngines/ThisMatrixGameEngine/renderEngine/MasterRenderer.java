@@ -17,6 +17,7 @@ import terrains.Terrain;
 import entities.Bush;
 import entities.Camera;
 import entities.Entity;
+import entities.Flower;
 import entities.Grass;
 import entities.Light;
 import entities.Rock;
@@ -28,6 +29,9 @@ public class MasterRenderer {
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 1000;
 	
+	private static float skyR = 0.529f, skyG = 0.808f, skyB = 0.980f;
+	//private static float skyR = 171f/255f, skyG = 236f/255f, skyB = 242f/255f;
+
 	private Matrix4f projectionMatrix;
 	
 	private StaticShader shader = new StaticShader();
@@ -43,7 +47,6 @@ public class MasterRenderer {
 		enableCulling();
 		this.createProjectionMatrix();
 		renderer = new EntityRenderer(shader, projectionMatrix);
-		
 		this.terrainRenderer = new TerrainRenderer(this.terrainShader, this.projectionMatrix);
 	}
 	
@@ -57,9 +60,10 @@ public class MasterRenderer {
 	}
 	
 	public void render(Light sun, Camera camera){
-		prepare(0.529f, 0.808f, 0.980f, 1);
+		prepare();
 		//render entities
 		shader.start();
+		shader.loadSkyColor(skyR, skyG, skyB);
 		shader.loadLight(sun);
 		shader.loadViewMatrix(camera);
 		this.renderer.render(entities);
@@ -93,6 +97,10 @@ public class MasterRenderer {
 			this.processEntity(rock);
 		}
 		
+		for(Flower flower : terrain.getFlowers()){
+			this.processEntity(flower);
+		}
+		
 	}
 	
 	public void processEntity(Entity entity){
@@ -112,10 +120,10 @@ public class MasterRenderer {
 	 * Clear Color
 	 * @param color
 	 */
-	public void prepare(float r, float g, float b, float a) {
+	public void prepare() {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
-		GL11.glClearColor(r, g, b, a);
+		GL11.glClearColor(skyR, skyG, skyB, 1);
 	}
 	
 	private void createProjectionMatrix(){

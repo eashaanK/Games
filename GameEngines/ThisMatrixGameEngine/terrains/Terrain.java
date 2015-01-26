@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
 import renderEngine.Loader;
 import textures.ModelTexture;
 import entities.Bush;
+import entities.Flower;
 import entities.Grass;
 import entities.Rock;
 import entities.Tree;
@@ -29,6 +30,7 @@ public class Terrain {
 	private static ArrayList<Grass> grass = new ArrayList<Grass>();
 	private static ArrayList<Bush> bushes = new ArrayList<Bush>();
 	private static ArrayList<Rock> rocks = new ArrayList<Rock>();
+	private static ArrayList<Flower> flowers = new ArrayList<Flower>();
 
 
 	public Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture){
@@ -92,6 +94,10 @@ public class Terrain {
 		this.rocks.add(rock);
 	}
 	
+	public void addFlower(Flower flower){
+		this.flowers.add(flower);
+	}
+	
 	public void addTree(TexturedModel model, Vector3f pos, float rotX, float rotY, float rotZ, float scale){
 		this.trees.add(new Tree(model, pos, rotX, rotY, rotZ, scale));
 	}
@@ -106,6 +112,10 @@ public class Terrain {
 	
 	public void addRock(TexturedModel model, Vector3f pos, float rotX, float rotY, float rotZ, float scale){
 		this.rocks.add(new Rock(model, pos, rotX, rotY, rotZ, scale));
+	}
+	
+	public void addFlower(TexturedModel model, Vector3f pos, float rotX, float rotY, float rotZ, float scale){
+		this.flowers.add(new Flower(model, pos, rotX, rotY, rotZ, scale));
 	}
 
 	public List<Tree> getTrees(){
@@ -122,6 +132,10 @@ public class Terrain {
 	
 	public List<Rock> getRocks(){
 		return this.rocks;
+	}
+	
+	public List<Flower> getFlowers(){
+		return this.flowers;
 	}
 
 	public float getX() {

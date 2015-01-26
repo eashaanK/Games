@@ -11,6 +11,7 @@ import textures.ModelTexture;
 import toolbox.ToolBox;
 import entities.Bush;
 import entities.Camera;
+import entities.Flower;
 import entities.Grass;
 import entities.Light;
 import entities.Tree;
@@ -58,12 +59,18 @@ public class MainGameLoop {
 	private static void init(Loader loader){
 		terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grassFlowers")));
 		light = new Light(new Vector3f(2000, 3000, 2000), new Vector3f(1, 1, 1));
-		for(int i = 0; i < 100; i++)
-			terrain.addTree(new Tree(ToolBox.createTexturedModel(loader, "tree.obj", "tree", false, false, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, 1));
+		for(int i = 0; i < 100; i++){
+			//if((int)(Math.random() * 10) % 2==0)
+			terrain.addTree(new Tree(ToolBox.createTexturedModel(loader, "tree", "tree", false, false, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, 1));
+			//else
+				//new Tree(ToolBox.createTexturedModel(loader, "lowPolyTree", "lowPolyTree", false, false, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, 1);
+		}
 		for(int i = 0; i < 100; i++) //GrassModel comes in groups
-			terrain.addGrass(new Grass(ToolBox.createTexturedModel(loader, "grassModel.obj", "grassTexture", true, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.5f + 0.2f)));
+			terrain.addGrass(new Grass(ToolBox.createTexturedModel(loader, "grassModel", "grassTexture", true, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.5f + 0.2f)));
 		for(int i = 0; i < 100; i++) //GrassModel comes in groups
-			terrain.addBush(new Bush(ToolBox.createTexturedModel(loader, "fern.obj", "fern", true, true,10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.2f)));
+			terrain.addBush(new Bush(ToolBox.createTexturedModel(loader, "fern", "fern", true, true,10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.2f)));
+		for(int i = 0; i < 50; i++) //GrassModel comes in groups
+			terrain.addFlower(new Flower(ToolBox.createTexturedModel(loader, "grassModel", "flower", true, true,10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.5f)));
 	}
 	
 	private static void update(){
