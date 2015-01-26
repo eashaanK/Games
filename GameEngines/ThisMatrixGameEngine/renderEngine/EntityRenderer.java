@@ -48,7 +48,7 @@ public class EntityRenderer {
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(),
 						GL11.GL_UNSIGNED_INT, 0);
 			}
-			this.unbindTexturedModel(model);
+			this.unbindTexturedModel();
 		}
 	}
 	
@@ -65,7 +65,7 @@ public class EntityRenderer {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
 	}
 	
-	private void unbindTexturedModel(TexturedModel model){
+	private void unbindTexturedModel(){
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(2);

@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import models.TexturedModel;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 
-import models.TexturedModel;
 import shaders.StaticShader;
+import shaders.TerrainShader;
+import terrains.Terrain;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
@@ -25,24 +28,44 @@ public class MasterRenderer {
 	
 	private StaticShader shader = new StaticShader();
 	private EntityRenderer renderer;
+	private TerrainRenderer terrainRenderer;
+	private TerrainShader terrainShader = new TerrainShader();
 	
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
+	private List<Terrain> terrains = new ArrayList<Terrain>();
+
 	
 	public MasterRenderer(){
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_BACK);
 		this.createProjectionMatrix();
 		renderer = new EntityRenderer(shader, projectionMatrix);
+		
+		this.terrainRenderer = new TerrainRenderer(this.terrainShader, this.projectionMatrix);
 	}
 	
 	public void render(Light sun, Camera camera){
-		prepare(0, 0, 0, 1);
+		prepare(0.529f, 0.808f, 0.980f, 1);
+		//render entities
 		shader.start();
 		shader.loadLight(sun);
 		shader.loadViewMatrix(camera);
 		this.renderer.render(entities);
 		shader.stop();
+		//render terrain
+		this.terrainShader.start();
+		this.terrainShader.loadLight(sun);
+		this.terrainShader.loadViewMatrix(camera);
+		this.terrainRenderer.render(terrains);
+		this.terrainShader.stop();
+		//clear all lists
+		this.terrains.clear();
 		entities.clear();
+	}
+	
+	public void processTerrain(Terrain terrain){
+		this.terrains.add(terrain);
+		
 	}
 	
 	public void processEntity(Entity entity){
@@ -83,8 +106,12 @@ public class MasterRenderer {
 		projectionMatrix.m33 = 0;
 	}
 
-	
+	/**
+	 * CLEAN UP ALL TERRAIN SHADERS
+	 */
 	public void cleanUp(){
 		this.shader.cleanUp();
+		this.terrainShader.cleanUp();
+		System.out.println("<Master Renderer> Remember to clean up ALL shaders");
 	}
 }
