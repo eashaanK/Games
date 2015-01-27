@@ -18,6 +18,21 @@ public class ToolBox {
 		model.getTexture().setHasTransparency(hasTransparency);
 		model.getTexture().setUseFakeLighting(useFakeLighting);
 		ModelTexture texture = model.getTexture();
+		texture.setShineDamper(shineDamper);
+		texture.setReflectivity(reflectivity);
+		
+		return model;
+	}
+	
+	public static TexturedModel createTexturedModel(Loader loader, String objPath, String texturePath, boolean hasTransparency, boolean useFakeLighting){
+
+		ModelData data = OBJFileLoader.loadOBJ(objPath);
+		RawModel rawModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
+		TexturedModel model = new TexturedModel(rawModel, new ModelTexture(
+				loader.loadTexture(texturePath)));
+		model.getTexture().setHasTransparency(hasTransparency);
+		model.getTexture().setUseFakeLighting(useFakeLighting);
+		ModelTexture texture = model.getTexture();
 		texture.setShineDamper(10);
 		texture.setReflectivity(1);
 		
