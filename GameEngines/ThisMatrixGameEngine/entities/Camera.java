@@ -1,10 +1,9 @@
 package entities;
 
-import org.lwjgl.BufferUtils;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+
+import toolbox.Maths;
 
 public class Camera {
 
@@ -19,7 +18,6 @@ public class Camera {
 	private float angleAroundPlayer = 0;
 	
 	//1stPerson
-	private static final float FIRST_PERSON_PITCH_HIGHEST = 60, FIRST_PERSON_PITCH_LOWEST = -30; //- is higher
 	public static final float HORIZONTAL_SENSITIVITY = 6;
 	
 	private Player player;
@@ -28,8 +26,6 @@ public class Camera {
 
 		this.pos = pos;
 		this.player = player;
-		/*if(player.isFPV())
-			this.distanceFromPlayer = 0;*/
 	}
 
 	public void moveBy(float dx, float dy, float dz){
@@ -44,22 +40,21 @@ public class Camera {
 	}
 	
 	private void calculatePitch(){
-		if(Mouse.isButtonDown(1) && !this.player.isFPV()){
+		if(Mouse.isButtonDown(1)){
 			float pitchChange = Mouse.getDY() * 0.1f;
 			pitch -= pitchChange;
 		}
 		//FPS
-	/*	else if(this.player.isFPV()){
+		else if(this.player.isFPV()){
 			float pitchChange = Mouse.getDY() * 0.1f;
 			pitch -= pitchChange;
 			//pitch += Mouse.getDY();
-
-		}*/
+		}
 
 	}
 	
 	private void calculateAngleAroundPlayer(){
-		if(Mouse.isButtonDown(0) && !this.player.isFPV()){
+		if(Mouse.isButtonDown(0)){
 			float angleChange = Mouse.getDX() * 0.3f;
 			this.angleAroundPlayer -= angleChange;
 		}
@@ -74,17 +69,17 @@ public class Camera {
 	}
 	
 	private void calculateCameraPosition(float horizontalDistance, float verticalDistance){
-		//3rd Person
-			float theta = player.getRotY() + this.angleAroundPlayer;
-			float offsetX = (float)(horizontalDistance * Math.sin(Math.toRadians(theta)));
-			float offsetZ = (float)(horizontalDistance * Math.cos(Math.toRadians(theta)));
-			pos.x = player.getPos().x - offsetX;
-			pos.z = player.getPos().z - offsetZ;
-			pos.y = player.getPos().y + verticalDistance;
-			//FPS its rot = player.rotY()
-			
+		float theta = player.getRotY() + this.angleAroundPlayer;
+		float offsetX = (float)(horizontalDistance * Math.sin(Math.toRadians(theta)));
+		float offsetZ = (float)(horizontalDistance * Math.cos(Math.toRadians(theta)));
+		pos.x = player.getPos().x - offsetX;
+		pos.z = player.getPos().z - offsetZ;
+		pos.y = player.getPos().y + verticalDistance;
+		//FPS its rot = player.rotY()		
 			//restrict the head movement
 			if(!this.player.isFPV()){ //3rd person
+				
+				
 				if(this.pitch > PITCH_LIMIT){
 					this.pitch =PITCH_LIMIT;
 				}
@@ -97,28 +92,28 @@ public class Camera {
 					distanceFromPlayer = MAX_DISTANCE_FROM_PLAYER;
 				
 			}
-			/*else //first person
+
+			else //first person
 			{
-				if(this.pitch > FIRST_PERSON_PITCH_HIGHEST){
-					this.pitch = FIRST_PERSON_PITCH_HIGHEST;
+				if(this.pitch > 60){
+					this.pitch = 60;
 					//System.out.println("Pitch of FP camera is highest");
 				}
-				else if(this.pitch < FIRST_PERSON_PITCH_LOWEST){
-					this.pitch = FIRST_PERSON_PITCH_LOWEST;
+				else if(this.pitch < 1){
+					this.pitch = 1;
 				}
 				if(player.isFPV())
 					this.distanceFromPlayer = 0;
 				
 				System.out.println(Mouse.getX());
 				//System.out.println(Window.GetWidth()/2 + " "  +  Window.GetHeight()/2);
-			}*/
+			}
 		
 		
 		
-		pos.y += player.getCameraOffset(); //currentHeight of player
+		pos.y = player.getPos().y + player.getCameraOffset(); //currentHeight of player
 
 	}
-	
 	
 	public void move(){
 		this.calculateZoom();
