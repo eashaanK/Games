@@ -81,5 +81,30 @@ public class Entity {
 		this.scale = scale;
 	}
 	
+	public void setX(float x){
+		this.pos.x = x;
+	}
+	
+	public void setY(float y){
+			this.pos.y = y;
+	}
+
+	public void setZ(float z){
+		this.pos.z = z;
+	}
+	
+	public float getX(){
+		return pos.x;
+	}
+	
+	public float getY(){
+		return pos.y;
+	}
+	
+	public float getZ(){
+		return pos.z;
+	}
+	
+
 	
 }

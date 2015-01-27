@@ -1,5 +1,7 @@
 package toolbox;
 
+import org.lwjgl.input.Keyboard;
+
 import models.RawModel;
 import models.TexturedModel;
 import renderEngine.Loader;
@@ -37,5 +39,28 @@ public class ToolBox {
 		texture.setReflectivity(1);
 		
 		return model;
+	}
+	
+	/**
+	 * 0 if key was pressed
+	 * 1 is key was released
+	 * -1 is key was not touched
+	 * @param key
+	 * @return
+	 */
+	public static byte getKeyStatus(int key){
+		while (Keyboard.next()) {
+		    if (Keyboard.getEventKeyState()) {
+		        if (Keyboard.getEventKey() == key) {
+		        	return 0; //pressed
+		        }
+		    }
+		    else {
+		        if (Keyboard.getEventKey() == key) {
+		        	return 1; //released
+		        }
+		    }
+		}
+		return -1;
 	}
 }
