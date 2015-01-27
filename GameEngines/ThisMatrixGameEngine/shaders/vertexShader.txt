@@ -17,7 +17,7 @@ uniform vec3 lightPosition;
 
 uniform float useFakeLighting;
 
-const float density = 0.01; //thickness of fog
+const float density = 0.03; //thickness of fog
 const float gradient = 1.5;  //how quickly the fog disappears
 
 void main(void){

@@ -7,7 +7,8 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import terrains.Terrain;
-import textures.ModelTexture;
+import textures.TerrainTexture;
+import textures.TerrainTexturePack;
 import toolbox.ToolBox;
 import entities.Bush;
 import entities.Camera;
@@ -28,12 +29,13 @@ public class MainGameLoop {
 	private static Terrain terrain;
 	private static Camera camera = new Camera(new Vector3f(0, 1, 0));
 	private static Light light;
+	private static Loader loader;
 
 
 	public static void main(String[] args) {
 
 		DisplayManager.createDisplay();
-		Loader loader = new Loader();
+		loader = new Loader();
 		init(loader);
 
 		
@@ -57,7 +59,9 @@ public class MainGameLoop {
 	}
 	
 	private static void init(Loader loader){
-		terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grassFlowers")));
+		
+		setupTerrain();
+		
 		light = new Light(new Vector3f(2000, 3000, 2000), new Vector3f(1, 1, 1));
 		for(int i = 0; i < 100; i++){
 			//if((int)(Math.random() * 10) % 2==0)
@@ -78,4 +82,16 @@ public class MainGameLoop {
 		//light.setPos(camera.getPos());
 	}
 
+	private static void setupTerrain(){
+		TerrainTexture backG = new TerrainTexture(loader.loadTexture("grassy"));
+		TerrainTexture rText = new TerrainTexture(loader.loadTexture("dirt"));
+		TerrainTexture gText = new TerrainTexture(loader.loadTexture("grassFlowers"));
+		TerrainTexture bText = new TerrainTexture(loader.loadTexture("path"));
+		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+		
+		TerrainTexturePack textPack = new TerrainTexturePack(backG, rText, gText, bText);
+
+		terrain = new Terrain(0, -1, loader, textPack, blendMap);
+
+	}
 }
