@@ -39,4 +39,16 @@ public class Maths {
 		return viewMatrix;
 
 	}
+	
+	public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale, float rx, float ry, float rz) {
+		Matrix4f matrix = new Matrix4f();
+		matrix.setIdentity();
+		Matrix4f.translate(translation, matrix, matrix);
+		Matrix4f.scale(new Vector3f(scale.x, scale.y, 1f), matrix, matrix);
+		Matrix4f.rotate(rx, new Vector3f(1, 0, 0), matrix, matrix);
+		Matrix4f.rotate(ry, new Vector3f(0, 1, 0), matrix, matrix);
+		Matrix4f.rotate(rz, new Vector3f(0, 0, 1), matrix, matrix);
+
+		return matrix;
+	}
 }

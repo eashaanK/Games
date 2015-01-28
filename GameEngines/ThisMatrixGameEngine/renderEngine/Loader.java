@@ -35,6 +35,14 @@ public class Loader {
 		return new RawModel(vaoID,indices.length);
 	}
 	
+	//for GUI TEXTURE
+	public RawModel loadToVAO(float[] positions){
+		int vaoID = createVAO();
+		this.storeDataInAttributeList(0, 2, positions);
+		this.unbindVAO();
+		return new RawModel(vaoID, positions.length/2);
+	}
+	
 	/**
 	 * The FIle Name must be contained in the "res" folder and must not contain .png
 	 * The textures dimension must be square and 2^n pixels long

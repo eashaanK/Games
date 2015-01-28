@@ -1,8 +1,12 @@
 package Tester;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import renderEngine.DisplayManager;
@@ -17,6 +21,8 @@ import entities.Bush;
 import entities.Light;
 import entities.Player;
 import entities.Tree;
+import guis.GuiRenderer;
+import guis.GuiTexture;
 
 /**
  *  Press f1 to switch between 1st Person and 2nd Person (Located in Player Class)
@@ -30,10 +36,12 @@ import entities.Tree;
 public class MainGameLoop {
 	
 	private static Terrain terrain;
-	private static Light light;
 	private static Loader loader;
 	private static Player player;
 	private static ToolBox toolBox;
+	
+	private static List<GuiTexture> guis = new ArrayList<GuiTexture>();
+	private static List<Light> lights = new ArrayList<Light>();
 
 
 	public static void main(String[] args) {
@@ -45,18 +53,20 @@ public class MainGameLoop {
 
 		
 		MasterRenderer mRenderer = new MasterRenderer();
+		GuiRenderer guiRenderer = new GuiRenderer(loader);
 		while (!Display.isCloseRequested()) {
 			update();
-			//terrains
+			//3d stuff
 			mRenderer.processTerrain(terrain);
-			//entities
 			mRenderer.processEntity(player);
-			//camera and light
-			mRenderer.render(light, player.getCurrentCamera());
-			//display
+			mRenderer.render(lights, player.getCurrentCamera());
+			
+			//GUI stuff
+			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 
 		}
+		guiRenderer.cleamUp();
 		mRenderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
@@ -67,16 +77,28 @@ public class MainGameLoop {
 			
 		setupTerrain();
 		
-		light = new Light(new Vector3f(2000, 3000, 2000), new Vector3f(1, 1, 1));
+		Light light = new Light(new Vector3f(0, 10000, -7000), new Vector3f(1, 1, 1));
+		Light light2 = new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 1, 1));
+		Light light3 = new Light(new Vector3f(200, 3000, 200), new Vector3f(0, 0, 10));
+		//Light light4 = new Light(new Vector3f(2000, 3000, 2000), new Vector3f(1, 1, 1));
+		lights.add(light);
+		lights.add(light2);
+		lights.add(light3);
+		//lights.add(light4);
+
 	
 		player = new Player(toolBox.createTexturedModel(loader, "person", "playerTexture", false, false), new Vector3f(0, 0, 0), 0, 0, 0, 0.15f, 1.5f);
 		//in game mode
+		
+		guis.add(new GuiTexture(loader.loadTexture("socuwan"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f), 0, 0, 0.1f));
+		guis.add(new GuiTexture(loader.loadTexture("socuwan"), new Vector2f(0.3f, 0.5f), new Vector2f(0.25f, 0.25f), 0, 0, 0.1f));
+
+		
 		lockMouse();
 	}
 	
 	private static void update(){
-		player.move(terrain);
-		
+		player.move(terrain);		
 		//Pause menu
 		if(toolBox.getKeyStatus(Keyboard.KEY_ESCAPE) == 1)
 		{
