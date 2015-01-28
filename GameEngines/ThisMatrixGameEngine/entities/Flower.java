@@ -10,5 +10,9 @@ public class Flower extends Entity{
 			float rotZ, float scale) {
 		super(model, pos, rotX, rotY, rotZ, scale);
 	}
+	
+	public Flower(TexturedModel model, int index, Vector3f pos, float rotX, float rotY, float rotZ, float scale) {
+		super(model, index, pos, rotX, rotY, rotZ, scale);
+	}
 
 }

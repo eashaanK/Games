@@ -11,9 +11,26 @@ public class ModelTexture {
 	
 	private boolean useFakeLighting = false;
 	
+	private int numberOfRows = 1;
+	
 	public ModelTexture(int id){
-		this.textureID = id;
+		this(id, 1);
 	}
+	
+	public ModelTexture(int id, int numberOfRows){
+		this.textureID = id;
+		this.numberOfRows = numberOfRows;
+
+	}
+	
+	public int getNumberOfRows() {
+		return numberOfRows;
+	}
+
+	public void setNumberOfRows(int numberOfRows) {
+		this.numberOfRows = numberOfRows;
+	}
+
 	
 	public int getID(){
 		return this.textureID;

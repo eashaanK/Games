@@ -1,9 +1,10 @@
 package toolbox;
 
-import org.lwjgl.input.Keyboard;
-
 import models.RawModel;
 import models.TexturedModel;
+
+import org.lwjgl.input.Keyboard;
+
 import renderEngine.Loader;
 import renderEngine.ModelData;
 import renderEngine.OBJFileLoader;
@@ -11,7 +12,28 @@ import textures.ModelTexture;
 
 public class ToolBox {
 
-	public static TexturedModel createTexturedModel(Loader loader, String objPath, String texturePath, boolean hasTransparency, boolean useFakeLighting, float shineDamper, float reflectivity){
+	private TexturedModel fernModelWithTextureAtlas;
+	
+	public ToolBox(Loader loader){
+		fernModelWithTextureAtlas = initAModelWithTexturedAtlas(loader, "fern", "fern");
+	}
+	
+	////Creates a Textured Model to be used in an ENtity's parameter
+	private TexturedModel initAModelWithTexturedAtlas(Loader loader, String textureAtlasName, String modelName){
+		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture(textureAtlasName), 2);
+		ModelData data = OBJFileLoader.loadOBJ(modelName);
+		RawModel rawModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
+		TexturedModel model = new TexturedModel(rawModel, fernTextureAtlas);
+		return model;
+	}
+	
+	public TexturedModel getFernTexturedModel(){
+		return fernModelWithTextureAtlas;
+
+	}
+	
+	////WITHOUT A TEXTURE ATLAS
+	public TexturedModel createTexturedModel(Loader loader, String objPath, String texturePath, boolean hasTransparency, boolean useFakeLighting, float shineDamper, float reflectivity){
 
 		ModelData data = OBJFileLoader.loadOBJ(objPath);
 		RawModel rawModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
@@ -26,20 +48,11 @@ public class ToolBox {
 		return model;
 	}
 	
-	public static TexturedModel createTexturedModel(Loader loader, String objPath, String texturePath, boolean hasTransparency, boolean useFakeLighting){
-
-		ModelData data = OBJFileLoader.loadOBJ(objPath);
-		RawModel rawModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
-		TexturedModel model = new TexturedModel(rawModel, new ModelTexture(
-				loader.loadTexture(texturePath)));
-		model.getTexture().setHasTransparency(hasTransparency);
-		model.getTexture().setUseFakeLighting(useFakeLighting);
-		ModelTexture texture = model.getTexture();
-		texture.setShineDamper(10);
-		texture.setReflectivity(1);
-		
-		return model;
+	public TexturedModel createTexturedModel(Loader loader, String objPath, String texturePath, boolean hasTransparency, boolean useFakeLighting){
+		return createTexturedModel(loader, objPath, texturePath, hasTransparency, useFakeLighting, 10, 1);
 	}
+	
+	
 	
 	/**
 	 * 0 if key was pressed
@@ -48,7 +61,7 @@ public class ToolBox {
 	 * @param key
 	 * @return
 	 */
-	public static byte getKeyStatus(int key){
+	public byte getKeyStatus(int key){
 		while (Keyboard.next()) {
 		    if (Keyboard.getEventKeyState()) {
 		        if (Keyboard.getEventKey() == key) {

@@ -37,6 +37,10 @@ public class Player extends Entity{
 		this.currentCamera = camera3rd;
 	}
 	
+	public Player(TexturedModel model, int index, Vector3f pos, float rotX, float rotY, float rotZ, float scale) {
+		super(model, index, pos, rotX, rotY, rotZ, scale);
+	}
+	
 	public void move(Terrain terrain){
 		this.currentCamera.move(terrain);
 		

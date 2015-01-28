@@ -14,12 +14,8 @@ import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 import toolbox.ToolBox;
 import entities.Bush;
-import entities.Camera;
-import entities.Flower;
-import entities.Grass;
 import entities.Light;
 import entities.Player;
-import entities.ThirdPersonCamera;
 import entities.Tree;
 
 /**
@@ -37,12 +33,14 @@ public class MainGameLoop {
 	private static Light light;
 	private static Loader loader;
 	private static Player player;
+	private static ToolBox toolBox;
 
 
 	public static void main(String[] args) {
 
 		DisplayManager.createDisplay();
 		loader = new Loader();
+		toolBox = new ToolBox(loader);
 		init(loader);
 
 		
@@ -71,7 +69,7 @@ public class MainGameLoop {
 		
 		light = new Light(new Vector3f(2000, 3000, 2000), new Vector3f(1, 1, 1));
 	
-		player = new Player(ToolBox.createTexturedModel(loader, "person", "playerTexture", false, false), new Vector3f(0, 0, 0), 0, 0, 0, 0.15f, 1.5f);
+		player = new Player(toolBox.createTexturedModel(loader, "person", "playerTexture", false, false), new Vector3f(0, 0, 0), 0, 0, 0, 0.15f, 1.5f);
 		//in game mode
 		lockMouse();
 	}
@@ -80,7 +78,7 @@ public class MainGameLoop {
 		player.move(terrain);
 		
 		//Pause menu
-		if(ToolBox.getKeyStatus(Keyboard.KEY_ESCAPE) == 1)
+		if(toolBox.getKeyStatus(Keyboard.KEY_ESCAPE) == 1)
 		{
 			if(Mouse.isGrabbed())
 				freeMouse();
@@ -101,18 +99,26 @@ public class MainGameLoop {
 		
 		TerrainTexturePack textPack = new TerrainTexturePack(backG, rText, gText, bText);
 
-		terrain = new Terrain(0, -1, loader, textPack, blendMap, "heightmap", 10);
+		terrain = new Terrain(0, -1, loader, textPack, blendMap, "heightmap", (float)(Math.random() * 15));
 		
-		for(int i = 0; i < 100; i++){
-			//if((int)(Math.random() * 10) % 2==0)
-			terrain.addTree(new Tree(ToolBox.createTexturedModel(loader, "tree", "tree", false, false, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, 1.3f));
-			//else
-				//new Tree(ToolBox.createTexturedModel(loader, "lowPolyTree", "lowPolyTree", false, false, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, 1);
-		}
+		
+		float x, y, z;
+		
+		for(int i = 0; i < 100; i++)
+			terrain.addTree(new Tree(toolBox.createTexturedModel(loader, "pine", "pine", false, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, 0.5f));
+		
+		
 	//	for(int i = 0; i < 100; i++) //GrassModel comes in groups
-		//	terrain.addGrass(new Grass(ToolBox.createTexturedModel(loader, "grassModel", "grassTexture", true, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.5f + 0.2f)));
-		for(int i = 0; i < 120; i++) //GrassModel comes in groups
-			terrain.addBush(new Bush(ToolBox.createTexturedModel(loader, "fern", "fern", true, true,10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.2f)));
+		//	terrain.addGrass(new Grass(toolBox.createTexturedModel(loader, "grassModel", "grassTexture", true, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.5f + 0.2f)));
+		
+		for(int i = 0; i < 100; i++){ //GrassModel comes in groups
+			x = (float)(Math.random() * Terrain.SIZE);
+			y = (float)(Math.random() * Terrain.SIZE);
+			z = -(float)(Math.random() * Terrain.SIZE);
+
+			Bush bush = new Bush(toolBox.getFernTexturedModel(), (int)(Math.random() * 4), new Vector3f(x, y, z), 0, 0, 0, 0.3f);
+			terrain.addBush(bush);
+		}
 	//	for(int i = 0; i < 50; i++) //GrassModel comes in groups
 		//	terrain.addFlower(new Flower(ToolBox.createTexturedModel(loader, "grassModel", "flower", true, true,10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.5f)));
 		
