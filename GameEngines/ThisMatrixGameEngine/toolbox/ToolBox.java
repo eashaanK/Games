@@ -13,14 +13,18 @@ import textures.ModelTexture;
 public class ToolBox {
 
 	private TexturedModel fernModelWithTextureAtlas;
+	private TexturedModel lampModelWithTextureAtlas;
+
 	
 	public ToolBox(Loader loader){
-		fernModelWithTextureAtlas = initAModelWithTexturedAtlas(loader, "fern", "fern");
+		fernModelWithTextureAtlas = initAModelWithTexturedAtlas(loader, "fern", "fern", 2);
+		lampModelWithTextureAtlas = initAModelWithTexturedAtlas(loader, "lamp", "lamp", 1);
+
 	}
 	
 	////Creates a Textured Model to be used in an ENtity's parameter
-	private TexturedModel initAModelWithTexturedAtlas(Loader loader, String textureAtlasName, String modelName){
-		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture(textureAtlasName), 2);
+	private TexturedModel initAModelWithTexturedAtlas(Loader loader, String textureAtlasName, String modelName, int numRows){
+		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture(textureAtlasName), numRows);
 		ModelData data = OBJFileLoader.loadOBJ(modelName);
 		RawModel rawModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
 		TexturedModel model = new TexturedModel(rawModel, fernTextureAtlas);
@@ -29,6 +33,10 @@ public class ToolBox {
 	
 	public TexturedModel getFernTexturedModel(){
 		return fernModelWithTextureAtlas;
+	}
+	
+	public TexturedModel getLampTexturedModel(){
+		return lampModelWithTextureAtlas;
 
 	}
 	

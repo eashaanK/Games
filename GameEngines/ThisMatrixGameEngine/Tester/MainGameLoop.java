@@ -18,6 +18,7 @@ import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 import toolbox.ToolBox;
 import entities.Bush;
+import entities.Entity;
 import entities.Light;
 import entities.Player;
 import entities.Tree;
@@ -35,6 +36,8 @@ import guis.GuiTexture;
  */
 public class MainGameLoop {
 	
+	public static float SCALE = 1f;
+	
 	private static Terrain terrain;
 	private static Loader loader;
 	private static Player player;
@@ -42,6 +45,7 @@ public class MainGameLoop {
 	
 	private static List<GuiTexture> guis = new ArrayList<GuiTexture>();
 	private static List<Light> lights = new ArrayList<Light>();
+	public static List<Entity> entities = new ArrayList<Entity>();
 
 
 	public static void main(String[] args) {
@@ -59,6 +63,13 @@ public class MainGameLoop {
 			//3d stuff
 			mRenderer.processTerrain(terrain);
 			mRenderer.processEntity(player);
+			for(int i = entities.size() - 1; i >= 0; i--){
+				//if(!entity.isAlive()){
+				//entity.remove(i);
+				//continue;
+				//}
+				mRenderer.processEntity(entities.get(i));
+			}
 			mRenderer.render(lights, player.getCurrentCamera());
 			
 			//GUI stuff
@@ -77,17 +88,18 @@ public class MainGameLoop {
 			
 		setupTerrain();
 		
-		Light light = new Light(new Vector3f(0, 10000, -7000), new Vector3f(1, 1, 1));
-		Light light2 = new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 1, 1));
-		Light light3 = new Light(new Vector3f(200, 3000, 200), new Vector3f(0, 0, 10));
-		//Light light4 = new Light(new Vector3f(2000, 3000, 2000), new Vector3f(1, 1, 1));
+		Light light = new Light(new Vector3f(0, 10000, -7000), new Vector3f(0, 0, 0));
+		Light light2 = new Light(new Vector3f(0, 5, 0), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.02f));
+		//Light light3 = new Light(new Vector3f(370, 17, -300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.02f));
+		//Light light4 = new Light(new Vector3f(293, 7, -305), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.02f));
 		lights.add(light);
 		lights.add(light2);
-		lights.add(light3);
+		//lights.add(light3);
 		//lights.add(light4);
 
+		entities.add(new Entity(toolBox.getLampTexturedModel(), new Vector3f(0, 0, 0), 0, 0, 0, SCALE));
 	
-		player = new Player(toolBox.createTexturedModel(loader, "person", "playerTexture", false, false), new Vector3f(0, 0, 0), 0, 0, 0, 0.15f, 1.5f);
+		player = new Player(toolBox.createTexturedModel(loader, "person", "playerTexture", false, false), new Vector3f(0, 0, 0), 0, 0, 0, SCALE, 1.5f);
 		//in game mode
 		
 		guis.add(new GuiTexture(loader.loadTexture("socuwan"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f), 0, 0, 0.1f));
@@ -127,22 +139,22 @@ public class MainGameLoop {
 		float x, y, z;
 		
 		for(int i = 0; i < 100; i++)
-			terrain.addTree(new Tree(toolBox.createTexturedModel(loader, "pine", "pine", false, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, 0.5f));
+			terrain.addTree(new Tree(toolBox.createTexturedModel(loader, "pine", "pine", false, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, SCALE));
 		
 		
 	//	for(int i = 0; i < 100; i++) //GrassModel comes in groups
-		//	terrain.addGrass(new Grass(toolBox.createTexturedModel(loader, "grassModel", "grassTexture", true, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.5f + 0.2f)));
+		//	terrain.addGrass(new Grass(toolBox.createTexturedModel(loader, "grassModel", "grassTexture", true, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, SCALE)));
 		
 		for(int i = 0; i < 100; i++){ //GrassModel comes in groups
 			x = (float)(Math.random() * Terrain.SIZE);
 			y = (float)(Math.random() * Terrain.SIZE);
 			z = -(float)(Math.random() * Terrain.SIZE);
 
-			Bush bush = new Bush(toolBox.getFernTexturedModel(), (int)(Math.random() * 4), new Vector3f(x, y, z), 0, 0, 0, 0.3f);
+			Bush bush = new Bush(toolBox.getFernTexturedModel(), (int)(Math.random() * 4), new Vector3f(x, y, z), 0, 0, 0, SCALE);
 			terrain.addBush(bush);
 		}
 	//	for(int i = 0; i < 50; i++) //GrassModel comes in groups
-		//	terrain.addFlower(new Flower(ToolBox.createTexturedModel(loader, "grassModel", "flower", true, true,10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, (float)(Math.random() * 0.5f)));
+		//	terrain.addFlower(new Flower(ToolBox.createTexturedModel(loader, "grassModel", "flower", true, true,10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, SCALE)));
 		
 
 	}

@@ -14,6 +14,7 @@ import models.TexturedModel;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import Tester.MainGameLoop;
 import renderEngine.Loader;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
@@ -47,7 +48,7 @@ public class Terrain {
 
 
 	public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMap, float maxHeight){
-		this.MAX_HEIGHT = maxHeight;
+		this.MAX_HEIGHT = maxHeight * MainGameLoop.SCALE;
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
 		this.x = gridX * SIZE;
