@@ -20,6 +20,7 @@ import toolbox.ToolBox;
 import entities.Bush;
 import entities.Entity;
 import entities.Light;
+import entities.LightModel;
 import entities.Player;
 import entities.Tree;
 import guis.GuiRenderer;
@@ -36,7 +37,7 @@ import guis.GuiTexture;
  */
 public class MainGameLoop {
 	
-	public static float SCALE = 1f;
+	public static float SCALE = 0.25f;
 	
 	private static Terrain terrain;
 	private static Loader loader;
@@ -88,16 +89,14 @@ public class MainGameLoop {
 			
 		setupTerrain();
 		
-		Light light = new Light(new Vector3f(0, 10000, -7000), new Vector3f(0, 0, 0));
-		Light light2 = new Light(new Vector3f(0, 5, 0), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.02f));
-		//Light light3 = new Light(new Vector3f(370, 17, -300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.02f));
-		//Light light4 = new Light(new Vector3f(293, 7, -305), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.02f));
-		lights.add(light);
-		lights.add(light2);
-		//lights.add(light3);
-		//lights.add(light4);
+		Light sun = new Light(new Vector3f(0, 3000, -200), new Vector3f(0, 0, 0));
+		LightModel lampPost = new LightModel(new Vector3f(0, 5, 0), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.02f), new Entity(toolBox.getLampTexturedModel(), new Vector3f(0, 0, 0), 0, 0, 0, SCALE));
+		lampPost.turnLightOff();
+		lights.add(sun);
+		lights.add(lampPost);
+	
 
-		entities.add(new Entity(toolBox.getLampTexturedModel(), new Vector3f(0, 0, 0), 0, 0, 0, SCALE));
+		//entities.add(new Entity(toolBox.getLampTexturedModel(), new Vector3f(0, 0, 0), 0, 0, 0, SCALE));
 	
 		player = new Player(toolBox.createTexturedModel(loader, "person", "playerTexture", false, false), new Vector3f(0, 0, 0), 0, 0, 0, SCALE, 1.5f);
 		//in game mode
@@ -110,7 +109,6 @@ public class MainGameLoop {
 	}
 	
 	private static void update(){
-		player.move(terrain);		
 		//Pause menu
 		if(toolBox.getKeyStatus(Keyboard.KEY_ESCAPE) == 1)
 		{
@@ -118,11 +116,16 @@ public class MainGameLoop {
 				freeMouse();
 			else
 				lockMouse();
-
 		}
 		
+		if(Mouse.isGrabbed()) //unpaused
+			player.move(terrain);		
+
 	
 	}
+	
+	
+	///////////////////////////////////////////////////////////////////HELPER METHODS////////////////////////////////////////
 
 	private static void setupTerrain(){
 		TerrainTexture backG = new TerrainTexture(loader.loadTexture("grassy"));
@@ -139,7 +142,7 @@ public class MainGameLoop {
 		float x, y, z;
 		
 		for(int i = 0; i < 100; i++)
-			terrain.addTree(new Tree(toolBox.createTexturedModel(loader, "pine", "pine", false, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, SCALE));
+			terrain.addTree(new Tree(toolBox.createTexturedModel(loader, "pine", "pine", false, true, 10, 1), new Vector3f((float)(Math.random() * Terrain.SIZE), 0, (float)(Math.random() * -Terrain.SIZE)), 0, 0, 0, SCALE * 2));
 		
 		
 	//	for(int i = 0; i < 100; i++) //GrassModel comes in groups

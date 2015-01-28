@@ -48,7 +48,7 @@ public class Terrain {
 
 
 	public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMap, float maxHeight){
-		this.MAX_HEIGHT = maxHeight * MainGameLoop.SCALE;
+		this.MAX_HEIGHT = maxHeight;
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
 		this.x = gridX * SIZE;

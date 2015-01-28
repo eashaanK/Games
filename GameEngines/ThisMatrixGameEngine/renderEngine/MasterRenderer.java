@@ -20,6 +20,7 @@ import entities.Entity;
 import entities.Flower;
 import entities.Grass;
 import entities.Light;
+import entities.LightModel;
 import entities.Rock;
 import entities.Tree;
 
@@ -65,6 +66,12 @@ public class MasterRenderer {
 		shader.start();
 		shader.loadSkyColor(skyR, skyG, skyB);
 		shader.loadLights(lights);
+		for(Light l : lights){
+			if(l instanceof LightModel){
+				LightModel entityT = (LightModel)l;
+				this.processEntity(entityT.getLightEntity());
+			}
+		}
 		shader.loadViewMatrix(camera);
 		this.renderer.render(entities);
 		shader.stop();

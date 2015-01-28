@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
 import toolbox.Maths;
 import entities.Camera;
 import entities.Light;
+import entities.LightModel;
 
 public class StaticShader extends ShaderProgram{
 	
@@ -102,12 +103,15 @@ public class StaticShader extends ShaderProgram{
 	
 	public void loadLights(List<Light> lights){
 		for(int i = 0; i < MAX_LIGHTS; i++){
-			if(i < lights.size()){
-				super.loadVector(location_lightPosition[i], lights.get(i).getPos());
-				super.loadVector(location_lightColor[i], lights.get(i).getColor());
-				super.loadVector(location_attentuation[i], lights.get(i).getAttentuation());
+			if(i < lights.size()){ //still more lights to render
+			
+					super.loadVector(location_lightPosition[i], lights.get(i).getPos());
+					super.loadVector(location_lightColor[i], lights.get(i).getColor());
+					super.loadVector(location_attentuation[i], lights.get(i).getAttentuation());
+			
 			}
 			else{
+				System.out.println("rendering Light: " + i);
 				super.loadVector(location_lightPosition[i], new Vector3f(0, 0, 0));
 				super.loadVector(location_lightColor[i], new Vector3f(0, 0, 0));
 				super.loadVector(location_attentuation[i], new Vector3f(1, 0, 0));
