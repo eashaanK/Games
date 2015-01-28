@@ -27,7 +27,7 @@ import entities.Tree;
 
 public class Terrain {
 
-	public static final float SIZE = 200;
+	public static final float SIZE = 400;
 	public final float MAX_HEIGHT;
 	public static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 

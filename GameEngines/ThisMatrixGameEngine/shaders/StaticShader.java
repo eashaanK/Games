@@ -111,7 +111,6 @@ public class StaticShader extends ShaderProgram{
 			
 			}
 			else{
-				System.out.println("rendering Light: " + i);
 				super.loadVector(location_lightPosition[i], new Vector3f(0, 0, 0));
 				super.loadVector(location_lightColor[i], new Vector3f(0, 0, 0));
 				super.loadVector(location_attentuation[i], new Vector3f(1, 0, 0));
