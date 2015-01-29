@@ -12,12 +12,9 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-public class Input {
+import cb2Drpg_refereces.Ref;
 
-	private List<Integer> keysHeld = new ArrayList<Integer>();
-	private List<Integer> mouseButtonsHeld = new ArrayList<Integer>();
-	
-	public int mouseX, mouseY;
+public class Input {
 	
 	public Input(JFrame frame){
 		frame.addKeyListener(new KeyListener() {
@@ -26,12 +23,12 @@ public class Input {
 			}
 
 			public void keyPressed(KeyEvent e) {
-				if(!keysHeld.contains(e.getKeyCode()))
-					keysHeld.add(e.getKeyCode());
+				if(!Ref.keysHeld.contains(e.getKeyCode()))
+					Ref.keysHeld.add(e.getKeyCode());
 			}
 
 			public void keyReleased(KeyEvent e) {
-				keysHeld.remove(new Integer(e.getKeyCode()));
+				Ref.keysHeld.remove(new Integer(e.getKeyCode()));
 			}
 			
 		});
@@ -43,12 +40,12 @@ public class Input {
 			}
 
 			public void mousePressed(MouseEvent e) {
-				if(!mouseButtonsHeld.contains(e.getButton()))
-					mouseButtonsHeld.add(e.getButton());
+				if(!Ref.mouseButtonsHeld.contains(e.getButton()))
+					Ref.mouseButtonsHeld.add(e.getButton());
 			}
 
 			public void mouseReleased(MouseEvent e) {
-				mouseButtonsHeld.remove(new Integer(e.getButton()));
+				Ref.mouseButtonsHeld.remove(new Integer(e.getButton()));
 			}
 
 			public void mouseEntered(MouseEvent e) {
@@ -68,8 +65,8 @@ public class Input {
 			}
 
 			public void mouseMoved(MouseEvent e) {
-				mouseX = e.getX();
-				mouseY = e.getY();
+				Ref.mouseX = e.getX();
+				Ref.mouseY = e.getY();
 			}
 			
 		});
@@ -82,21 +79,4 @@ public class Input {
 			
 		});
 	}
-	
-	public boolean isKeyDown(char key){
-		return (keysHeld.contains(new Integer(key)));
-	}
-	
-	public boolean isMouseButtonDown(char button){
-		return (keysHeld.contains(new Integer(button)));
-	}
-	
-	public List<Integer> getKeysHeld() {
-		return keysHeld;
-	}
-
-	public List<Integer> getMouseButtonsHeld() {
-		return mouseButtonsHeld;
-	}
-
 }

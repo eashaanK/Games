@@ -8,12 +8,12 @@ import javax.swing.JPanel;
 
 import cb2Drpg_images.ImageLibrary;
 import cb2Drpg_input.Input;
+import cb2Drpg_map.Map;
 import cb2Drpg_refereces.Ref;
 
 public class Screen extends JPanel implements Runnable{
 
 	Thread thread;
-	Map map;
 	int fps = 0;
 	int ups = 0;
 	Input input;	
@@ -21,10 +21,7 @@ public class Screen extends JPanel implements Runnable{
 	
 	public Screen(JFrame frame){
 		input = new Input(frame);
-		game = new Game(this, input);
-		
-		map = new Map();
-		
+		game = new Game(this, input);		
 		//last thing to be called
 		thread = new Thread(this);
 		thread.start();
