@@ -22,7 +22,10 @@ public class Map {
 			//g.drawLine(100+chunk.getChunkX() * 5, 100+chunk.getChunkY() * 5, 100+chunk.getChunkX() * 5, 100+chunk.getChunkY() * 5);
 			for(int x = 0; x < chunk.tiles.length; x++){
 				for(int y= 0; y < chunk.tiles.length; y++){
-					g.drawImage(chunk.tiles[x][y].texture, x * Ref.TILE_SIZE*Ref.PIXEL_SIZE + chunk.getChunkX() * Ref.TILES_PER_CHUNK_X * Ref.TILE_SIZE * Ref.PIXEL_SIZE, y * Ref.TILE_SIZE*Ref.PIXEL_SIZE + chunk.getChunkY() * Ref.TILES_PER_CHUNK_Y* Ref.TILE_SIZE * Ref.PIXEL_SIZE, null);
+					//g.drawImage(chunk.tiles[x][y].texture, x * Ref.TILE_SIZE*Ref.PIXEL_SIZE + chunk.getChunkX() * Ref.TILES_PER_CHUNK_X * Ref.TILE_SIZE * Ref.PIXEL_SIZE, y * Ref.TILE_SIZE*Ref.PIXEL_SIZE + chunk.getChunkY() * Ref.TILES_PER_CHUNK_Y* Ref.TILE_SIZE * Ref.PIXEL_SIZE, 16, 16,null);
+					int xPos = Ref.TILE_SIZE  * Ref.PIXEL_SIZE + chunk.getChunkX() ;
+					int yPos = Ref.TILE_SIZE * Ref.PIXEL_SIZE + chunk.getChunkY();
+					g.drawImage(chunk.tiles[x][y].texture, xPos, yPos,  Ref.TILE_SIZE, Ref.TILE_SIZE, null);
 				}
 			}
 		}
