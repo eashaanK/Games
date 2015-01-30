@@ -46,7 +46,7 @@ public class TestGame extends Game
 
 		GameObject directionalLightObject = new GameObject();
 		directionalLight= new DirectionalLight(new Vector3f(0,0,1), 0.4f);
-		directionalLight.SetColor(new Vector3f(1f, 1f, 1f));
+		directionalLight.SetColor(new Vector3f(1f, 0, 0));
 		directionalLightObject.AddComponent(directionalLight);
 		Display.setResizable(true);
 

@@ -86,7 +86,7 @@ public class Terrain {
 				normals[vertexPointer*3] = normal.x;
 				normals[vertexPointer*3+1] = normal.y;
 				normals[vertexPointer*3+2] = normal.z;
-				textureCoords[vertexPointer*2] = (float)j/((float)VERTEX_COUNT - 1);
+				textureCoords[vertexPointer*2] = (float)j/((float)VERTEX_COUNT - 1) ;
 				textureCoords[vertexPointer*2+1] = (float)i/((float)VERTEX_COUNT - 1);
 				vertexPointer++;
 			}
