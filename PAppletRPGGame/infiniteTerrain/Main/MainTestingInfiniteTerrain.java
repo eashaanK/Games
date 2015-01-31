@@ -6,6 +6,7 @@ public class MainTestingInfiniteTerrain extends PApplet{
 
 	World world;
 	
+	
 	public void setup(){
 		size(800, 800);
 		world =  new World(new Player(0, 0, 10, 10));

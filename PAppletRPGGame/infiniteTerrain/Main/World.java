@@ -50,14 +50,14 @@ public class World {
 	private void unloadChunks(float pCX, float pCY){
 		for(Terrain chunk: loadedTerrains){
 			//too chunk is too far out of bounds
-			boolean isTooFarRight = chunk.getTerrainX() > this.T_AROUND_PLAYER * pCX;
-			boolean isTooFarLeft= chunk.getTerrainX() < this.T_AROUND_PLAYER * pCX;
+			boolean isTooFarRight = chunk.getTerrainX() > this.T_AROUND_PLAYER * Terrain.SIZE + pCX;
+			boolean isTooFarLeft= chunk.getTerrainX() < this.T_AROUND_PLAYER * Terrain.SIZE +  pCX;
 
 		//	boolean isTooFarUp= chunk.getTerrainY() < this.T_AROUND_PLAYER * pCY;
 		//	boolean isTooFarDown = chunk.getTerrainY() > this.T_AROUND_PLAYER * pCY;
 
 
-			if( isTooFarLeft){
+			if( isTooFarRight){
 				System.out.println("unload chunk " + chunk.getTerrainX() + " " + chunk.getTerrainY());
 				loadedTerrains.remove(chunk);
 			}
@@ -82,6 +82,12 @@ public class World {
 		renderBackground(p);
 		
 		renderForeground(p);
+		
+		if(p.keyPressed){
+			if(p.key == 'w'){
+				System.out.println("up");
+			}
+		}
 	}
 	
 	public void update(){

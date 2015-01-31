@@ -30,8 +30,6 @@ import guis.GuiTexture;
  *  Press f1 to switch between 1st Person and 2nd Person (Located in Player Class)
  *  In 3rd person mode, left mouse button to circle player, right for pitch, A and D keys to turn
  * 
- * https://www.youtube.com/watch?v=ZyzXBYVvjsg&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&index=15
- * 16
  * @author eashaan
  * 
  */
