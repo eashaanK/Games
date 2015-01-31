@@ -5,6 +5,12 @@ import cb2Drpg_images.Material;
 import cb2Drpg_noise.SimplexNoise;
 import cb2Drpg_refereces.Ref;
 
+/**
+ * == terrain
+ * tiles == hieght
+ * @author eashaan
+ *
+ */
 public class Chunk {
 
 	private int chunkX;
@@ -17,6 +23,7 @@ public class Chunk {
 	public Chunk(int chunkX, int chunkY) {
 		this.chunkX = chunkX;
 		this.chunkY = chunkY;
+		System.out.println("ChunkX" + chunkX);
 	}
 
 	public void populate(){
@@ -60,7 +67,7 @@ public class Chunk {
             }
         }
 		
-		ImageWriter.greyWriteImage(data);
+		//ImageWriter.greyWriteImage(data);
 	}
 	
 	public int getChunkX() {

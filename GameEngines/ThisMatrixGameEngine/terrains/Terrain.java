@@ -66,6 +66,7 @@ public class Terrain {
 		}
 		
 		int VERTEX_COUNT = image.getHeight();
+		System.out.println("<Terrain> vertexCount: " + VERTEX_COUNT);
 		
 		this.heights = new float[VERTEX_COUNT][VERTEX_COUNT];
 		

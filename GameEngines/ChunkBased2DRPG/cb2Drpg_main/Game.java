@@ -56,7 +56,7 @@ public class Game {
 					int tY = y*Ref.TILE_SIZE*Ref.PIXEL_SIZE + posY;
 					int size = Ref.TILE_SIZE * Ref.PIXEL_SIZE;
 					g.drawImage(chunk.tiles[x][y].texture, tX, tY, size, size, null);
-					g.drawString(chunk.id + " ", tX + 10, tY + 10);
+					//g.drawString(chunk.id + " ", tX + 10, tY + 10);
 				}
 			}
 			g.drawLine(posX, 0, posX, Main.HEIGHT);

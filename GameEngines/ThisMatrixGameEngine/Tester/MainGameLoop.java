@@ -12,7 +12,7 @@ import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
-import rendering.Window;
+import renderEngine.Window;
 import terrains.Terrain;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
