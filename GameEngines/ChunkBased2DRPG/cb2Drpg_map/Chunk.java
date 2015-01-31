@@ -10,6 +10,8 @@ public class Chunk {
 	private int chunkX;
 	private int chunkY;
 	
+	public int id = (int)(Math.random() * 10);
+	
 	public Tile[][] tiles;
 	
 	public Chunk(int chunkX, int chunkY) {
