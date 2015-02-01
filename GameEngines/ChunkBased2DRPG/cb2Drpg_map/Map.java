@@ -46,9 +46,8 @@ public class Map {
 		for(int x = pCX - (Ref.CHUNK_AMT_X - 1)/2; x  <= pCX + (Ref.CHUNK_AMT_X - 1)/2; x++){
 			for(int y = pCY - (Ref.CHUNK_AMT_Y - 1)/2; y  <= pCY + (Ref.CHUNK_AMT_Y - 1)/2; y++){
 				if(!loadedChunks.contains(new Chunk(x, y))){ 
-					System.out.println("Load Chunk");
+					System.out.println("Load Chunk " + x + " " + y);
 					Chunk chunk = new Chunk(x, y); 
-					// TODO: make chunk all pretty with gameObjects
 					chunk.populate();
 					loadedChunks.add(chunk);
 				}
