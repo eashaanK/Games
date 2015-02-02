@@ -7,9 +7,9 @@ import org.lwjgl.util.vector.Vector3f;
 public class Entity {
 
 	private TexturedModel model;
-	private Vector3f pos;
-	private float rotX, rotY, rotZ;
-	private float scale;
+	protected Vector3f pos;
+	protected float rotX, rotY, rotZ;
+	protected float scale;
 	
 	private int textureIndex = 0;
 

@@ -17,10 +17,12 @@ import terrains.Terrain;
 import entities.Bush;
 import entities.Camera;
 import entities.Entity;
+import entities.FirstPersonCamera;
 import entities.Flower;
 import entities.Grass;
 import entities.Light;
 import entities.LightModel;
+import entities.Player;
 import entities.Rock;
 import entities.Tree;
 
@@ -114,6 +116,8 @@ public class MasterRenderer {
 	public void processEntity(Entity entity){
 		TexturedModel entityModel = entity.getModel();
 		List<Entity> batch = entities.get(entityModel);
+		//dont render player if in FPS
+	
 		if(batch != null){
 			batch.add(entity);
 		}

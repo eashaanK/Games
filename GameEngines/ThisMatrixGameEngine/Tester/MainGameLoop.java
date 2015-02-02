@@ -117,7 +117,7 @@ public class MainGameLoop {
 		
 		if(Mouse.isGrabbed()) //unpaused
 			player.move(terrain);		
-	
+			
 	}
 	
 	

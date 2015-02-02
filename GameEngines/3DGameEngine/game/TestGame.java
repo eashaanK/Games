@@ -91,8 +91,7 @@ public class TestGame extends Game
 	public void Update(float delta)
 	{
 		super.Update(delta);
-		this.directionalLight.GetTransform().Rotate(new Vector3f(0, 1, 0), 0.01f);
-		directionalLight.SetIntensity(1f);
+	
 	}
 	
 }

@@ -3,6 +3,7 @@ package entities;
 import models.TexturedModel;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 import renderEngine.DisplayManager;
@@ -27,6 +28,7 @@ public class Player extends Entity{
 	
 	private Camera currentCamera;
 	private ThirdPersonCamera camera3rd;
+	private FirstPersonCamera camera1st;
 
 	public Player(TexturedModel model, Vector3f pos, float rotX, float rotY,
 			float rotZ, float scale, float cameraOffset) {
@@ -34,7 +36,8 @@ public class Player extends Entity{
 		this.cameraOffset = cameraOffset;
 		
 		camera3rd = new ThirdPersonCamera(new Vector3f(pos.x, pos.y + cameraOffset, pos.z), this, 20, 8);
-		this.currentCamera = camera3rd;
+		camera1st = new FirstPersonCamera(new Vector3f(pos.x, pos.y + cameraOffset, pos.z), this);
+		this.currentCamera = camera1st;
 	}
 	
 	public Player(TexturedModel model, int index, Vector3f pos, float rotX, float rotY, float rotZ, float scale) {
@@ -77,9 +80,25 @@ public class Player extends Entity{
 	private void checkInputs(){
 		
 		//check for mode
-		this.checkCameraMode();
+		int cameraMode = this.checkCameraMode();
 		
-	
+		switch(cameraMode){
+		case 0: //first
+			rotY -= Mouse.getDX();
+			break;
+		case 1: //3rd
+			if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+				this.currentTurnSpeed = -this.TURN_SPEED;
+			}
+			else if(Keyboard.isKeyDown(Keyboard.KEY_A)){
+				this.currentTurnSpeed = this.TURN_SPEED;
+			}
+			else
+			{
+				this.currentTurnSpeed = 0;
+			}
+			break;
+		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			this.currentSpeed = this.RUN_SPEED;
 		}
@@ -95,16 +114,7 @@ public class Player extends Entity{
 			this.jump();
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-			this.currentTurnSpeed = -this.TURN_SPEED;
-		}
-		else if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-			this.currentTurnSpeed = this.TURN_SPEED;
-		}
-		else
-		{
-			this.currentTurnSpeed = 0;
-		}
+	
 	
 		//firstPerson
 		/*else{ //ist person
@@ -129,14 +139,26 @@ public class Player extends Entity{
 			
 	}
 	
-	private void checkCameraMode(){
+	/**
+	 * returns 0 if in 1st person
+	 * returns 1 if in 3rd person
+	 * NOTE: PLAYER WILL NOT BE RENDERED IF CAMERA IS IN FIRST PERSON MODE
+	 * @return
+	 */
+	private int checkCameraMode(){
 		if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
-			this.currentCamera = this.camera3rd;
+			this.currentCamera = this.camera1st;
 		}
 		
 		else if(Keyboard.isKeyDown(Keyboard.KEY_F2)){
-			//this.currentCamera = this.camera1st;
+			this.currentCamera = this.camera3rd;
 		}
+		
+		if(currentCamera instanceof FirstPersonCamera)
+			return 0;
+		else if(currentCamera instanceof ThirdPersonCamera)
+			return 1;
+		return -1;
 	}
 
 	public float getCameraOffset() {

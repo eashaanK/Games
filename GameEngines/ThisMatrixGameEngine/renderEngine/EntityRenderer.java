@@ -6,18 +6,18 @@ import java.util.Map;
 import models.RawModel;
 import models.TexturedModel;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector4f;
 
 import shaders.StaticShader;
 import textures.ModelTexture;
 import toolbox.Maths;
 import entities.Entity;
+import entities.FirstPersonCamera;
+import entities.Player;
 
 /**
  * VAO:
@@ -82,6 +82,12 @@ public class EntityRenderer {
 				entity.getPos(), entity.getRotX(), entity.getRotY(),
 				entity.getRotZ(), entity.getScale());
 		shader.loadTransformationMatrix(trasformationMatrix);
+		/*if(entity instanceof Player){
+			Player p = (Player)entity;
+			if(p.getCurrentCamera() instanceof FirstPersonCamera)
+				return;
+		}*/
+	
 		shader.loadOffset(entity.getTextureXOffset(), entity.getTextureYOffset());
 	}
 	
