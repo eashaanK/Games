@@ -3,20 +3,24 @@ package game;
 
 import org.lwjgl.opengl.Display;
 
+import rendering.Attenuation;
 import rendering.ClearColor;
 import rendering.Material;
 import rendering.Mesh;
 import rendering.RenderingEngine;
 import rendering.Texture;
 import rendering.Window;
+
 import components.Camera;
 import components.DirectionalLight;
 import components.FreeLook;
 import components.FreeMove;
 import components.MeshRenderer;
+import components.PointLight;
+import components.SpotLight;
+
 import core.Game;
 import core.GameObject;
-import core.Matrix4f;
 import core.Quaternion;
 import core.Vector3f;
 
@@ -50,21 +54,21 @@ public class TestGame extends Game
 		directionalLightObject.AddComponent(directionalLight);
 		Display.setResizable(true);
 
-		//GameObject pointLightObject = new GameObject();
-		//pointLightObject.AddComponent(new PointLight(new Vector3f(0, 1, 0), 0.4f, new Attenuation(0, 0, 1)));
+		GameObject pointLightObject = new GameObject();
+		pointLightObject.AddComponent(new PointLight(new Vector3f(0, 1, 0), 0.4f, new Attenuation(0, 0, 1)));
 
-		//SpotLight spotLight = new SpotLight(new Vector3f(0,1,1), 0.4f,new Attenuation(0,0,0.1f), 0.7f);
+		SpotLight spotLight = new SpotLight(new Vector3f(0,1,1), 0.4f,new Attenuation(0,0,0.1f), 0.7f);
 
-		//GameObject spotLightObject = new GameObject();
-		//spotLightObject.AddComponent(spotLight);
+		GameObject spotLightObject = new GameObject();
+		spotLightObject.AddComponent(spotLight);
 
-		//spotLightObject.GetTransform().GetPos().Set(5, 0, 5);
-		//spotLightObject.GetTransform().SetRot(new Quaternion(new Vector3f(0, 1, 0), (float) Math.toRadians(90.0f)));
+		spotLightObject.GetTransform().GetPos().Set(5, 0, 5);
+		spotLightObject.GetTransform().SetRot(new Quaternion(new Vector3f(0, 1, 0), (float) Math.toRadians(90.0f)));
 
 		AddObject(planeObject);
 		AddObject(directionalLightObject);
-		//AddObject(pointLightObject);
-		//AddObject(spotLightObject);
+		AddObject(pointLightObject);
+		AddObject(spotLightObject);
 		
 		Mesh tempMesh = new Mesh("monkey3.obj");
 
@@ -85,6 +89,8 @@ public class TestGame extends Game
 		AddObject(new GameObject().AddComponent(new MeshRenderer(new Mesh("monkey3.obj"), material2)));
 
 		directionalLight.GetTransform().SetRot(1, 0, 0, -45);
+		
+		
 	}
 	
 	@Override

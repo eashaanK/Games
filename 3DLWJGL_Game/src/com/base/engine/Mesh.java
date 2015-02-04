@@ -22,6 +22,8 @@ public class Mesh {
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
 
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, Util.createFlippedBuffer(vertices), GL15.GL_STATIC_DRAW); //what type of date we are sending it
+		
+		
 
 	}
 	
@@ -29,7 +31,7 @@ public class Mesh {
 
 
 		
-		GL20.glEnableVertexAttribArray(0);
+		GL20.glEnableVertexAttribArray(1);
 		
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
 		

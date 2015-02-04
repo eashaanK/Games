@@ -25,8 +25,12 @@ public class Game {
 	
 		
 		shader = new Shader();
-		shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vp"));
-		shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fp"));
+
+		shader.addVertexShader(ResourceLoader.loadShader("vertexShader.txt"));
+
+		shader.addFragmentShader(ResourceLoader.loadShader("fragmentShader.txt"));
+
+
 		shader.compileShader();
 
 	}
@@ -37,7 +41,7 @@ public class Game {
 	}
 	
 	public void update(){
-		
+
 	}
 	
 	public void render(){

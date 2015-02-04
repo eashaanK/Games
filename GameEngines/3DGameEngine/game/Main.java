@@ -16,6 +16,8 @@
 
 package game;
 
+import components.Camera;
+
 import core.CoreEngine;
 
 public class Main
