@@ -31,7 +31,7 @@ public class Mesh {
 
 
 		
-		GL20.glEnableVertexAttribArray(1);
+		GL20.glEnableVertexAttribArray(0);
 		
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
 		
