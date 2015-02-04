@@ -12,6 +12,7 @@ public class MainComponent {
 	private boolean isRunning;
 	private Game game;
 	public MainComponent(){
+		System.out.println("Current version of OPENGL: " + RenderUtils.getOpenGLVersion());
 		RenderUtils.initGraphics(0, 0, 0, 1);
 		isRunning = false;
 		game = new Game();

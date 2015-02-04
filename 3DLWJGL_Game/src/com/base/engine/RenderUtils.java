@@ -26,4 +26,8 @@ public class RenderUtils {
 		GL11.glEnable(GL30.GL_FRAMEBUFFER_SRGB);
 	}
 	
+	public static String getOpenGLVersion(){
+		return GL11.glGetString(GL11.GL_VERSION);
+	}
+	
 }
