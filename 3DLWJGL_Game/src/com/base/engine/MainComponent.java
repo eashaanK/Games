@@ -1,5 +1,8 @@
 package com.base.engine;
 
+import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector3f;
+
 import com.base.game.Game;
 import com.base.input.Input;
 import com.base.ref.Ref;
@@ -9,6 +12,7 @@ public class MainComponent {
 	private boolean isRunning;
 	private Game game;
 	public MainComponent(){
+		RenderUtils.initGraphics(0, 0, 0, 1);
 		isRunning = false;
 		game = new Game();
 	}
@@ -17,6 +21,7 @@ public class MainComponent {
 		if(isRunning)
 			return;
 		run();
+		Vector3f lol = null;
 	}
 	
 	public void stop(){
@@ -52,7 +57,8 @@ public class MainComponent {
 				game.input();
 				game.update();
 				if(frameCounter >= Ref.SECOND){
-					System.out.println("FPS: " + frames);
+					//System.out.println("FPS: " + frames);
+					Display.setTitle(Ref.TITLE + " FPS: " + frames);
 					frames = 0;
 					frameCounter = 0;
 				}
@@ -76,6 +82,7 @@ public class MainComponent {
 	}
 	
 	private void render(){
+		RenderUtils.clearScreen();
 		game.render();
 		Window.render();
 	}

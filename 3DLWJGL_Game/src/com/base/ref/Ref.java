@@ -10,6 +10,8 @@ public class Ref {
 	public static final long SECOND = 1000000000L;
 
 	public static final int NUM_KEYCODES = 256;
+	
+	public static final int VERTEX_SIZE = 3;
 
 
 }
