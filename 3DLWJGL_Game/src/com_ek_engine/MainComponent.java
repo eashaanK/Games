@@ -7,6 +7,7 @@ import com.nishu.utils.Time;
 import com_ek_game.Game;
 import com_ek_input.Input;
 import com_ek_ref.Ref;
+import com_ek_rendering.RenderUtil;
 
 /**
  * This class has the main loop, controls the update and rendering and time
@@ -20,6 +21,7 @@ public class MainComponent {
 	private GameInterface game;
 	
 	public MainComponent(){
+		RenderUtil.initGraphics();
 		isRunning = false;
 		game = new Game();
 	}
@@ -101,6 +103,7 @@ public class MainComponent {
 	}
 	
 	private void render(){
+		RenderUtil.clearScreen();
 		game.render();
 		Window.render();
 	}
