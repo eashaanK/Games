@@ -1,19 +1,25 @@
-package com.base.engine;
+package com_ek_engine;
 
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector3f;
 
-import com.base.game.Game;
-import com.base.input.Input;
-import com.base.ref.Ref;
+import com.nishu.utils.Time;
 
+import com_ek_game.Game;
+import com_ek_input.Input;
+import com_ek_ref.Ref;
+
+/**
+ * This class has the main loop, controls the update and rendering and time
+ * @author eashaan
+ *
+ */
 public class MainComponent {
-
+	
 	private boolean isRunning;
-	private Game game;
+	
+	private GameInterface game;
+	
 	public MainComponent(){
-		System.out.println("Current version of OPENGL: " + RenderUtils.getOpenGLVersion());
-		RenderUtils.initGraphics(0, 0, 0, 1);
 		isRunning = false;
 		game = new Game();
 	}
@@ -32,33 +38,48 @@ public class MainComponent {
 	
 	private void run(){
 		isRunning = true;
+		
 		int frames = 0;
 		long frameCounter = 0;
+		
 		final double frameTime = 1.0 / Ref.FRAME_CAP;
+		
 		long lastTime = Time.getTime();
-		double unprocessedTime = 0;
-		while(isRunning){
+		
+		double unProcessedTime = 0;
+		
+		while(isRunning)
+		{
 			boolean render = false;
 			
 			long startTime = Time.getTime();
+			
 			long passedTime = startTime - lastTime;
 			lastTime = startTime;
 			
-			unprocessedTime += passedTime / (double)Ref.SECOND;
+			unProcessedTime += passedTime / (double)Ref.SECOND;
 			frameCounter += passedTime;
 			
-			while(unprocessedTime > frameTime){
+			while(unProcessedTime > frameTime){
 				render = true;
-				unprocessedTime -= frameTime;
+				
+				unProcessedTime -= frameTime;
+				
 				if(Window.isCloseRequested())
 					stop();
+				
 				Time.setDelta(frameTime);
-				Input.update();
+				
+				//TODO: update game
 				game.input();
+				Input.Update();
+
 				game.update();
-				if(frameCounter >= Ref.SECOND){
-					//System.out.println("FPS: " + frames);
-					Display.setTitle(Ref.TITLE + " FPS: " + frames);
+				
+				if(frameCounter >= Ref.SECOND)
+				{
+					Ref.FPS = frames;
+					Display.setTitle(Ref.TITLE + " FPS: " + Ref.FPS);
 					frames = 0;
 					frameCounter = 0;
 				}
@@ -68,21 +89,18 @@ public class MainComponent {
 				render();
 				frames++;
 			}
-			else
-			{
-					try {
-						Thread.sleep(1);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+			else{
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		cleanUp();
 	}
 	
 	private void render(){
-		RenderUtils.clearScreen();
 		game.render();
 		Window.render();
 	}
@@ -90,11 +108,11 @@ public class MainComponent {
 	private void cleanUp(){
 		Window.dispose();
 	}
-	
-	public static void main(String[] args) {
-		Window.createWindow(Ref.WIDTH, Ref.HEIGHT, Ref.TITLE);
-		MainComponent main = new MainComponent();
-		main.start();
-	}
 
+	public static void main(String[] args){
+		Window.createWindow(Ref.WIDTH, Ref.HEIGHT, Ref.TITLE);
+		
+		MainComponent game = new MainComponent();
+		game.start();
+	}
 }

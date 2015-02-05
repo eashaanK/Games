@@ -1,4 +1,4 @@
-package com.base.engine;
+package com_ek_time;
 
 public class Time {
 
@@ -15,4 +15,5 @@ public class Time {
 	public static void setDelta(double delta){
 		Time.delta = delta;
 	}
+
 }
