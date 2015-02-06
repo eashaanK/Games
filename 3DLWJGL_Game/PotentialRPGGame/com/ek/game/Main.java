@@ -23,7 +23,7 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		CoreEngine engine = new CoreEngine(1500, 1000, 60, new RPGGame());
+		CoreEngine engine = new CoreEngine(600, 600, 60, new RPGGame());
 		engine.CreateWindow("3D Game Engine");
 		engine.Start();
 	}
