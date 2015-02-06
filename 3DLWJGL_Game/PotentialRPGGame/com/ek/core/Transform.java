@@ -157,4 +157,8 @@ public class Transform
 	{
 		this.m_scale = scale;
 	}
+	
+	public void moveBy(float dx, float dy, float dz){
+		this.SetPos(new Vector3f(this.GetPos().GetX() + dx, this.GetPos().GetY() + dy, this.GetPos().GetZ() + dz));
+	}
 }

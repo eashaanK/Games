@@ -28,6 +28,7 @@ public class GameObject
 	private ArrayList<GameComponent> m_components;
 	private Transform m_transform;
 	private CoreEngine m_engine;
+	private boolean isVisible = true;
 
 	public GameObject()
 	{
@@ -94,8 +95,10 @@ public class GameObject
 
 	public void Render(Shader shader, RenderingEngine renderingEngine)
 	{
-		for(GameComponent component : m_components)
-			component.Render(shader, renderingEngine);
+		if(this.isVisible()){
+			for(GameComponent component : m_components)
+				component.Render(shader, renderingEngine);
+		}
 	}
 
 	public ArrayList<GameObject> GetAllAttached()
@@ -126,5 +129,13 @@ public class GameObject
 			for(GameObject child : m_children)
 				child.SetEngine(engine);
 		}
+	}
+
+	public boolean isVisible() {
+		return isVisible;
+	}
+
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 }
