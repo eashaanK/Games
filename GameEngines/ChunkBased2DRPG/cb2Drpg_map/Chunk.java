@@ -23,7 +23,7 @@ public class Chunk {
 	public Chunk(int chunkX, int chunkY) {
 		this.chunkX = chunkX;
 		this.chunkY = chunkY;
-		System.out.println("ChunkX" + chunkX);
+		//System.out.println("ChunkX" + chunkX);
 	}
 
 	public void populate(){

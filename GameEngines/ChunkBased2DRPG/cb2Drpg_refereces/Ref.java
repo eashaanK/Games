@@ -24,8 +24,8 @@ public class Ref {
 	public static final int TILE_SIZE = 16;
 
 	//Chunks
-	public static final int TILES_AMOUNT_X = 512; //tiles per chunk
-	public static final int TILES_AMOUNT_Y = 512;
+	public static final int TILES_AMOUNT_X = 5; //tiles per chunk
+	public static final int TILES_AMOUNT_Y = 5;
 
 	public static final int CHUNK_AMT_X = 2; //chunks around u
 	public static final int CHUNK_AMT_Y = 2;
