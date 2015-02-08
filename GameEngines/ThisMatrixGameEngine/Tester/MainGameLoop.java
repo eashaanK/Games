@@ -89,7 +89,7 @@ public class MainGameLoop {
 		setupTerrain();
 		
 		Light sun = new Light(new Vector3f(0, 3000, -200), new Vector3f(0.2f, 0.2f, 0.2f));
-		LightModel lampPost = new LightModel(new Vector3f(0, 4, 0), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.02f), new Entity(toolBox.getLampTexturedModel(), new Vector3f(0, 0, 0), 0, 0, 0, SCALE));
+		LightModel lampPost = new LightModel(new Vector3f(0, 2.5f, 0), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.02f), new Entity(toolBox.getLampTexturedModel(), new Vector3f(0, 0, 0), 0, 0, 0, SCALE));
 		lights.add(sun);
 		lights.add(lampPost);
 	
@@ -119,15 +119,10 @@ public class MainGameLoop {
 		if(Mouse.isGrabbed()) //unpaused
 			player.move(terrain);		
 		
-		lights.get(1).setPos(new Vector3f(tX, tZ, 0));
-	
-		tZ = 2.5f;
-		tX = 0.0f;
+		
 			
 	}
-	
-	static float  tZ = 0, tX;
-	
+		
 	///////////////////////////////////////////////////////////////////HELPER METHODS////////////////////////////////////////
 
 	private static void setupTerrain(){
