@@ -9,22 +9,23 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import renderEngine.DisplayManager;
-import renderEngine.Loader;
-import renderEngine.MasterRenderer;
-import renderEngine.Window;
-import terrains.Terrain;
-import textures.TerrainTexture;
-import textures.TerrainTexturePack;
-import toolbox.ToolBox;
-import entities.Bush;
-import entities.Entity;
-import entities.Light;
-import entities.LightModel;
-import entities.Player;
-import entities.Tree;
-import guis.GuiRenderer;
-import guis.GuiTexture;
+import tM_entities.Bush;
+import tM_entities.Entity;
+import tM_entities.Light;
+import tM_entities.LightModel;
+import tM_entities.Player;
+import tM_entities.Tree;
+import tM_guis.GuiRenderer;
+import tM_guis.GuiTexture;
+import tM_renderEngine.DisplayManager;
+import tM_renderEngine.Loader;
+import tM_renderEngine.MasterRenderer;
+import tM_renderEngine.Window;
+import tM_skybox.SkyboxRenderer;
+import tM_terrains.Terrain;
+import tM_textures.TerrainTexture;
+import tM_textures.TerrainTexturePack;
+import tM_toolbox.ToolBox;
 
 /**
  *  Press f1 to switch between 1st Person and 2nd Person (Located in Player Class)
@@ -55,7 +56,7 @@ public class MainGameLoop {
 		init(loader);
 
 		
-		MasterRenderer mRenderer = new MasterRenderer();
+		MasterRenderer mRenderer = new MasterRenderer(loader);
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
 		while (!Display.isCloseRequested()) {
 			update();
@@ -87,7 +88,7 @@ public class MainGameLoop {
 			
 		setupTerrain();
 		
-		Light sun = new Light(new Vector3f(0, 3000, -200), new Vector3f(1, 1, 1));
+		Light sun = new Light(new Vector3f(0, 3000, -200), new Vector3f(0.2f, 0.2f, 0.2f));
 		LightModel lampPost = new LightModel(new Vector3f(0, 4, 0), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.02f), new Entity(toolBox.getLampTexturedModel(), new Vector3f(0, 0, 0), 0, 0, 0, SCALE));
 		lights.add(sun);
 		lights.add(lampPost);
@@ -95,7 +96,7 @@ public class MainGameLoop {
 
 		//entities.add(new Entity(toolBox.getLampTexturedModel(), new Vector3f(0, 0, 0), 0, 0, 0, SCALE));
 	
-		player = new Player(toolBox.createTexturedModel(loader, "person", "playerTexture", false, false), new Vector3f(200, 0, -1), 0, 0, 0, SCALE, 1.5f);
+		player = new Player(toolBox.createTexturedModel(loader, "person", "playerTexture", false, false), new Vector3f(0, 0, 0), 0, 0, 0, SCALE, 1.5f);
 		//in game mode
 		
 		guis.add(new GuiTexture(loader.loadTexture("socuwan"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f), 0, 0, 0.1f));
@@ -117,9 +118,15 @@ public class MainGameLoop {
 		
 		if(Mouse.isGrabbed()) //unpaused
 			player.move(terrain);		
+		
+		lights.get(1).setPos(new Vector3f(tX, tZ, 0));
+	
+		tZ = 2.5f;
+		tX = 0.0f;
 			
 	}
 	
+	static float  tZ = 0, tX;
 	
 	///////////////////////////////////////////////////////////////////HELPER METHODS////////////////////////////////////////
 
@@ -132,7 +139,7 @@ public class MainGameLoop {
 		
 		TerrainTexturePack textPack = new TerrainTexturePack(backG, rText, gText, bText);
 
-		terrain = new Terrain(0, -1, loader, textPack, blendMap, "heightmap", (float)(Math.random() * 15 + 10));
+		terrain = new Terrain(0, -1, loader, textPack, blendMap, "heightmap", 40);
 		
 		
 		float x, y, z;

@@ -59,5 +59,6 @@
 	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/applet/basic/windows_natives.jar"/>
 	<classpathentry kind="lib" path="libs/PApplet libraries/controlP5.jar"/>
 	<classpathentry kind="lib" path="libs/PApplet libraries/peasycam.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl-2.9.1/PNGDecoder.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
