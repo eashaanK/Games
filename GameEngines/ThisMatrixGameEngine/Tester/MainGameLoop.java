@@ -89,10 +89,13 @@ public class MainGameLoop {
 		setupTerrain();
 		
 		Light sun = new Light(new Vector3f(0, 3000, -200), new Vector3f(0.2f, 0.2f, 0.2f));
-		LightModel lampPost = new LightModel(new Vector3f(0, 2.5f, 0), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.02f), new Entity(toolBox.getLampTexturedModel(), new Vector3f(0, 0, 0), 0, 0, 0, SCALE));
 		lights.add(sun);
+		
+		
+		for(int i = 0; i < 10; i++){
+		LightModel lampPost = new LightModel(new Vector3f(i * 10, terrain.getHeightOfTerrainRelativeToWorld(i * 10, i * -10) + 2.5f, i * -10), new Vector3f(1, 0, 0), new Vector3f(1, 0.01f, 0.02f), new Entity(toolBox.getLampTexturedModel(), new Vector3f(i * 10, terrain.getHeightOfTerrainRelativeToWorld(i * 10, i * -10), i * -10), 0, 0, 0, SCALE));
 		lights.add(lampPost);
-	
+		}
 
 		//entities.add(new Entity(toolBox.getLampTexturedModel(), new Vector3f(0, 0, 0), 0, 0, 0, SCALE));
 	
