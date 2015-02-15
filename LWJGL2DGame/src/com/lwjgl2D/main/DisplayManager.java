@@ -10,28 +10,34 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class DisplayManager {
 	
-	private static final int WIDTH = 1280;
-	private static final int HEIGHT = 720;
-	private static final int FPS_CAP = 120;
+	public static final int WIDTH = 1280;
+	public static final int HEIGHT = 720;
+	private static final int FPS_CAP = 60;
 	
-	private static long lastFrameTime;
-	private static float delta;
 
+	private static long lastFrame;
+	private static float delta;
+		
 	public static void createDisplay(){		
-		ContextAttribs attribs = new ContextAttribs(3,2)
+	/*	ContextAttribs attribs = new ContextAttribs(3,2)
 		.withForwardCompatible(true)
 		.withProfileCore(true);
+		*/
 		
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
-			Display.create(new PixelFormat(), attribs);
+			//Display.create(new PixelFormat(), attribs);
+			Display.create();
 			Display.setTitle("Our First Display!");
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
 		
 		GL11.glViewport(0,0, WIDTH, HEIGHT);
-		lastFrameTime = getCurrentTime();
+	}
+	
+	public static void setTime(){
+		lastFrame = getTime();
 	}
 	
 	public static void updateDisplay(){
@@ -39,23 +45,26 @@ public class DisplayManager {
 		Display.sync(FPS_CAP);
 		Display.update();
 		
-		long currentFrameTime  = getCurrentTime();
-		delta = (currentFrameTime - lastFrameTime) / 1000f; //seconds
-		lastFrameTime = currentFrameTime;
-	}
+		long currentTime = getTime();
+		delta = (float)(currentTime - lastFrame);
+		lastFrame = currentTime;
 	
-	public static float getFrameTimeSeconds(){
-		return delta;
 	}
 	
 	public static void closeDisplay(){
 		
 		Display.destroy();
-		
 	}
 	
-	private static long getCurrentTime(){
-		return Sys.getTime() * 1000/Sys.getTimerResolution(); //time in milliseconds
+	public static long getTime(){
+		return (Sys.getTime() * 1000 ) / Sys.getTimerResolution();
 	}
+	
+	public static float getDelta(){
+		
+		return delta;
+	}
+	
+	
 
 }
