@@ -24,6 +24,9 @@ public class CoreEngine {
 	
 	public static ArrayList<AbstractGameObject> gameObjects = new ArrayList<AbstractGameObject>();
 
+	private static float renderDistance2D;
+
+	private static float updateDistance2D;
 	
 	public static void main(String[] args){
 		Game game = new Game();
@@ -36,16 +39,35 @@ public class CoreEngine {
 		
 		DisplayManager.setTime();
 		
+		renderDistance2D = 0;
+		updateDistance2D = 0;
+		
+		int gameObjectsDrawnScreen = 0;
+		int gameObjectsUpdatedScreen = 0;
+
 		while(!Display.isCloseRequested()){
 			updateOPENGL();
 			float delta = DisplayManager.updateDelta();
 			game.update(delta);
 			for(AbstractGameObject g : gameObjects){
-				g.update(delta);
-				g.draw();
-				
+				if(g instanceof Player){
+					g.update(delta); 
+					gameObjectsUpdatedScreen++; 
+				}
+
+				else if(  !(g.getX() + g.getW() < 0 - updateDistance2D || g.getX() > DisplayManager.WIDTH + updateDistance2D || g.getY() + g.getH() < 0 - updateDistance2D || g.getY() > DisplayManager.HEIGHT + updateDistance2D)  ){
+					
+						g.update(delta); 
+						gameObjectsUpdatedScreen++; 
+					
+				}
+				if(  !(g.getX() + g.getW() < 0 - renderDistance2D || g.getX() > DisplayManager.WIDTH + renderDistance2D || g.getY() + g.getH() < 0 - renderDistance2D || g.getY() > DisplayManager.HEIGHT + renderDistance2D)  ){
+					g.draw(); gameObjectsDrawnScreen++;}
 			}
+		//	System.out.println("Objects Drawn: " + gameObjectsDrawnScreen + "\t\t Objects Updated: " + gameObjectsUpdatedScreen);
 			DisplayManager.updateDisplay();
+			gameObjectsDrawnScreen = 0;
+			gameObjectsUpdatedScreen = 0;
 		}
 		
 		DisplayManager.closeDisplay();
