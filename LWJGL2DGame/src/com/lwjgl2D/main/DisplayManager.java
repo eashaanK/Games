@@ -45,10 +45,15 @@ public class DisplayManager {
 		Display.sync(FPS_CAP);
 		Display.update();
 		
+	
+	
+	}
+	
+	public static float updateDelta(){
 		long currentTime = getTime();
 		delta = (float)(currentTime - lastFrame);
 		lastFrame = currentTime;
-	
+		return delta;
 	}
 	
 	public static void closeDisplay(){
@@ -59,12 +64,5 @@ public class DisplayManager {
 	public static long getTime(){
 		return (Sys.getTime() * 1000 ) / Sys.getTimerResolution();
 	}
-	
-	public static float getDelta(){
-		
-		return delta;
-	}
-	
-	
 
 }

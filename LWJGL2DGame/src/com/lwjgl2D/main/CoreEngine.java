@@ -1,11 +1,30 @@
 package com.lwjgl2D.main;
 
-import static org.lwjgl.opengl.GL11.*;
-import org.lwjgl.*;
-import org.lwjgl.opengl.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
+import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glOrtho;
+
+import java.util.ArrayList;
+
+import org.lwjgl.opengl.Display;
+
+import com.lwjgl2D.entities.implementations.Player;
+import com.lwjgl2D.entities.interfaces.AbstractGameObject;
 
 public class CoreEngine {
+	
+	public static ArrayList<AbstractGameObject> gameObjects = new ArrayList<AbstractGameObject>();
 
+	
 	public static void main(String[] args){
 		Game game = new Game();
 		
@@ -19,12 +38,24 @@ public class CoreEngine {
 		
 		while(!Display.isCloseRequested()){
 			updateOPENGL();
-			game.update();
+			float delta = DisplayManager.updateDelta();
+			game.update(delta);
+			for(AbstractGameObject g : gameObjects){
+				g.update(delta);
+				g.draw();
+				
+			}
 			DisplayManager.updateDisplay();
 		}
 		
 		DisplayManager.closeDisplay();
 		game.close();
+	}
+	
+ 
+	
+	public static void add(AbstractGameObject g){
+		CoreEngine.gameObjects.add(g);
 	}
 	
 	private static void initOPENGL(){
