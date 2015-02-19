@@ -43,6 +43,10 @@ public class VertexBufferObjectDemo {
 			Window.updateDisplay();
 		}
 		
+		glDeleteBuffers(vboVertexHandle);
+		glDeleteBuffers(vboColorHandle);
+
+		
 		Window.close();
 	}
 
