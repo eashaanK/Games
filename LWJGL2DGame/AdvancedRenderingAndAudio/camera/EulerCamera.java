@@ -543,7 +543,6 @@ public final class EulerCamera implements  Camera {
         this.fov = fov;
     }
 
-    @Override
     public void setAspectRatio(float aspectRatio) {
         if (aspectRatio <= 0) {
             throw new IllegalArgumentException("aspectRatio " + aspectRatio + " is 0 or less");
