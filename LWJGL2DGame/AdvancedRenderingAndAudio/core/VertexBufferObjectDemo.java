@@ -47,7 +47,7 @@ public class VertexBufferObjectDemo {
 		glDeleteBuffers(vboColorHandle);
 
 		
-		Window.close();
+		Window.closeWindow();
 	}
 
 	private static void updateOpengl() {

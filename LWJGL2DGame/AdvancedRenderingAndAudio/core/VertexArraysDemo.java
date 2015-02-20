@@ -30,7 +30,7 @@ public class VertexArraysDemo {
 			Window.updateDisplay();
 		}
 		
-		Window.close();
+		Window.closeWindow();
 	}
 
 	private static void updateOpenGL() {

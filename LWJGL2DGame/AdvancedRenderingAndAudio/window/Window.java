@@ -22,9 +22,10 @@ public class Window {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.setTitle(NAME);
 			Display.create();
-			//AL.create();
+			AL.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 		
 		GL11.glViewport(0, 0, WIDTH, HEIGHT);
@@ -36,9 +37,9 @@ public class Window {
 		Display.update();
 	}
 	
-	public static void close(){
+	public static void closeWindow(){
 		Display.destroy();
-		//AL.destroy();
+		AL.destroy();
 	}
 	
 	public static long getTime(){

@@ -26,7 +26,6 @@ public class Audio {
 
 	public static void main(String[] args) throws FileNotFoundException, LWJGLException{
 		Window.createWindow();
-		AL.create();
 		//initOPENGL();
 		
 		//init OPENAL
@@ -59,8 +58,7 @@ public class Audio {
 		//clean up audio buffer
 		alDeleteBuffers(blopSoundBuffer);
 		
-		AL.destroy();
-		Window.close();
+		Window.closeWindow();
 	}
 	
 	/* public static void main(String[] args) throws FileNotFoundException {
