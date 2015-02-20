@@ -2,6 +2,7 @@ package window;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -21,6 +22,7 @@ public class Window {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.setTitle(NAME);
 			Display.create();
+			//AL.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
@@ -36,6 +38,7 @@ public class Window {
 	
 	public static void close(){
 		Display.destroy();
+		//AL.destroy();
 	}
 	
 	public static long getTime(){
