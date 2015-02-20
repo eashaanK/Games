@@ -13,6 +13,8 @@ public class ModelsDemo {
 			Window.updateDelta();
 			Window.updateDisplay();
 		}
+		
+		Window.closeWindow();
 	}
 
 }
