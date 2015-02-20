@@ -7,6 +7,7 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.RawModel;
 import renderEngine.Renderer;
+import shaders.StaticShader;
 
 public class Core {
 
@@ -16,6 +17,7 @@ public class Core {
 	
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
+		StaticShader shader = new StaticShader();
 		
 		float[] vertices = {
 				-0.5f, 0.5f, 0f, 
@@ -33,13 +35,19 @@ public class Core {
 	
 		while(!Display.isCloseRequested()){
 			renderer.prepare();
+			//shader
+			shader.start();
 			
 			renderer.render(model);
+			
+			//sahder
+			shader.stop();
 			
 			DisplayManager.updateDisplay();
 			//GLErrorHandler.checkErrors("");
 		}
 		
+		shader.cleanUp();
 		loader.cleanUp();
 		
 		DisplayManager.closeDisplay();
