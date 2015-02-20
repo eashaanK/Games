@@ -9,6 +9,11 @@ import renderEngine.RawModel;
 import renderEngine.Renderer;
 import shaders.StaticShader;
 
+/**
+ * Tutorial 6
+ * @author eashaan
+ *
+ */
 public class Core {
 
 	public static void main(String[] args){
