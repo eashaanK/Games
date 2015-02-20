@@ -88,7 +88,7 @@ public class MainGameLoop {
 			
 		setupTerrain();
 		
-		Light sun = new Light(new Vector3f(0, 3000, -200), new Vector3f(0.2f, 0.2f, 0.2f));
+		Light sun = new Light(new Vector3f(0, 3000, -200), new Vector3f(1, 1, 1));
 		lights.add(sun);
 		
 		
