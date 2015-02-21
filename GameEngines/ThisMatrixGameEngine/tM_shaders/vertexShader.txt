@@ -19,7 +19,7 @@ uniform float useFakeLighting;
 uniform float numberOfRows;
 uniform vec2 offset;
 
-const float density = 0.001; //thickness of fog
+const float density = 0.01; //thickness of fog
 const float gradient = 1.5;  //how quickly the fog disappears
 
 void main(void){
