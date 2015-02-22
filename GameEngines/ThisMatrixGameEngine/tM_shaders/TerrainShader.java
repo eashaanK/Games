@@ -11,7 +11,7 @@ import tM_toolbox.Maths;
 
 public class TerrainShader extends ShaderProgram{
 	
-	private static final int MAX_LIGHTS = 4;
+	public static final int MAX_LIGHTS = 4;
 	
 	private static final String VERTEX_FILE = "ThisMatrixGameEngine/tM_shaders/TerrainVertexShader.txt";
 	private static final String FRAGMENT_FILE = "ThisMatrixGameEngine/tM_shaders/TerrainFragmentShader.txt";

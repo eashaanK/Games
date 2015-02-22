@@ -65,7 +65,8 @@ public class MasterRenderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 	
-	public void render(List<Light> lights, Camera camera){
+	public void render(List<Light> lights, Camera camera, int sunIndex){
+		lights.set(0, skyBoxRenderer.getSun());
 		prepare();
 		//render entities
 		shader.start();
@@ -75,6 +76,7 @@ public class MasterRenderer {
 				LightModel entityT = (LightModel)l;
 				this.processEntity(entityT.getLightEntity());
 			}
+			
 		}
 		
 		shader.loadLights(lights);

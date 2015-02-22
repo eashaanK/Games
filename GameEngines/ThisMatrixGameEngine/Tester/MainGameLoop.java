@@ -72,7 +72,7 @@ public class MainGameLoop {
 				//}
 				mRenderer.processEntity(entities.get(i));
 			}
-			mRenderer.render(lights, player.getCurrentCamera());
+			mRenderer.render(lights, player.getCurrentCamera(), 0);
 			
 			//GUI stuff
 			guiRenderer.render(guis);

@@ -89,6 +89,9 @@ private static final float SIZE = 500f;
 		shader.connectTextureUnits();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
+		
+		currentFogColor = this.nightFogColor;
+
 	}
 	
 	public void render(Camera camera){
@@ -104,13 +107,13 @@ private static final float SIZE = 500f;
 		shader.stop();
 	}
 	
-	private final float day = 24000;
-	private float midNight = 6000;
-	private float dawn = 12000;
-	private float noon = 18000;
+	private final float day = 50000;
+	private float midNight = day/4;
+	private float dawn = day/2;
+	private float noon = (day*3)/4;
 	private float evening = day;
 	
-	private final Vector3f dayFogColor = new Vector3f(0.8f, 0.8f, 0.8f);
+	//private final Vector3f dayFogColor = new Vector3f(0.8f, 0.8f, 0.8f);
 	private final Vector3f nightFogColor = new Vector3f(0, 0, 0);
 	
 	public Vector3f currentFogColor = nightFogColor;
@@ -118,8 +121,8 @@ private static final float SIZE = 500f;
 
 
 	
-	private void bindTextures(){
-		//time += DisplayManager.getFrameTimeSeconds() * 1000;
+	private void bindTextures(){	
+		time += DisplayManager.getFrameTimeSeconds() * 1000;
 		time %= day;
 		int texture1;
 		int texture2;
@@ -128,21 +131,14 @@ private static final float SIZE = 500f;
 			texture1 = nightTexture;
 			texture2 = nightTexture;
 			blendFactor = (time - 0)/(midNight - 0);
-			
-			currentFogColor = this.nightFogColor;
-
-			
 		}else if(time >= midNight && time < dawn){ //Dawn
 			texture1 = nightTexture;
-			texture2 = texture;
+			texture2 = texture;			
 			blendFactor = (time - midNight)/(dawn - midNight);
 		}else if(time >= dawn && time < noon){ //NOON
 			texture1 = texture;
 			texture2 = texture;
 			blendFactor = (time - dawn)/(noon - dawn);
-			
-			currentFogColor = this.dayFogColor;
-			
 		}else{ //Evening
 			texture1 = texture;
 			texture2 = nightTexture;
@@ -151,6 +147,20 @@ private static final float SIZE = 500f;
 		
 		//set color here
 		//System.out.println(blendFactor);
+		float fogIntensity = 1.5f;
+		if(time < day/2){
+			this.currentFogColor.x = (this.time/this.day) * fogIntensity;
+			this.currentFogColor.y = (this.time/this.day) * fogIntensity;
+			this.currentFogColor.z = (this.time/this.day) * fogIntensity;	
+		}
+		else{
+			this.currentFogColor.x = ((this.day - this.time)/this.day) * fogIntensity;
+			this.currentFogColor.y = ((this.day - this.time)/this.day) * fogIntensity;
+			this.currentFogColor.z = ((this.day - this.time)/this.day) * fogIntensity;	
+		}
+		
+
+		this.sun.setColor(currentFogColor);
 		
 
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -158,6 +168,22 @@ private static final float SIZE = 500f;
 		GL13.glActiveTexture(GL13.GL_TEXTURE1);
 		GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture2);
 		shader.loadBlendFactor(blendFactor);
+	}
+
+	public float getTime() {
+		return time;
+	}
+
+	public void setTime(float time) {
+		this.time = time;
+	}
+
+	public Light getSun() {
+		return sun;
+	}
+
+	public void setSun(Light sun) {
+		this.sun = sun;
 	}
 	
 }
