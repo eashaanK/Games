@@ -1,7 +1,0 @@
-
-varying vec3 color; //means that this variable is't yet initialized
-
-void main(){
-	color = gl_Color.rgb; 
-	gl_Position = ftransform();
-}
