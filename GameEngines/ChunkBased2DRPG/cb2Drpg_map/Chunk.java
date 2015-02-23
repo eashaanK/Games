@@ -53,9 +53,9 @@ public class Chunk {
                 double noise = (1+simplexNoise.getNoise(x, y))/2;
 
                 Material material;
-                if(noise < 0.495F)
+                if(noise < 0.465F)
                     material = Material.WATER_DEEP;
-                else if(noise < 0.5F)
+                else if(noise < 0.495F)
                     material = Material.WATER;
                 else if(noise < 0.525F)
                     material = Material.SAND;
