@@ -30,13 +30,16 @@ public class Map {
 		
 		//load chunks
 		this.loadChunks(playeChunkX, playeChunkY);
+		
+		System.out.println(player.getX() + " " + player.getY());
+		
 	}
 	
 	private void unloadChunks(int pCX, int pCY){
 		for(Chunk chunk: loadedChunks){
 			//too chunk is too far out of bounds
 			if(chunk.getChunkX() > pCX + (Ref.CHUNK_AMT_X - 1)/2 || chunk.getChunkX() < pCX -(Ref.CHUNK_AMT_X - 1)/2 || chunk.getChunkY() > pCY + (Ref.CHUNK_AMT_Y - 1)/2 || chunk.getChunkY() < pCY - (Ref.CHUNK_AMT_Y - 1)/2){
-				System.out.println("unload chunk");
+				//System.out.println("unload chunk");
 				loadedChunks.remove(chunk);
 			}
 		}
@@ -46,7 +49,7 @@ public class Map {
 		for(int x = pCX - (Ref.CHUNK_AMT_X - 1)/2; x  <= pCX + (Ref.CHUNK_AMT_X - 1)/2; x++){
 			for(int y = pCY - (Ref.CHUNK_AMT_Y - 1)/2; y  <= pCY + (Ref.CHUNK_AMT_Y - 1)/2; y++){
 				if(!loadedChunks.contains(new Chunk(x, y))){ 
-					System.out.println("Load Chunk " + x + " " + y);
+				//	System.out.println("Load Chunk " + x + " " + y);
 					Chunk chunk = new Chunk(x, y); 
 					chunk.populate();
 					loadedChunks.add(chunk);

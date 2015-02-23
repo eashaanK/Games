@@ -28,7 +28,7 @@ public class Game {
 	public void init(){
 		Player player = new Player(0, 0, Ref.TILE_SIZE, Ref.TILE_SIZE);
 		map = new Map(player);
-		
+	
 	
 	}
 	
