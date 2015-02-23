@@ -59,8 +59,8 @@ public class Game {
 					//g.drawString(chunk.id + " ", tX + 10, tY + 10);
 				}
 			}
-			g.drawLine(posX, 0, posX, Main.HEIGHT);
-			g.drawLine(0, posY, Main.WIDTH, posY);
+			//g.drawLine(posX, 0, posX, Main.HEIGHT);
+			//g.drawLine(0, posY, Main.WIDTH, posY);
 
 		}
 	}
