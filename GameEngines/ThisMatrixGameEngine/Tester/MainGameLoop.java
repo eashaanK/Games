@@ -55,8 +55,10 @@ public class MainGameLoop {
 		toolBox = new ToolBox(loader);
 		init(loader);
 
+		Light sun = new Light(new Vector3f(0, 3000, -200), new Vector3f(1, 1, 1));
+		lights.add(sun);
 		
-		MasterRenderer mRenderer = new MasterRenderer(loader);
+		MasterRenderer mRenderer = new MasterRenderer(loader, sun);
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
 		while (!Display.isCloseRequested()) {
 			update();
@@ -70,7 +72,7 @@ public class MainGameLoop {
 				//}
 				mRenderer.processEntity(entities.get(i));
 			}
-			mRenderer.render(lights, player.getCurrentCamera());
+			mRenderer.render(lights, player.getCurrentCamera(), 0);
 			
 			//GUI stuff
 			guiRenderer.render(guis);
@@ -88,12 +90,11 @@ public class MainGameLoop {
 			
 		setupTerrain();
 		
-		Light sun = new Light(new Vector3f(0, 3000, -200), new Vector3f(1, 1, 1));
-		lights.add(sun);
+		
 		
 		
 		for(int i = 0; i < 10; i++){
-		LightModel lampPost = new LightModel(new Vector3f(i * 10, terrain.getHeightOfTerrainRelativeToWorld(i * 10, i * -10) + 2.5f, i * -10), new Vector3f(1, 0, 0), new Vector3f(1, 0.01f, 0.02f), new Entity(toolBox.getLampTexturedModel(), new Vector3f(i * 10, terrain.getHeightOfTerrainRelativeToWorld(i * 10, i * -10), i * -10), 0, 0, 0, SCALE));
+		LightModel lampPost = new LightModel(new Vector3f(i * 10, terrain.getHeightOfTerrainRelativeToWorld(i * 10, i * -10) +4, i * -10), new Vector3f(1, 1, 0), new Vector3f(1, 0.01f, 0.02f), new Entity(toolBox.getLampTexturedModel(), new Vector3f(i * 10, terrain.getHeightOfTerrainRelativeToWorld(i * 10, i * -10), i * -10), 0, 0, 0, SCALE));
 		lights.add(lampPost);
 		}
 
@@ -123,7 +124,6 @@ public class MainGameLoop {
 			player.move(terrain);		
 		
 		
-			
 	}
 		
 	///////////////////////////////////////////////////////////////////HELPER METHODS////////////////////////////////////////

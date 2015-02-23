@@ -1,0 +1,11 @@
+InfaGen
+
+Infa Gen is an RPG Based 2D game. The player is one character that is spawned on a randomly generated "infinite" world. The objective of the game is to
+explore your world as far as the cpu would allow you. You can grow crops, eat, drink, craft, tame wild animals, destroy trees and stones to build 
+houses and other structures. In the night, there will be enemies that come after you.
+
+- Basic infinite tiled terrain. The blocks are very small, but there's are lot of them. 
+- The player always stays in the center
+- There is some basic lighting
+- Collision physics
+- Screen changing modes to enter in and out of structures

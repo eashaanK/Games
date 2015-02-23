@@ -32,7 +32,6 @@ public class MasterRenderer {
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 1000;
 	
-	private static float skyR = 0.529f, skyG = 0.808f, skyB = 0.980f;
 	//private static float skyR = 171f/255f, skyG = 236f/255f, skyB = 242f/255f;
 
 	private Matrix4f projectionMatrix;
@@ -49,12 +48,12 @@ public class MasterRenderer {
 
 
 	
-	public MasterRenderer(Loader loader){
+	public MasterRenderer(Loader loader, Light sun){
 		enableCulling();
 		this.createProjectionMatrix();
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		this.terrainRenderer = new TerrainRenderer(this.terrainShader, this.projectionMatrix);
-		skyBoxRenderer = new SkyboxRenderer(loader, projectionMatrix );
+		skyBoxRenderer = new SkyboxRenderer(loader, projectionMatrix, sun);
 	}
 	
 	public static void enableCulling(){
@@ -66,16 +65,18 @@ public class MasterRenderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 	
-	public void render(List<Light> lights, Camera camera){
+	public void render(List<Light> lights, Camera camera, int sunIndex){
+		lights.set(0, skyBoxRenderer.getSun());
 		prepare();
 		//render entities
 		shader.start();
-		shader.loadSkyColor(skyR, skyG, skyB);
+		shader.loadSkyColor(skyBoxRenderer.currentFogColor.x, skyBoxRenderer.currentFogColor.y, skyBoxRenderer.currentFogColor.z);
 		for(Light l : lights){
 			if(l instanceof LightModel){
 				LightModel entityT = (LightModel)l;
 				this.processEntity(entityT.getLightEntity());
 			}
+			
 		}
 		
 		shader.loadLights(lights);
@@ -86,7 +87,7 @@ public class MasterRenderer {
 		shader.stop();
 		//render terrain
 		this.terrainShader.start();
-		this.terrainShader.loadSkyColor(skyR, skyG, skyB);
+		this.terrainShader.loadSkyColor(skyBoxRenderer.currentFogColor.x, skyBoxRenderer.currentFogColor.y, skyBoxRenderer.currentFogColor.z);
 		this.terrainShader.loadLights(lights);
 		this.terrainShader.loadViewMatrix(camera);
 		this.terrainRenderer.render(terrains);
@@ -122,6 +123,13 @@ public class MasterRenderer {
 	}
 	
 	public void processEntity(Entity entity){
+		
+		if(entity instanceof Player){
+			entity = (Player)entity;
+			if(((Player) entity).getCurrentCamera() instanceof FirstPersonCamera)
+				return;
+		}
+		
 		TexturedModel entityModel = entity.getModel();
 		List<Entity> batch = entities.get(entityModel);
 		//dont render player if in FPS
@@ -143,7 +151,7 @@ public class MasterRenderer {
 	public void prepare() {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
-		GL11.glClearColor(skyR, skyG, skyB, 1);
+		GL11.glClearColor(skyBoxRenderer.currentFogColor.x, skyBoxRenderer.currentFogColor.y, skyBoxRenderer.currentFogColor.z, 1);
 	}
 	
 	private void createProjectionMatrix(){

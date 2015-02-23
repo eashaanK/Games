@@ -129,6 +129,7 @@ public class Terrain {
 		height /= MAX_PIXEL_COLOR/2f; //range between -1 and 1
 		height *= MAX_HEIGHT; //range between MaxHeight and -MaxHeight
 		return height;
+		
 	}
 	
 	public void addTree(Tree tree){
