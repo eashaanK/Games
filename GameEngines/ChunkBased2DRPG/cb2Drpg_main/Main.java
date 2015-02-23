@@ -22,13 +22,17 @@ public class Main {
 	
 	public Main(){
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		WIDTH = toolkit.getScreenSize().width;
-		HEIGHT = toolkit.getScreenSize().height;
+	//	WIDTH = toolkit.getScreenSize().width;
+	//	HEIGHT = toolkit.getScreenSize().height;
+		
+		WIDTH = 600;
+		HEIGHT = 600;
 
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle(TITLE);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setSize(WIDTH, HEIGHT);
 		//frame.setUndecorated(true); full screen
 		
 		//custom icon

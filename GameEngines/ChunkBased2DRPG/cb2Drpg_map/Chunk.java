@@ -58,9 +58,9 @@ public class Chunk {
                 else if(noise < 0.5F)
                     material = Material.WATER;
                 else if(noise < 0.525F)
-                    material = Material.GRASS;
-               else
                     material = Material.SAND;
+               else
+                    material = Material.GRASS;
                 tiles[i][j] = new Tile(material);
 
                 data[i][j] = noise;
