@@ -20,7 +20,7 @@ public class Ref {
 	public static int mouseX, mouseY;
 
 	//Screen
-	public static final int PIXEL_SIZE = 1;
+	public static final int PIXEL_SIZE = 5;
 	public static final int TILE_SIZE = 10;
 
 	//Chunks
