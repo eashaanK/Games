@@ -30,7 +30,6 @@ public class Main {
 
 	private void render() {
 		glClear(GL_COLOR_BUFFER_BIT);
-		lights.get(0).location.x++;
 		for (Light light : lights) {
 			glColorMask(false, false, false, false);
 			glStencilFunc(GL_ALWAYS, 1, 1);
@@ -80,7 +79,6 @@ public class Main {
 			glUseProgram(0);
 			glClear(GL_STENCIL_BUFFER_BIT);
 		}
-		glColor3f(0, 0, 0);
 		//for actual boxes
 		for (Block block : blocks) {
 		//	GL11.glRotatef(1, 0, 0, 1);
@@ -100,7 +98,7 @@ public class Main {
 
 		for (int i = 1; i <= lightCount; i++) {
 			Vector2f location = new Vector2f((float) Math.random() * width, (float) Math.random() * height);
-			lights.add(new Light(location, (float) Math.random(), (float) Math.random(), (float) Math.random(), 15)); //* light size
+			lights.add(new Light(location, (float) Math.random(), (float) Math.random(), (float) Math.random(), 5)); //* light size
 		}
 
 		for (int i = 1; i <= blockCount; i++) {
@@ -148,7 +146,7 @@ public class Main {
 		glValidateProgram(shaderProgram);
 
 
-		glMatrixMode(GL_PROJECTION);
+		glMatrixMode(GL11.GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, width, height, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
