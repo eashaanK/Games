@@ -21,16 +21,16 @@ public class Ref {
 
 	//Screen
 	public static final int PIXEL_SIZE = 1;
-	public static final int TILE_SIZE = 16;
+	public static final int TILE_SIZE = 10;
 
 	//Chunks
 	public static final int TILES_AMOUNT_X = 5; //tiles per chunk
 	public static final int TILES_AMOUNT_Y = 5;
 
-	public static final int CHUNK_AMT_X = 2; //chunks around u
-	public static final int CHUNK_AMT_Y = 2;
+	public static final int CHUNK_AMT_X = 10; //chunks around u
+	public static final int CHUNK_AMT_Y = 10;
 	
 	//Game
-	public static final int SEED = 1131221234;
+	public static final int SEED = 122323;
 
 }
