@@ -24,5 +24,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="jar/lzma.jar"/>
 	<classpathentry kind="lib" path="F2IBuilder.jar"/>
+	<classpathentry kind="lib" path="slick.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

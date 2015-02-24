@@ -9,8 +9,6 @@ import cb2Drpg_images.ImageWriter;
 import cb2Drpg_input.Input;
 import cb2Drpg_map.Chunk;
 import cb2Drpg_map.Map;
-import cb2Drpg_noise.SimplexNoise;
-import cb2Drpg_noise.SimplexNoiseOctave;
 import cb2Drpg_refereces.Ref;
 
 public class Game {
