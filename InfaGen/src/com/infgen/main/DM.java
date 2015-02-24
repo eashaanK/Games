@@ -16,7 +16,7 @@ public class DM {
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 800;
 	public static final String TITLE = "InfaGen";
-	public static final int FPS_CAP = 120;
+	public static final int FPS_CAP = 60;
 	
 	public static final float SCALE = 1;
 	
@@ -52,7 +52,7 @@ public class DM {
 	
 	public static void updateDelta(){
 		long lastTime = getTime();
-		delta = (currentFrame - lastTime)/ 1000;
+		delta = ((float)(lastTime - currentFrame)) / 1000f;
 		currentFrame = lastTime;
 	}
 	

@@ -82,6 +82,7 @@ public class Main {
 		//for actual boxes
 		for (Block block : blocks) {
 		//	GL11.glRotatef(1, 0, 0, 1);
+			glColor3f(0, 0, 0);
 			glBegin(GL_QUADS); {
 				for (Vector2f vertex : block.getVertices()) {
 					glVertex2f(vertex.getX(), vertex.getY());
@@ -98,7 +99,7 @@ public class Main {
 
 		for (int i = 1; i <= lightCount; i++) {
 			Vector2f location = new Vector2f((float) Math.random() * width, (float) Math.random() * height);
-			lights.add(new Light(location, (float) Math.random(), (float) Math.random(), (float) Math.random(), 5)); //* light size
+			lights.add(new Light(location, (float) Math.random(), (float) Math.random(), (float) Math.random(), 10)); //* light size
 		}
 
 		for (int i = 1; i <= blockCount; i++) {
