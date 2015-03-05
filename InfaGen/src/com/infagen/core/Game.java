@@ -20,13 +20,15 @@ public class Game {
 				-0.5f, 0.5f, 0f, 
 				-0.5f, -0.5f, 0f, 
 				0.5f, -0.5f, 0f, 
-				
-				0.5f, -0.5f, 0f, 
 				0.5f, 0.5f, 0f, 
-				-0.5f, 0.5f, 0f,
 		};
 		
-		model = loader.loadToVao(vertices);
+		int[] indices = {
+				0, 1, 3, 
+				3, 1, 2,
+		};
+		
+		model = loader.loadToVao(vertices, indices);
 	}
 
 	public void update(Renderer renderer) {
