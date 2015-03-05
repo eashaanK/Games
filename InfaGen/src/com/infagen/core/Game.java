@@ -2,13 +2,21 @@ package com.infagen.core;
 
 import com.infagen.loaders.Loader;
 import com.infagen.model.RawModel;
+import com.infagen.model.TexturedModel;
 import com.infagen.renderEngines.Renderer;
+import com.infagen.texture.ModelTexture;
 
+/**
+ * TUT 6
+ * @author eashaan
+ *
+ */
 public class Game {
 	
 	private Loader loader;
 	
-	private RawModel model;
+	private  TexturedModel betterModel;
+
 	
 	public Game(Loader loader){
 		this.loader = loader;
@@ -28,11 +36,14 @@ public class Game {
 				3, 1, 2,
 		};
 		
-		model = loader.loadToVao(vertices, indices);
+		RawModel model = loader.loadToVao(vertices, indices);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("crate"));
+		
+		betterModel = new TexturedModel(model, texture);
 	}
 
 	public void update(Renderer renderer) {
-		renderer.render(model);
+		renderer.render(betterModel);
 	}
 
 	public void close() {

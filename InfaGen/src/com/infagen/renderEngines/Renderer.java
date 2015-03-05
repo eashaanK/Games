@@ -13,7 +13,7 @@ public class Renderer {
 		GL11.glClearColor(1, 0, 0, 1);
 	}
 	
-	public void render(RawModel model){
+	public void render(TexturedModel texturedModel){
 		GL30.glBindVertexArray(model.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);

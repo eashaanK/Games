@@ -1,5 +1,8 @@
 package com.infagen.loaders;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -10,6 +13,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
 
 import com.infagen.model.RawModel;
 
@@ -18,6 +23,7 @@ public class Loader {
 	
 	private List<Integer> vaos = new ArrayList<Integer>();
 	private List<Integer> vbos = new ArrayList<Integer>();
+	private List<Integer> textures = new ArrayList<Integer>();
 
 
 	public RawModel loadToVao(float[] positions, int[] indices){
@@ -26,6 +32,29 @@ public class Loader {
 		this.storeDataInAttributeList(0, positions);
 		this.unbindVAO();
 		return new RawModel(vaoID, indices.length);
+	}
+	
+	/**
+	 * DO NOT USE .png
+	 * @param fileName
+	 * @return
+	 */
+	public int loadTexture(String fileName){
+		fileName = fileName.replace(".png", "");
+		Texture texture = null;
+		try {
+			texture = TextureLoader.getTexture("PNG", new FileInputStream("src/textures"+ fileName + ".png"));
+		} catch (FileNotFoundException e) {
+			System.err.println("Could not load file: " + fileName);
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("Could not load file: " + fileName);
+			e.printStackTrace();
+		}
+		
+		int textureID = texture.getTextureID();
+		textures.add(textureID);
+		return textureID;
 	}
 	
 	private int createVAO(){
@@ -77,6 +106,10 @@ public class Loader {
 		}
 		for(int vbo : vbos){
 			GL30.glDeleteVertexArrays(vbo);
+		}
+		
+		for(int texture : textures){
+			GL11.glDeleteTextures(texture);
 		}
 		
 	}
