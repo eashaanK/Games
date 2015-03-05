@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.infagen.gameObject.Camera;
 import com.infagen.gameObject.GameObject;
+import com.infagen.gameObject.Light;
 import com.infagen.model.TexturedModel;
 import com.infagen.shaders.StaticShader;
 

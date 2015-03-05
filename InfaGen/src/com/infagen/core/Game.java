@@ -16,7 +16,7 @@ import com.infagen.shaders.StaticShader;
 import com.infagen.texture.ModelTexture;
 
 /**
- * TUT 6
+ * TUT 13
  * @author eashaan
  *
  */
