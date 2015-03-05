@@ -20,9 +20,10 @@ public class Core {
 		DisplayManager.createDisplay();
 		
 		Loader loader = new Loader();
-		Renderer renderer = new Renderer();
-		
 		StaticShader shader = new StaticShader();
+
+		Renderer renderer = new Renderer(shader);
+		
 		
 		game = new Game(loader);
 		
@@ -32,7 +33,7 @@ public class Core {
 			shader.start();
 			Time.updateDelta();
 			//game logic
-			game.update(renderer);
+			game.update(renderer, shader);
 			shader.stop();
 			//render
 			DisplayManager.updateDisplay();
