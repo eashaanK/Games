@@ -2,7 +2,9 @@ package com.infagen.core;
 
 import org.lwjgl.opengl.Display;
 
+import com.infagen.loaders.Loader;
 import com.infagen.renderEngines.DisplayManager;
+import com.infagen.renderEngines.Renderer;
 import com.infagen.renderEngines.Time;
 
 public class Core {
@@ -16,19 +18,23 @@ public class Core {
 	public static void main(String[] args){
 		DisplayManager.createDisplay();
 		
-		game = new Game();
+		Loader loader = new Loader();
+		Renderer renderer = new Renderer();
+		
+		game = new Game(loader);
 		
 		Time.initalize();
 		while(!Display.isCloseRequested()){
+			renderer.prepare();
 			Time.updateDelta();
 			//game logic
-			game.update();
+			game.update(renderer);
 			//render
 			DisplayManager.updateDisplay();
 
 		}
 		game.close();
-		
+		loader.cleanUp();
 		DisplayManager.closeDisplay();
 	}
 }

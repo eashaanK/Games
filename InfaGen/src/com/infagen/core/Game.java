@@ -1,24 +1,39 @@
 package com.infagen.core;
 
-import com.infagen.renderEngines.Time;
+import com.infagen.loaders.Loader;
+import com.infagen.model.RawModel;
+import com.infagen.renderEngines.Renderer;
 
 public class Game {
 	
-	public Game(){
+	private Loader loader;
+	
+	private RawModel model;
+	
+	public Game(Loader loader){
+		this.loader = loader;
 		init();
 	}
 	
 	private void init(){
-		System.out.println("Game Started");
+		float[] vertices = {
+				-0.5f, 0.5f, 0f, 
+				-0.5f, -0.5f, 0f, 
+				0.5f, -0.5f, 0f, 
+				
+				0.5f, -0.5f, 0f, 
+				0.5f, 0.5f, 0f, 
+				-0.5f, 0.5f, 0f,
+		};
+		
+		model = loader.loadToVao(vertices);
 	}
 
-	public void update() {
-		System.out.println("Game updated " + Time.getDelta());
-
+	public void update(Renderer renderer) {
+		renderer.render(model);
 	}
 
 	public void close() {
-		System.out.println("Game Closed");
 	}
 
 }
