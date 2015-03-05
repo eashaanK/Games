@@ -5,8 +5,10 @@ import org.lwjgl.util.vector.Vector3f;
 
 import com.infagen.gameObject.Camera;
 import com.infagen.gameObject.GameObject;
+import com.infagen.gameObject.Light;
 import com.infagen.input.Input;
 import com.infagen.loaders.Loader;
+import com.infagen.loaders.OBJLoader;
 import com.infagen.model.RawModel;
 import com.infagen.model.TexturedModel;
 import com.infagen.renderEngines.Renderer;
@@ -27,6 +29,8 @@ public class Game {
 	private  GameObject gameObject;
 	
 	Camera camera;
+	
+	Light light;
 
 	
 	public Game(Loader loader){
@@ -37,23 +41,34 @@ public class Game {
 	private void init(){
 		
 		
-		RawModel model = loader.loadToVao(vertices, textureCoords, indices);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("crate"));
+		RawModel model = OBJLoader.loadObjModel("stall", loader);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("stallTexture"));
+		texture.setShineDamper(10);
+		texture.setReflectivity(0.1f);
 		TexturedModel betterModel = new TexturedModel(model, texture);
 		
 		gameObject = new GameObject("LOL", betterModel);
-		gameObject.getTransform().setPosition(new Vector3f(0, 0, -1));
+		gameObject.getTransform().setPosition(new Vector3f(0, 0, -50));
 		
 		camera = new Camera();
+		
+		light = new Light(1, 1, 1);
 	}
 
 	public void update(Renderer renderer, StaticShader shader) {
+		shader.loadLight(light);
 		shader.loadViewMatrix(camera);
 		
 		renderer.render(gameObject, shader);
 		
-		float speed =  0.01f;
+		gameObject.getTransform().rotateBy(0, 1, 0);
 		
+		
+		moveCamera(0.1f);
+		
+	}
+
+	private void moveCamera(float speed) {
 		if(Input.GetKeyDown(Keyboard.KEY_W)){
 			camera.getTransform().moveBy(0, 0, -speed);
 		}
@@ -76,91 +91,12 @@ public class Game {
 		if(Input.GetKeyDown(Keyboard.KEY_LSHIFT)){
 		
 			camera.getTransform().moveBy(0, -speed, 0);
-		}
-				
+		}		
 		
 	}
 
 	public void close() {
 	}
 	
-	float[] vertices = {			
-			-0.5f,0.5f,-0.5f,	
-			-0.5f,-0.5f,-0.5f,	
-			0.5f,-0.5f,-0.5f,	
-			0.5f,0.5f,-0.5f,		
-			
-			-0.5f,0.5f,0.5f,	
-			-0.5f,-0.5f,0.5f,	
-			0.5f,-0.5f,0.5f,	
-			0.5f,0.5f,0.5f,
-			
-			0.5f,0.5f,-0.5f,	
-			0.5f,-0.5f,-0.5f,	
-			0.5f,-0.5f,0.5f,	
-			0.5f,0.5f,0.5f,
-			
-			-0.5f,0.5f,-0.5f,	
-			-0.5f,-0.5f,-0.5f,	
-			-0.5f,-0.5f,0.5f,	
-			-0.5f,0.5f,0.5f,
-			
-			-0.5f,0.5f,0.5f,
-			-0.5f,0.5f,-0.5f,
-			0.5f,0.5f,-0.5f,
-			0.5f,0.5f,0.5f,
-			
-			-0.5f,-0.5f,0.5f,
-			-0.5f,-0.5f,-0.5f,
-			0.5f,-0.5f,-0.5f,
-			0.5f,-0.5f,0.5f
-			
-	};
 	
-	float[] textureCoords = {
-			
-			0,0,
-			0,1,
-			1,1,
-			1,0,			
-			0,0,
-			0,1,
-			1,1,
-			1,0,			
-			0,0,
-			0,1,
-			1,1,
-			1,0,
-			0,0,
-			0,1,
-			1,1,
-			1,0,
-			0,0,
-			0,1,
-			1,1,
-			1,0,
-			0,0,
-			0,1,
-			1,1,
-			1,0
-
-			
-	};
-	
-	int[] indices = {
-			0,1,3,	
-			3,1,2,	
-			4,5,7,
-			7,5,6,
-			8,9,11,
-			11,9,10,
-			12,13,15,
-			15,13,14,	
-			16,17,19,
-			19,17,18,
-			20,21,23,
-			23,21,22
-
-	};
-
 }
