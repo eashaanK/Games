@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="jar/asm-debug-all.jar"/>
 	<classpathentry kind="lib" path="jar/Copy of lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="InfaGenFailure/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="InfaGen/native/windows"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="jar/jinput.jar"/>
