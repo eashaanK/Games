@@ -1,4 +1,4 @@
-package com.infagen.loaders;
+package com.infagen.helpers;
 
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 import com.infagen.gameObject.Camera;
 import com.infagen.gameObject.Transform;
 
-public class ToolBox {
+public class Maths {
 
 	public static Matrix4f createTransformationMatrix(Vector3f translation, float rx, float ry, float rz, float scale){
 		Matrix4f matrix = new Matrix4f();
@@ -36,6 +36,11 @@ public class ToolBox {
 		
 		Matrix4f.translate(negativeCameraPos, viewMatrix, viewMatrix);
 		return viewMatrix;
+
+	}
+	
+	public static float getDistance(Vector3f pos1, Vector3f pos2){
+		return  (float) Math.sqrt( (double)(Math.pow(pos1.x - pos2.x, 2) )+  (double)(Math.pow(pos1.y - pos2.y, 2)) + (double)(Math.pow(pos1.z - pos2.z, 2)));
 
 	}
 }

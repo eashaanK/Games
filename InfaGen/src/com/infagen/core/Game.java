@@ -11,8 +11,8 @@ import com.infagen.loaders.Loader;
 import com.infagen.loaders.OBJLoader;
 import com.infagen.model.RawModel;
 import com.infagen.model.TexturedModel;
-import com.infagen.renderEngines.Renderer;
-import com.infagen.shaders.StaticShader;
+import com.infagen.renderEngines.MasterRenderer;
+import com.infagen.renderEngines.Time;
 import com.infagen.texture.ModelTexture;
 
 /**
@@ -55,13 +55,11 @@ public class Game {
 		light = new Light(1, 1, 1);
 	}
 
-	public void update(Renderer renderer, StaticShader shader) {
-		shader.loadLight(light);
-		shader.loadViewMatrix(camera);
+	public void update(MasterRenderer renderer) {
+		renderer.render(light, camera);
+		renderer.processEntity(gameObject);
 		
-		renderer.render(gameObject, shader);
-		
-		gameObject.getTransform().rotateBy(0, 1, 0);
+		gameObject.getTransform().rotateBy(0, 40 * Time.getDelta(), 0);
 		
 		
 		moveCamera(0.1f);

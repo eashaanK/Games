@@ -4,9 +4,8 @@ import org.lwjgl.opengl.Display;
 
 import com.infagen.loaders.Loader;
 import com.infagen.renderEngines.DisplayManager;
-import com.infagen.renderEngines.Renderer;
+import com.infagen.renderEngines.MasterRenderer;
 import com.infagen.renderEngines.Time;
-import com.infagen.shaders.StaticShader;
 
 public class Core {
 
@@ -20,26 +19,21 @@ public class Core {
 		DisplayManager.createDisplay();
 		
 		Loader loader = new Loader();
-		StaticShader shader = new StaticShader();
 
-		Renderer renderer = new Renderer(shader);
-		
+		MasterRenderer masterRend = new MasterRenderer();
 		
 		game = new Game(loader);
 		
 		Time.initalize();
 		while(!Display.isCloseRequested()){
-			renderer.prepare();
-			shader.start();
 			Time.updateDelta();
 			//game logic
-			game.update(renderer, shader);
-			shader.stop();
+			game.update(masterRend);
 			//render
 			DisplayManager.updateDisplay();
 
 		}
-		shader.cleanUp();
+		masterRend.cleapUP();
 		game.close();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();

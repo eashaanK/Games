@@ -4,7 +4,7 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import com.infagen.gameObject.Camera;
 import com.infagen.gameObject.Light;
-import com.infagen.loaders.ToolBox;
+import com.infagen.helpers.Maths;
 
 public class StaticShader extends ShaderProgram{
 	
@@ -69,7 +69,7 @@ public class StaticShader extends ShaderProgram{
 	}
 	
 	public void loadViewMatrix(Camera camera){
-		Matrix4f viewMatrix = ToolBox.createViewMatrix(camera);
+		Matrix4f viewMatrix = Maths.createViewMatrix(camera);
 		super.loadMatrix(location_viewMatrix, viewMatrix);
 	}
 
