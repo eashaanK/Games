@@ -1,11 +1,10 @@
 package com.infagen.gameObject;
 
 import org.lwjgl.util.vector.Vector3f;
-
 import com.infagen.loaders.Loader;
 import com.infagen.model.RawModel;
-import com.infagen.noise.SimplexNoise;
 import com.infagen.texture.ModelTexture;
+import com.infagen.world.World;
 
 public class Terrain {
 
@@ -18,7 +17,6 @@ public class Terrain {
 	
 	private ModelTexture texture;
 	
-	private SimplexNoise testingNoise = new SimplexNoise(7, 0.1);
 	
 	public Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture){
 		this.texture = texture;
@@ -65,8 +63,19 @@ public class Terrain {
 		return loader.loadToVao(vertices, textureCoords, normals, indices);
 	}
 	
-	public float getHeight(int x, int y){
-		return (float)this.testingNoise.getNoise(x, y) * MAX_HEIGHT;
+	public float getHeight(int i, int j){
+		/*double xStart = this.tranform.getPosition().x/SIZE * this.VERTEX_COUNT;
+		double xEnd = xStart + this.VERTEX_COUNT;
+		double yStart = this.tranform.getPosition().y/SIZE* this.VERTEX_COUNT;
+		double yEnd = yStart + this.VERTEX_COUNT;
+
+		int xResolution = this.VERTEX_COUNT;
+		int yResolution = this.VERTEX_COUNT;
+		int x = (int) (xStart + (i * (xEnd - xStart) / xResolution));
+		int y = (int) (yStart + (j * (yEnd - yStart) / yResolution));*/
+		int x = i;
+		int y= j;
+		return (float)World.testingNoise.getNoise( x, y) * this.MAX_HEIGHT;
 	}
 	
 	public Transform getTranform() {

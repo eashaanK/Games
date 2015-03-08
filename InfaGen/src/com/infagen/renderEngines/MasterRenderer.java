@@ -24,7 +24,7 @@ public class MasterRenderer {
 	
 	private static final float FOV = 70;
 	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 1000f;
+	private static final float FAR_PLANE = 5000f;
 	
 	private Matrix4f projectionMatrix;
 
@@ -37,7 +37,7 @@ public class MasterRenderer {
 	private Map<TexturedModel, List<GameObject>> gameObjects = new HashMap<TexturedModel, List<GameObject>>();
 	private List<Terrain> terrains  = new ArrayList<Terrain>();
 	
-	private float maxDistance = 100f;
+	private float maxDistance = FAR_PLANE;
 	private Transform cameraTransform;
 	
 	public MasterRenderer(){
@@ -99,7 +99,7 @@ public class MasterRenderer {
 		Vector3f cameraPos = this.cameraTransform.getPosition();
 		Vector3f gPos = entity.getTransform().getPosition();
 		float dis = Maths.getDistance(cameraPos, gPos);
-		System.out.println(dis);
+		//System.out.println(dis);
 		return dis > this.maxDistance;
 	}
 	public void processEntity(GameObject entity){

@@ -6,7 +6,6 @@ import org.lwjgl.util.vector.Vector3f;
 import com.infagen.gameObject.Camera;
 import com.infagen.gameObject.GameObject;
 import com.infagen.gameObject.Light;
-import com.infagen.gameObject.Terrain;
 import com.infagen.input.Input;
 import com.infagen.loaders.Loader;
 import com.infagen.loaders.OBJLoader;
@@ -15,6 +14,7 @@ import com.infagen.model.TexturedModel;
 import com.infagen.renderEngines.MasterRenderer;
 import com.infagen.renderEngines.Time;
 import com.infagen.texture.ModelTexture;
+import com.infagen.world.World;
 
 /**
  * TUT 13
@@ -33,7 +33,8 @@ public class Game {
 	
 	Light light;
 	
-	Terrain terrain;
+	//Terrain terrain;
+	World world;
 
 	
 	public Game(Loader loader){
@@ -57,7 +58,10 @@ public class Game {
 		
 		light = new Light(1, 1, 1);
 		
-		terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")));
+		
+		world = new World(loader);
+		
+		//terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")));
 	}
 
 	public void update(MasterRenderer renderer) {
@@ -66,9 +70,10 @@ public class Game {
 		
 		gameObject.getTransform().rotateBy(0, 10 * Time.getDelta(), 0);
 		
-		renderer.processTerrain(terrain);
+		//renderer.processTerrain(terrain);
+		world.render(renderer);
 		
-		moveCamera(1f);
+		moveCamera(10f);
 		
 	}
 
