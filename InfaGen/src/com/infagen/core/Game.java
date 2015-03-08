@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 import com.infagen.gameObject.Camera;
 import com.infagen.gameObject.GameObject;
 import com.infagen.gameObject.Light;
+import com.infagen.gameObject.Terrain;
 import com.infagen.input.Input;
 import com.infagen.loaders.Loader;
 import com.infagen.loaders.OBJLoader;
@@ -31,6 +32,8 @@ public class Game {
 	Camera camera;
 	
 	Light light;
+	
+	Terrain terrain;
 
 	
 	public Game(Loader loader){
@@ -53,16 +56,19 @@ public class Game {
 		camera = new Camera();
 		
 		light = new Light(1, 1, 1);
+		
+		terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")));
 	}
 
 	public void update(MasterRenderer renderer) {
-		renderer.render(light, camera);
+		renderer.render(light, camera, 133f/255f, 206f/255f, 235f/255f);
 		renderer.processEntity(gameObject);
 		
-		gameObject.getTransform().rotateBy(0, 40 * Time.getDelta(), 0);
+		gameObject.getTransform().rotateBy(0, 10 * Time.getDelta(), 0);
 		
+		renderer.processTerrain(terrain);
 		
-		moveCamera(0.1f);
+		moveCamera(1f);
 		
 	}
 
