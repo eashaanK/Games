@@ -47,7 +47,7 @@ public class Chunk {
 			for (int j = 0; j < yResolution; j++) {
 				int x = (int) (xStart + (i * (xEnd - xStart) / xResolution));
 				int y = (int) (yStart + (j * (yEnd - yStart) / yResolution));
-
+				
 				double noise = (1 + simplexNoise.getNoise(x, y)) / 2;
 
 				Material material;
