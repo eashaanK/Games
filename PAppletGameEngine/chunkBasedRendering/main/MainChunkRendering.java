@@ -3,10 +3,11 @@ package main;
 import java.util.Set;
 import java.util.TreeMap;
 
+import processing.core.PApplet;
 import ref.Ref;
 import chunk.Chunk;
 
-public class MainChunkRendering
+public class MainChunkRendering extends PApplet
 {
 
 	TreeMap<String, Chunk> chunks = new TreeMap<String, Chunk>();
@@ -20,6 +21,6 @@ public class MainChunkRendering
 	}
 	
 	public void draw(){
-		Set<String> keySet = chunks.keySet();
+		//Set<String> keySet = chunks.keySet();
 	}
 }
