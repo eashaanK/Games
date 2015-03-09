@@ -73,8 +73,8 @@ public class Terrain {
 		int yResolution = this.VERTEX_COUNT;
 		int x = (int) (xStart + (i * (xEnd - xStart) / xResolution));
 		int y = (int) (yStart + (j * (yEnd - yStart) / yResolution));*/
-		int x = i;
-		int y= j;
+		int x = i + (int)(this.tranform.getX())/80000;
+		int y= j + (int)(this.tranform.getZ())/80000;
 		return (float)World.testingNoise.getNoise( x, y) * this.MAX_HEIGHT;
 	}
 	
