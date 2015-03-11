@@ -102,6 +102,8 @@ public class Game {
 			camera.getTransform().moveBy(0, -speed, 0);
 		}		
 		
+		
+		
 	}
 
 	public void close() {
