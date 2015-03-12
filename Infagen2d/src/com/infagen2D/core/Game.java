@@ -11,9 +11,15 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import com.infagen2D.components.InputHandler;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.graphics.SpriteSheet;
 
+/**
+ * https://www.youtube.com/watch?v=7eotyB7oNHE&index=5&list=ELp5mgUw5g9EY
+ * @author eashaan
+ *
+ */
 public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,6 +40,7 @@ public class Game extends Canvas implements Runnable {
 			.getData();
 
 	private Screen screen;
+	public InputHandler input;
 
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -55,6 +62,7 @@ public class Game extends Canvas implements Runnable {
 	
 	public void init(){
 		screen = new Screen(this.WIDTH, this.HEIGHT, new SpriteSheet("/SpriteSheet.png"));
+		input = new InputHandler(this);
 	}
 
 	public synchronized void start() {
@@ -113,8 +121,18 @@ public class Game extends Canvas implements Runnable {
 	public void tick() {
 		tickCount++;
 
-		screen.xOffset++;
-		screen.yOffset--;
+		if(input.up.isPressed()){
+			screen.yOffset--;
+		}
+		if(input.down.isPressed()){
+			screen.yOffset++;
+		}
+		if(input.left.isPressed()){
+			screen.xOffset--;
+		}
+		if(input.right.isPressed()){
+			screen.xOffset++;
+		}
 	}
 
 	public void render() {
