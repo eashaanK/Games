@@ -11,14 +11,17 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import com.infagen2D.graphics.Screen;
+import com.infagen2D.graphics.SpriteSheet;
+
 public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int WIDTH = 160;
+	public static final int WIDTH = 160; //multiple of 160
 	public static final int HEIGHT = WIDTH / 12 * 9;
 	public static final int SCALE = 3;
-	public static final String NAME = "Game";
+	public static final String NAME = "Infagen2D";
 
 	private JFrame frame;
 
@@ -29,6 +32,8 @@ public class Game extends Canvas implements Runnable {
 			BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer())
 			.getData();
+
+	private Screen screen;
 
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -46,6 +51,10 @@ public class Game extends Canvas implements Runnable {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+	
+	public void init(){
+		screen = new Screen(this.WIDTH, this.HEIGHT, new SpriteSheet("/SpriteSheet.png"));
 	}
 
 	public synchronized void start() {
@@ -66,6 +75,8 @@ public class Game extends Canvas implements Runnable {
 
 		long lastTimer = System.currentTimeMillis();
 		double delta = 0;
+		
+		init();
 
 		while (running) {
 			long now = System.nanoTime();
@@ -102,9 +113,8 @@ public class Game extends Canvas implements Runnable {
 	public void tick() {
 		tickCount++;
 
-		for (int i = 0; i < pixels.length; i++) {
-			pixels[i] = i + tickCount;
-		}
+		screen.xOffset++;
+		screen.yOffset--;
 	}
 
 	public void render() {
@@ -114,6 +124,8 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
+		screen.render(pixels, 0, WIDTH);
+		
 		Graphics g = bs.getDrawGraphics();
 
 		g.setColor(Color.BLACK);
