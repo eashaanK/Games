@@ -8,7 +8,8 @@ public abstract class Entity
 	private Transform transform;
 	private String name;
 	private float health;
-	private boolean canMove = true;
+	private boolean canMove;
+	
 	
 	public Entity(String name, int x, int y, int w, int h){
 		this.name = name;
