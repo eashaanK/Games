@@ -1,22 +1,22 @@
 package com.infagen.world;
 
-import com.infagen.gameObject.Block;
+import com.infagen.gameObject.Terrain;
 import com.infagen.loaders.Loader;
 import com.infagen.renderEngines.MasterRenderer;
+import com.infagen.texture.ModelTexture;
 
 public class Chunk {
 
-//	private Terrain terrain;
+	private Terrain terrain;
 	
 	private final int row, col;
 	
-	Block[][][] blocks;
 	
 	public Chunk(int r, int y, Loader loader){
 		this.row = r;
 		this.col = y;
-		//terrain = new Terrain(r, y, loader, new ModelTexture(loader.loadTexture("grass")));
-		//terrain.getTranform().rotateBy(0, 270, 0);
+		terrain = new Terrain(r, y, loader, new ModelTexture(loader.loadTexture("grass")));
+		terrain.getTranform().rotateBy(0, 270, 0);
 	}
 	
 	public String getKey(){
@@ -24,12 +24,10 @@ public class Chunk {
 	}
 	
 	public void render(MasterRenderer renderer){
-		//renderer.processTerrain(terrain);
+		renderer.processTerrain(terrain);
 	}
 	
-	public Block getBlock(int x, int y, int z){
-		return this.blocks[x][y][z];
-	}
+	
 	/**
 	 * Updates the chunk based on its contents
 	 */
