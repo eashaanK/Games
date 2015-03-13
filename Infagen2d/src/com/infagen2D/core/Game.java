@@ -12,6 +12,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import com.infagen2D.components.InputHandler;
+import com.infagen2D.graphics.Colors;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.graphics.SpriteSheet;
 
@@ -156,7 +157,19 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		screen.render(pixels, 0, WIDTH);
+		for(int y = 0; y < 32; y++){
+			for(int x = 0; x < 32; x++){
+				screen.render(x << 3, y << 3 , 0, Colors.get(555, 505, 050, 550), false, true); //from darkest to lightest
+			}
+		}
+		
+
+		for(int y = 0; y < screen.height; y++){
+			for(int x = 0; x < screen.width; x++){
+				int colorCode = screen.pixels[x + y * screen.width];
+				if(colorCode < 255)pixels[x + y * WIDTH] = colors[colorCode];
+			}
+		}
 		
 		Graphics g = bs.getDrawGraphics();
 
