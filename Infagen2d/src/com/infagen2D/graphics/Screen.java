@@ -5,9 +5,8 @@ public class Screen {
 	public static final int MAP_WIDTH = 64;
 	public static final int MAP_WIDTH_MASK = MAP_WIDTH - 1;
 
-	public int[] tiles = new int[MAP_WIDTH * MAP_WIDTH];
-	public int[] colors = new int[MAP_WIDTH * MAP_WIDTH * 4];
-
+	public int[] pixel;
+			
 	public int xOffset = 0;
 	public int yOffset = 0;
 
@@ -20,13 +19,6 @@ public class Screen {
 		this.height = h;
 		this.sheet = sheet;
 		
-		for(int i = 0; i < this.MAP_WIDTH * this.MAP_WIDTH; i++){
-			colors[i * 4 + 0] = 0xff00ff;
-			colors[i * 4 + 1] = 0x00ffff;
-			colors[i * 4 + 2] = 0xffff00;
-			colors[i * 4 + 3] = 0xffffff;
-
-		}
 	}
 	
 	public void render(int[] pixels, int offset, int row){

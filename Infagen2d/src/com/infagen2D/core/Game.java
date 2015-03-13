@@ -16,7 +16,7 @@ import com.infagen2D.graphics.Screen;
 import com.infagen2D.graphics.SpriteSheet;
 
 /**
- * https://www.youtube.com/watch?v=7eotyB7oNHE&index=5&list=ELp5mgUw5g9EY
+ * Color and Rendering Optimization 12:55
  * @author eashaan
  *
  */
@@ -38,6 +38,8 @@ public class Game extends Canvas implements Runnable {
 			BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer())
 			.getData();
+
+	public int[] colors = new int[6 * 6 * 6];
 
 	private Screen screen;
 	public InputHandler input;
@@ -61,6 +63,18 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void init(){
+		int index = 0;
+		for(int r = 0; r < 6; r++){
+			for(int g = 0; g < 6; g++){
+				for(int b = 0; b < 6; b++){
+					int rr = (r * 255/5);
+					int gg = (g * 255/5);
+					int bb = (b * 255/5);
+					
+					colors[index++] = rr << 16 | gg<<8 | bb;
+				}
+			}
+		}
 		screen = new Screen(this.WIDTH, this.HEIGHT, new SpriteSheet("/SpriteSheet.png"));
 		input = new InputHandler(this);
 	}
