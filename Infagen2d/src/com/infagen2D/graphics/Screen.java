@@ -1,5 +1,7 @@
 package com.infagen2D.graphics;
 
+import java.awt.Point;
+
 public class Screen {
 
 	public static final int MAP_WIDTH = 64;
@@ -22,7 +24,6 @@ public class Screen {
 		pixels = new int[width * height];
 		
 	}
-
 	
 	/**
 	 * tile is for actual tile
@@ -51,5 +52,9 @@ public class Screen {
 				if(col < 255)pixels[(x + xPos) + (y + yPos) * width] = col; 
 			}
 		}
+	}
+	
+	public Point getCenter(){
+		return new Point(xOffset + width/2 , yOffset + height/2);
 	}
 }

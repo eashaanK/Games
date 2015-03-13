@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -13,6 +14,7 @@ import javax.swing.JFrame;
 
 import com.infagen2D.components.InputHandler;
 import com.infagen2D.graphics.Colors;
+import com.infagen2D.graphics.FunFont;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.graphics.SpriteSheet;
 
@@ -156,13 +158,20 @@ public class Game extends Canvas implements Runnable {
 			createBufferStrategy(3);
 			return;
 		}
+		
 
 		for(int y = 0; y < 32; y++){
 			for(int x = 0; x < 32; x++){
-				screen.render(x << 3, y << 3 , 0, Colors.get(555, 505, 050, 550), false, true); //from darkest to lightest
+				screen.render(x << 3, y << 3 , 2, Colors.get(555, 505, 050, 550), false, true); //from darkest to lightest
 			}
 		}
 		
+		//draw all TEXT HERE
+		String message = "Hello WOrld! 01243;";
+		Point p = screen.getCenter();
+		p.x -= (message.length() * 8)/2;
+		FunFont.render(message, screen, p.x, p.y, Colors.get(-1, -1, -1, 000));
+
 
 		for(int y = 0; y < screen.height; y++){
 			for(int x = 0; x < screen.width; x++){
