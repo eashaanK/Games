@@ -10,8 +10,8 @@ import com.infagen.renderEngines.MasterRenderer;
 
 public class World {
 
-	private static int largestFeature = (int)(Math.random() * 100);
-	private static double persistence = Math.random() * 0.3;	
+	private static int largestFeature = (int)(Math.random() * 50);
+	private static double persistence = Math.random() * 0.35;	
 	public static  SimplexNoise testingNoise = new SimplexNoise(largestFeature, persistence, Ref.SEED);
 
 	public TreeMap<String, Chunk> chunks = new TreeMap<String, Chunk>();

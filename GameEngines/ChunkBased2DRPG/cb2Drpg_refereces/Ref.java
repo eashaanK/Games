@@ -27,7 +27,7 @@ public class Ref {
 	public static final int TILES_AMOUNT_X = 5; //tiles per chunk
 	public static final int TILES_AMOUNT_Y = 5;
 
-	public static final int CHUNK_AMT_X = 7; //chunks around u
+	public static final int CHUNK_AMT_X = 9; //chunks around u
 	public static final int CHUNK_AMT_Y = 9;
 	
 	//Game
