@@ -9,8 +9,8 @@ public class Screen {
 
 	public int[] pixels;
 			
-	public int xOffset = 0;
-	public int yOffset = 0;
+	private int xOffset = 0;
+	private int yOffset = 0;
 
 	public int width, height;
 
@@ -56,5 +56,31 @@ public class Screen {
 	
 	public Point getCenter(){
 		return new Point(xOffset + width/2 , yOffset + height/2);
+	}
+
+	public int getxOffset() {
+		return xOffset;
+	}
+
+	public void setxOffset(int xOffset) {
+		this.xOffset = xOffset;
+	}
+
+	public int getyOffset() {
+		return yOffset;
+	}
+
+	public void setyOffset(int yOffset) {
+		this.yOffset = yOffset;
+	}
+	
+	public void setOffset(int xO, int yO){
+		this.setxOffset(xO);
+		this.setyOffset(yO);
+	}
+	
+	public void moveOffset(int dxO, int dyO){
+		this.xOffset += dxO;
+		this.yOffset += dyO;
 	}
 }

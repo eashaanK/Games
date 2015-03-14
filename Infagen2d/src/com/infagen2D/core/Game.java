@@ -2,10 +2,8 @@ package com.infagen2D.core;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -13,13 +11,12 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import com.infagen2D.components.InputHandler;
-import com.infagen2D.graphics.Colors;
-import com.infagen2D.graphics.FunFont;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.graphics.SpriteSheet;
+import com.infagen2D.level.Level;
 
 /**
- * Color and Rendering Optimization 12:55
+ * https://www.youtube.com/watch?v=dQP7ZmFhqgg
  * @author eashaan
  *
  */
@@ -46,6 +43,8 @@ public class Game extends Canvas implements Runnable {
 
 	private Screen screen;
 	public InputHandler input;
+	
+	public Level level;
 
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -78,8 +77,9 @@ public class Game extends Canvas implements Runnable {
 				}
 			}
 		}
-		screen = new Screen(this.WIDTH, this.HEIGHT, new SpriteSheet("/SpriteSheet.png"));
+		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/SpriteSheet.png"));
 		input = new InputHandler(this);
+		level = new Level("Basic Level", 64, 64);
 	}
 
 	public synchronized void start() {
@@ -135,21 +135,25 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
+	private int x, y;
+	
 	public void tick() {
 		tickCount++;
 
 		if(input.up.isPressed()){
-			screen.yOffset--;
+			y--;
 		}
 		if(input.down.isPressed()){
-			screen.yOffset++;
+			y++;
 		}
 		if(input.left.isPressed()){
-			screen.xOffset--;
+			x--;
 		}
 		if(input.right.isPressed()){
-			screen.xOffset++;
+			x++;
 		}
+		
+		level.tick();
 	}
 
 	public void render() {
@@ -158,19 +162,18 @@ public class Game extends Canvas implements Runnable {
 			createBufferStrategy(3);
 			return;
 		}
-		
+		int xOffset = x - (screen.width/2);
+		int yOffset = y - (screen.height/2);
 
-		for(int y = 0; y < 32; y++){
-			for(int x = 0; x < 32; x++){
-				screen.render(x << 3, y << 3 , 2, Colors.get(555, 505, 050, 550), false, true); //from darkest to lightest
-			}
-		}
+		//render level here
+		level.renderTile(screen, xOffset, yOffset);
+
 		
-		//draw all TEXT HERE
-		String message = "Hello WOrld! 01243;";
+		
+		/*String message = "LOL WOrld! 01243;";
 		Point p = screen.getCenter();
 		p.x -= (message.length() * 8)/2;
-		FunFont.render(message, screen, p.x, p.y, Colors.get(-1, -1, -1, 000));
+		FunFont.render(message, screen, p.x, p.y, Colors.get(-1, -1, -1, 000));*/
 
 
 		for(int y = 0; y < screen.height; y++){
@@ -181,12 +184,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		Graphics g = bs.getDrawGraphics();
-
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, getWidth(), getHeight());
-
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-
 		g.dispose();
 		bs.show();
 	}
