@@ -57,7 +57,7 @@ public class Level {
 		}
 	}
 	
-	public void renderEntites(Screen screen){
+	public void renderEntities(Screen screen){
 		for(Entity e: entities){
 			e.render(screen);
 		}

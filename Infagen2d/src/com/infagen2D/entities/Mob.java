@@ -3,46 +3,52 @@ package com.infagen2D.entities;
 import com.infagen2D.level.Level;
 
 
-public abstract class Mob extends Entity{
+public abstract class Mob extends Entity {
 
+	protected String name;
 	protected int speed;
 	protected int numSteps = 0;
 	protected boolean isMoving;
 	protected int movingDir = 1;
-	protected int color;
-	
-	public Mob(int x, int y, String name, Level level, int speed) {
-		super(x, y, 1, name, level);
-		this.speed = speed;
-	}
-	
-	public int getSpeed(){
-		return speed;
-	}
-	
-	public void setSpeed(int speed){
+	protected int scale = 1;
+
+	public Mob(Level level, String name, int x, int y, int speed) {
+		super(level);
+		this.name = name;
+		this.x = x;
+		this.y = y;
 		this.speed = speed;
 	}
 
-	public void move(int xA, int yA){
-		if(xA != 0 && yA != 0){
-			move(xA, 0);
-			move(0, yA);
-			numSteps--;
+	public void move(int xa, int ya) {
+		if (xa != 0 && ya != 0) {
+			move(xa, 0);
+			move(0, ya);
+			numSteps -= 1;
 			return;
 		}
-		numSteps++;
-		if(!hasCollided(xA, yA)){
-			if(yA < 0)this.movingDir = 0;//North
-			if(yA > 0)this.movingDir = 1;//SOUTH
-			if(xA < 0)this.movingDir = 2;//WEST
-			if(xA > 0)this.movingDir = 3;//EAST
-			this.transform.moveBy(xA * speed, yA * speed);
+		numSteps += 1;
+		if (!hasCollided(xa, ya)) {
+			if (ya < 0) {
+				movingDir = 0;
+			}
+			if (ya > 0) {
+				movingDir = 1;
+			}
+			if (xa < 0) {
+				movingDir = 2;
+			}
+			if (xa > 0) {
+				movingDir = 3;
+			}
+			x += xa * speed;
+			y += ya * speed;
 		}
 	}
-	public abstract boolean hasCollided(int xA, int yA);
-	
-	public String toString(){
-		return super.toString();
+
+	public abstract boolean hasCollided(int xa, int ya);
+
+	public String getName() {
+		return name;
 	}
 }

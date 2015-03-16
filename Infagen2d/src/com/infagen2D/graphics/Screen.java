@@ -1,15 +1,13 @@
 package com.infagen2D.graphics;
 
-import java.awt.Point;
 
 public class Screen {
 
 	public static final int MAP_WIDTH = 64;
 	public static final int MAP_WIDTH_MASK = MAP_WIDTH - 1;
-	
-	public static final byte BIT_MIRROR_X = 0x01;//1
-	public static final byte BIT_MIRROR_Y = 0x02;//2
 
+	public static final byte BIT_MIRROR_X = 0x01;
+	public static final byte BIT_MIRROR_Y = 0x02;
 
 	public int[] pixels;
 
@@ -30,21 +28,21 @@ public class Screen {
 
 	}
 
-    public void setOffset(int xOffset, int yOffset) {
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
-    }
+	public void setOffset(int xOffset, int yOffset) {
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
+	}
 
 	public void render(int xPos, int yPos, int tile, int colour) {
-		render(xPos, yPos, tile, colour, 0x00); //0 for no flippage
+		render(xPos, yPos, tile, colour, 0x00);
 	}
 
 	public void render(int xPos, int yPos, int tile, int colour, int mirrorDir) {
 		xPos -= xOffset;
 		yPos -= yOffset;
-		
-		boolean mirrorX = (mirrorDir & this.BIT_MIRROR_X) > 0;
-		boolean mirrorY = (mirrorDir & this.BIT_MIRROR_Y) > 0;
+
+		boolean mirrorX = (mirrorDir & BIT_MIRROR_X) > 0;
+		boolean mirrorY = (mirrorDir & BIT_MIRROR_Y) > 0;
 
 		int xTile = tile % 32;
 		int yTile = tile / 32;
