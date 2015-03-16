@@ -1,5 +1,9 @@
 package com.infagen2D.level;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.infagen2D.entities.Entity;
 import com.infagen2D.graphics.Screen;
 
 public class Level {
@@ -7,6 +11,7 @@ public class Level {
 	private byte[] tiles;
 	public int width;
 	public int height;
+	public List<Entity> entities = new ArrayList<Entity>();
 
 	public Level(int width, int height) {
 		tiles = new byte[width * height];
@@ -28,7 +33,9 @@ public class Level {
 	}
 
 	public void tick() {
-
+		for(Entity e: entities){
+			e.tick();
+		}
 	}
 
 	public void renderTiles(Screen screen, int xOffset, int yOffset) {
@@ -49,10 +56,24 @@ public class Level {
 			}
 		}
 	}
+	
+	public void renderEntites(Screen screen){
+		for(Entity e: entities){
+			e.render(screen);
+		}
+	}
 
     public Tile getTile(int x, int y) {
         if (0 > x || x >= width || 0 > y || y >= height)
             return Tile.VOID;
         return Tile.tiles[tiles[x + y * width]];
     }
+
+	public void addEntity(Entity entity) {
+		if(entity == null){
+			System.err.println("You tried to enter a null entity in Level");
+			return;
+		}
+		this.entities.add(entity);
+	}
 }

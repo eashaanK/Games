@@ -2,14 +2,13 @@ package com.infagen2D.components;
 
 public class Transform {
 
-	private int x, y, width, height;
+	private int x, y, scale;
 	private boolean freezeX, freezeY;
 	
-	public Transform(int x, int y, int w, int h){
+	public Transform(int x, int y, int scale){
 		this.x = x;
 		this.y = y;
-		this.width = w;
-		this.height = h;
+		this.scale = scale;
 		this.freezeX = false;
 		this.freezeY = false;
 	}
@@ -32,20 +31,12 @@ public class Transform {
 			this.y = y;
 	}
 
-	public int getWidth() {
-		return width;
+	public int getScale() {
+		return scale;
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
+	public void setScale(int scale) {
+		this.scale = scale;
 	}
 
 	public boolean isFreezeX() {
@@ -64,9 +55,14 @@ public class Transform {
 		this.freezeY = freezeY;
 	}
 	
+	public void moveBy(int x, int y){
+		this.x += x;
+		this.y += y;
+	}
+	
 	@Override
 	public String toString(){
-		return "(" + x + ", " + y + ") w: " + width + " h: " + height;
+		return "(" + x + ", " + y + ") scale: " + scale;
 	}
 	
 	

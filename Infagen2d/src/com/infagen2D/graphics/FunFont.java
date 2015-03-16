@@ -12,7 +12,7 @@ public class FunFont {
 		for (int i = 0; i < msg.length(); i++) {
 			int charIndex = chars.indexOf(msg.charAt(i));
 			if (charIndex >= 0) {
-				screen.render(x + i * 8, y, charIndex + 30 * 32, colour, false, false);
+				screen.render(x + i * 8, y, charIndex + 30 * 32, colour);
 			}
 		}
 	}

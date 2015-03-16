@@ -1,21 +1,28 @@
 package com.infagen2D.entities;
 
 import com.infagen2D.components.Transform;
+import com.infagen2D.graphics.Screen;
+import com.infagen2D.level.Level;
 
 public abstract class Entity {
 
-	private Transform transform;
-	private String name;
-	private float health;
-	private boolean isActive = false;
+	protected Transform transform;
+	protected String name;
+	protected float health;
+	protected boolean isActive = false;
+	protected Level level;
 
-	public Entity(int x, int y, int w, int h, String name){
+	public Entity(int x, int y, int s, String name, Level level){
+		this.level = level;
 		health = 100;
-		this.transform = new Transform(x, y, w, h);
+		this.transform = new Transform(x, y, s);
 		this.name = name;
 		isActive = false;
 	}
 
+	public abstract void tick();
+	public abstract void render(Screen screen);
+	
 	public Transform getTransform() {
 		return transform;
 	}
@@ -61,6 +68,14 @@ public abstract class Entity {
 	
 	public boolean isAlive(){
 		return this.getHealth() > 0;
+	}
+	
+	public Level getLevel(){
+		return this.level;
+	}
+	
+	public void setLevel(Level l){
+		this.level = l;
 	}
 	
 	@Override

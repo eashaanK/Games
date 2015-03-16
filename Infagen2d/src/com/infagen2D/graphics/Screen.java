@@ -6,6 +6,10 @@ public class Screen {
 
 	public static final int MAP_WIDTH = 64;
 	public static final int MAP_WIDTH_MASK = MAP_WIDTH - 1;
+	
+	public static final byte BIT_MIRROR_X = 0x01;//1
+	public static final byte BIT_MIRROR_Y = 0x02;//2
+
 
 	public int[] pixels;
 
@@ -32,13 +36,15 @@ public class Screen {
     }
 
 	public void render(int xPos, int yPos, int tile, int colour) {
-		render(xPos, yPos, tile, colour, false, false);
+		render(xPos, yPos, tile, colour, 0x00); //0 for no flippage
 	}
 
-	public void render(int xPos, int yPos, int tile, int colour,
-			boolean mirrorX, boolean mirrorY) {
+	public void render(int xPos, int yPos, int tile, int colour, int mirrorDir) {
 		xPos -= xOffset;
 		yPos -= yOffset;
+		
+		boolean mirrorX = (mirrorDir & this.BIT_MIRROR_X) > 0;
+		boolean mirrorY = (mirrorDir & this.BIT_MIRROR_Y) > 0;
 
 		int xTile = tile % 32;
 		int yTile = tile / 32;
