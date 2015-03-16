@@ -11,23 +11,20 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import com.infagen2D.components.InputHandler;
+import com.infagen2D.graphics.Colors;
+import com.infagen2D.graphics.FunFont;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.graphics.SpriteSheet;
 import com.infagen2D.level.Level;
 
-/**
- * https://www.youtube.com/watch?v=dQP7ZmFhqgg
- * @author eashaan
- *
- */
 public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int WIDTH = 160; //multiple of 160
+	public static final int WIDTH = 160;
 	public static final int HEIGHT = WIDTH / 12 * 9;
-	public static final int SCALE = 5;
-	public static final String NAME = "Infagen2D";
+	public static final int SCALE = 3;
+	public static final String NAME = "Game";
 
 	private JFrame frame;
 
@@ -38,12 +35,10 @@ public class Game extends Canvas implements Runnable {
 			BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer())
 			.getData();
-
-	public int[] colors = new int[6 * 6 * 6];
+	private int[] colours = new int[6 * 6 * 6];
 
 	private Screen screen;
 	public InputHandler input;
-	
 	public Level level;
 
 	public Game() {
@@ -55,7 +50,6 @@ public class Game extends Canvas implements Runnable {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
-
 		frame.add(this, BorderLayout.CENTER);
 		frame.pack();
 
@@ -63,23 +57,24 @@ public class Game extends Canvas implements Runnable {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
-	
-	public void init(){
+
+	public void init() {
 		int index = 0;
-		for(int r = 0; r < 6; r++){
-			for(int g = 0; g < 6; g++){
-				for(int b = 0; b < 6; b++){
-					int rr = (r * 255/5);
-					int gg = (g * 255/5);
-					int bb = (b * 255/5);
-					
-					colors[index++] = rr << 16 | gg<<8 | bb;
+		for (int r = 0; r < 6; r++) {
+			for (int g = 0; g < 6; g++) {
+				for (int b = 0; b < 6; b++) {
+					int rr = (r * 255 / 5);
+					int gg = (g * 255 / 5);
+					int bb = (b * 255 / 5);
+
+					colours[index++] = rr << 16 | gg << 8 | bb;
 				}
 			}
 		}
+
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/SpriteSheet.png"));
 		input = new InputHandler(this);
-		level = new Level("Basic Level", 64, 64);
+		level = new Level(64, 64);
 	}
 
 	public synchronized void start() {
@@ -93,14 +88,12 @@ public class Game extends Canvas implements Runnable {
 
 	public void run() {
 		long lastTime = System.nanoTime();
-		double nsPerTick = 1000000000D / 60D;
-
-		int frames = 0;
-		int ticks = 0;
-
 		long lastTimer = System.currentTimeMillis();
+		double nsPerTick = 1000000000D / 60D;
 		double delta = 0;
-		
+		int ticks = 0;
+		int frames = 0;
+
 		init();
 
 		while (running) {
@@ -108,19 +101,18 @@ public class Game extends Canvas implements Runnable {
 			delta += (now - lastTime) / nsPerTick;
 			lastTime = now;
 			boolean shouldRender = true;
+
 			while (delta >= 1) {
 				ticks++;
 				tick();
 				delta -= 1;
 				shouldRender = true;
 			}
-
 			try {
 				Thread.sleep(2);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
 			if (shouldRender) {
 				frames++;
 				render();
@@ -128,31 +120,33 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				System.out.println(ticks + " ticks, " + frames + " frames");
+				System.out.println(ticks + " ticks , " + frames
+						+ " frames per second");
 				frames = 0;
 				ticks = 0;
 			}
 		}
 	}
 
-	private int x, y;
-	
+	private int x = 0;
+	private int y = 0;
+
 	public void tick() {
 		tickCount++;
 
-		if(input.up.isPressed()){
-			y--;
+		if (input.up.isPressed()) {
+			y -= 1;
 		}
-		if(input.down.isPressed()){
-			y++;
+		if (input.down.isPressed()) {
+			y += 1;
 		}
-		if(input.left.isPressed()){
-			x--;
+		if (input.left.isPressed()) {
+			x -= 1;
 		}
-		if(input.right.isPressed()){
-			x++;
+		if (input.right.isPressed()) {
+			x += 1;
 		}
-		
+
 		level.tick();
 	}
 
@@ -162,27 +156,30 @@ public class Game extends Canvas implements Runnable {
 			createBufferStrategy(3);
 			return;
 		}
-		int xOffset = x - (screen.width/2);
-		int yOffset = y - (screen.height/2);
 
-		//render level here
-		level.renderTile(screen, xOffset, yOffset);
+		int xOffset = x - (screen.width / 2);
+		int yOffset = y - (screen.height / 2);
 
-		
-		
-		/*String message = "LOL WOrld! 01243;";
-		Point p = screen.getCenter();
-		p.x -= (message.length() * 8)/2;
-		FunFont.render(message, screen, p.x, p.y, Colors.get(-1, -1, -1, 000));*/
+		level.renderTiles(screen, xOffset, yOffset);
 
+		for (int x = 0; x < level.width; x++) {
+			int colour = Colors.get(-1, -1, -1, 000);
+			if (x % 10 == 0 && x != 0) {
+				colour = Colors.get(-1, -1, -1, 500);
+			}
+			FunFont.render((x % 10) + "", screen, 0 + (x * 8), 0, colour);
+		}
 
-		for(int y = 0; y < screen.height; y++){
-			for(int x = 0; x < screen.width; x++){
-				int colorCode = screen.pixels[x + y * screen.width];
-				if(colorCode < 255)pixels[x + y * WIDTH] = colors[colorCode];
+		for (int y = 0; y < screen.height; y++) {
+			for (int x = 0; x < screen.width; x++) {
+				int ColourCode = screen.pixels[x + y * screen.width];
+				if (ColourCode < 255) {
+					pixels[x + y * WIDTH] = colours[ColourCode];
+
+				}
 			}
 		}
-		
+
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		g.dispose();
