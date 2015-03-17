@@ -104,9 +104,9 @@ public class Level {
 		}
 	}
 
-	public void tick(Screen screen) {
+	public void tick() {
 		for(Entity e: entities){
-			e.tick(screen);
+			e.tick();
 		}
 		
 		for(Tile t : Tile.tiles){

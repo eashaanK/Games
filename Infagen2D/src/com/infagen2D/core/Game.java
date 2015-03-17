@@ -154,7 +154,7 @@ public class Game extends Canvas implements Runnable {
 
     public void tick() {
             tickCount++;
-            level.tick(screen);
+            level.tick();
     }
 
     public void render() {

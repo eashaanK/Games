@@ -19,7 +19,7 @@ public class Player extends Mob {
 		this.input = input;
 	}
 
-	public void tick(Screen screen) {
+	public void tick() {
 		int xa = 0;
 		int ya = 0;
 
