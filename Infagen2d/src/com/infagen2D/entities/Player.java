@@ -16,7 +16,7 @@ public class Player extends Mob {
 
 	public Player(Level level, String name, int x, int y, InputHandler input) {
 		
-		super(level,name , x, y, 1);
+		super(level,name , x, y, 1, 1);
 		this.input = input;
 	}
 
@@ -45,12 +45,14 @@ public class Player extends Mob {
 		}
 		
 		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 3){ //ID of water tile (in Tile class)
-			this.isSwimming = true;
+			this.setIsSwimming(true);
 		}
 		
 		if(this.isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 3){
-			this.isSwimming = false;
+			this.setIsSwimming(false);
 		}
+		
+		
 		this.tickCount++;
 
 	}

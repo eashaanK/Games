@@ -7,6 +7,8 @@ import com.infagen2D.level.Tile;
 public abstract class Mob extends Entity {
 
 	protected String name;
+	protected final int LANDSPEED;
+	protected final int WATERSPEED;
 	protected int speed;
 	protected int numSteps = 0;
 	protected boolean isMoving;
@@ -15,12 +17,15 @@ public abstract class Mob extends Entity {
 	protected boolean isSwimming = false;
 
 
-	public Mob(Level level, String name, int x, int y, int speed) {
+	public Mob(Level level, String name, int x, int y, int landSpeed, int waterSpeed) {
 		super(level);
 		this.name = name;
 		this.x = x;
 		this.y = y;
-		this.speed = speed;
+		this.LANDSPEED = landSpeed;
+		this.WATERSPEED = waterSpeed;
+		speed = LANDSPEED;
+
 	}
 
 	public void move(int xa, int ya) {
@@ -67,5 +72,15 @@ public abstract class Mob extends Entity {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void setIsSwimming(boolean isSwim){
+		this.isSwimming = isSwim;
+		if(isSwim){
+			this.speed = this.WATERSPEED;
+		}
+		else{
+			this.speed = this.LANDSPEED;
+		}
 	}
 }
