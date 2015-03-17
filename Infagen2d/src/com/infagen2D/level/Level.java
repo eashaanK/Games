@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import com.infagen2D.entities.Entity;
 import com.infagen2D.graphics.Screen;
+import com.infagen2D.noise.SimplexNoise;
 
 public class Level {
 
@@ -76,13 +77,21 @@ public class Level {
 	public void generateLevel() {
 		
 		//addNoiseGenHere
+		SimplexNoise noiseFunction = new SimplexNoise(7, 0.1);
 		
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				if ( (int)(Math.random() * 100f)  < 50) {
+				double noise = noiseFunction.getNoise(x, y);
+				noise = Math.abs(noise) * 10;
+				System.out.println("Noise: " + noise);
+				if (  noise < 0.5) {
+					tiles[x + y * width] = Tile.WATER.getId();
+				} else if(noise < 0.8){
 					tiles[x + y * width] = Tile.GRASS.getId();
-				} else {
+				}
+				else{
 					tiles[x + y * width] = Tile.STONE.getId();
+
 				}
 			}
 		}
