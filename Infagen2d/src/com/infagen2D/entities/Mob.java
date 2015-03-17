@@ -12,6 +12,8 @@ public abstract class Mob extends Entity {
 	protected boolean isMoving;
 	protected int movingDir = 1;
 	protected int scale = 1;
+	protected boolean isSwimming = false;
+
 
 	public Mob(Level level, String name, int x, int y, int speed) {
 		super(level);

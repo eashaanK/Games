@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.infagen2D.components.InputHandler;
 import com.infagen2D.entities.Player;
@@ -35,7 +36,7 @@ public class Game extends Canvas implements Runnable {
 
     public static final int WIDTH = 160;
     public static final int HEIGHT = WIDTH / 12 * 9;
-    public static final int SCALE = 4;
+    public static final int SCALE = 5;
     public static final String NAME = "Game";
 
     private JFrame frame;
@@ -87,8 +88,8 @@ public class Game extends Canvas implements Runnable {
 
             screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/SpriteSheet.png"));
             input = new InputHandler(this);
-            level = new Level("/Levels/small_test_evel.png");
-            player = new Player(level, 0, 0, input);
+            level = new Level("/Levels/Water_Test_Level.png");
+            player = new Player(level,JOptionPane.showInputDialog("Enter Name:"), 0, 0, input);
             level.addEntity(player);
     }
 
@@ -123,11 +124,13 @@ public class Game extends Canvas implements Runnable {
                             delta -= 1;
                             shouldRender = true;
                     }
+                    
                     try {
                             Thread.sleep(2);
                     } catch (InterruptedException e) {
                             e.printStackTrace();
                     }
+                    
                     if (shouldRender) {
                             frames++;
                             render();
