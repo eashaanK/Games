@@ -20,8 +20,8 @@ import com.infagen2D.graphics.SpriteSheet;
 import com.infagen2D.level.Level;
 
 /**
- * FIX PLAYER SPEED
- * https://www.youtube.com/watch?v=dQP7ZmFhqgg&list=ELp5mgUw5g9EY&index=9
+ *
+ *https://www.youtube.com/watch?v=l1p21JWa_8s&list=ELp5mgUw5g9EY&index=17
  * @author eashaan
  * 
  * for levels:

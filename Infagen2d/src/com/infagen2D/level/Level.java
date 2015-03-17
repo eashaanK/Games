@@ -86,7 +86,7 @@ public class Level {
 				System.out.println("Noise: " + noise);
 				if (  noise < 0.5) {
 					tiles[x + y * width] = Tile.WATER.getId();
-				} else if(noise < 0.8){
+				} else if(noise < 0.87){
 					tiles[x + y * width] = Tile.GRASS.getId();
 				}
 				else{
