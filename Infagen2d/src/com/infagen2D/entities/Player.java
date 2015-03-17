@@ -68,7 +68,38 @@ public class Player extends Mob {
 		screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * 32, colour, flipBottom, scale); // lower body part 2
 	}
 
+	/**
+	 * Change ur colliders here
+	 */
 	public boolean hasCollided(int xa, int ya) {
+		int xMin = 0;
+		int xMax = 7;
+		int yMin = 3;
+		int yMax = 7;
+		//top
+		for(int x = xMin; x < xMax; x++){
+			if(isSolidTile(xa, ya, x, yMin)){
+				return true;
+			}
+		}
+		//bottom
+		for(int x = xMin; x < xMax; x++){
+			if(isSolidTile(xa, ya, x, yMax)){
+				return true;
+			}
+		}
+		//left
+		for(int y = yMin; y < yMax; y++){
+			if(isSolidTile(xa, ya, xMin, y)){
+				return true;
+			}
+		}
+		//right
+		for(int y = yMin; y < yMax; y++){
+			if(isSolidTile(xa, ya, xMax, y)){
+				return true;
+			}
+		}
 		return false;
 	}
 

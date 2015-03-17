@@ -22,6 +22,11 @@ import com.infagen2D.level.Level;
  * FIX PLAYER SPEED
  * https://www.youtube.com/watch?v=dQP7ZmFhqgg&list=ELp5mgUw5g9EY&index=9
  * @author eashaan
+ * 
+ * for levels:
+ * 555555 = void/grey
+ * 00ff00 = grass
+ * 
  *
  */
 public class Game extends Canvas implements Runnable {
@@ -30,7 +35,7 @@ public class Game extends Canvas implements Runnable {
 
     public static final int WIDTH = 160;
     public static final int HEIGHT = WIDTH / 12 * 9;
-    public static final int SCALE = 3;
+    public static final int SCALE = 4;
     public static final String NAME = "Game";
 
     private JFrame frame;
@@ -82,7 +87,7 @@ public class Game extends Canvas implements Runnable {
 
             screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/SpriteSheet.png"));
             input = new InputHandler(this);
-            level = new Level(64, 64);
+            level = new Level("/Levels/small_test_evel.png");
             player = new Player(level, 0, 0, input);
             level.addEntity(player);
     }
