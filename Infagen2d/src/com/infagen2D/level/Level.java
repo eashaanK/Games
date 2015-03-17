@@ -74,9 +74,12 @@ public class Level {
 	}
 
 	public void generateLevel() {
+		
+		//addNoiseGenHere
+		
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				if (x * y % 10 < 7) {
+				if ( (int)(Math.random() * 100f)  < 50) {
 					tiles[x + y * width] = Tile.GRASS.getId();
 				} else {
 					tiles[x + y * width] = Tile.STONE.getId();

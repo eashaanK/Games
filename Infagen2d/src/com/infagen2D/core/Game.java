@@ -88,7 +88,9 @@ public class Game extends Canvas implements Runnable {
 
             screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/SpriteSheet.png"));
             input = new InputHandler(this);
-            level = new Level("/Levels/Water_Test_Level.png");
+            ///level = new Level("/Levels/Water_Test_Level.png");
+            level = new Level(null);
+
             player = new Player(level,JOptionPane.showInputDialog("Enter Name:"), 0, 0, input);
             level.addEntity(player);
     }
@@ -163,13 +165,13 @@ public class Game extends Canvas implements Runnable {
 
             level.renderTiles(screen, xOffset, yOffset);
 
-            for (int x = 0; x < level.width; x++) {
+           /* for (int x = 0; x < level.width; x++) {
                     int colour = Colors.get(-1, -1, -1, 000);
                     if (x % 10 == 0 && x != 0) {
                             colour = Colors.get(-1, -1, -1, 500);
                     }
                     FunFont.render((x % 10) + "", screen, 0 + (x * 8), 0, colour, 1);
-            }
+            }*/
 
             level.renderEntities(screen);
 
