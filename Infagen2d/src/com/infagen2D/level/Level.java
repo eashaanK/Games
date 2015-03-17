@@ -83,23 +83,30 @@ public class Level {
 			for (int x = 0; x < width; x++) {
 				double noise = noiseFunction.getNoise(x, y);
 				noise = Math.abs(noise) * 10;
-				System.out.println("Noise: " + noise);
-				if (  noise < 0.5) {
-					tiles[x + y * width] = Tile.WATER.getId();
-				} else if(noise < 0.87){
+				//System.out.println("Noise: " + noise);
+				if (  noise < 0.35) {
+					tiles[x + y * width] = Tile.LAVA.getId();
+				}
+				else if(noise < 0.46){
+					tiles[x + y * width] = Tile.SAND.getId();
+				}
+				else if(noise < 0.85){
 					tiles[x + y * width] = Tile.GRASS.getId();
 				}
-				else{
+				else if(noise < 0.92){
 					tiles[x + y * width] = Tile.STONE.getId();
 
+				}
+				else{
+					tiles[x + y * width] = Tile.LAVA.getId();
 				}
 			}
 		}
 	}
 
-	public void tick() {
+	public void tick(Screen screen) {
 		for(Entity e: entities){
-			e.tick();
+			e.tick(screen);
 		}
 		
 		for(Tile t : Tile.tiles){

@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.infagen2D.components.InputHandler;
+import com.infagen2D.components.Ref;
 import com.infagen2D.entities.Player;
 import com.infagen2D.graphics.Colors;
 import com.infagen2D.graphics.FunFont;
@@ -20,7 +21,8 @@ import com.infagen2D.graphics.SpriteSheet;
 import com.infagen2D.level.Level;
 
 /**
- *
+ * VOID , STONE, GRASS, SAND,
+ * WATER(1, 2, 3),  LAVA(1, 2, 3)
  *https://www.youtube.com/watch?v=l1p21JWa_8s&list=ELp5mgUw5g9EY&index=17
  * @author eashaan
  * 
@@ -93,6 +95,8 @@ public class Game extends Canvas implements Runnable {
 
             player = new Player(level,JOptionPane.showInputDialog("Enter Name:"), 0, 0, input);
             level.addEntity(player);
+            
+            System.out.println("SEED: " + Ref.SEED);
     }
 
     public synchronized void start() {
@@ -150,7 +154,7 @@ public class Game extends Canvas implements Runnable {
 
     public void tick() {
             tickCount++;
-            level.tick();
+            level.tick(screen);
     }
 
     public void render() {

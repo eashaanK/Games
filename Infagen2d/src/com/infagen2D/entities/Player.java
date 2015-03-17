@@ -15,12 +15,11 @@ public class Player extends Mob {
 	protected int tickCount = 0;
 
 	public Player(Level level, String name, int x, int y, InputHandler input) {
-		
 		super(level,name , x, y, 1, 1);
 		this.input = input;
 	}
 
-	public void tick() {
+	public void tick(Screen screen) {
 		int xa = 0;
 		int ya = 0;
 
@@ -50,6 +49,12 @@ public class Player extends Mob {
 		
 		if(this.isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 3){
 			this.setIsSwimming(false);
+		}
+		
+		//is in lava
+		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 5){ //ID of water tile (in Tile class)
+			this.takeDamage(5);
+			System.out.println("NIGGA GET OUT THE LAVA!");
 		}
 		
 		
@@ -144,5 +149,10 @@ public class Player extends Mob {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void attackEntity(Entity e) {
+		e.takeDamage(25);
 	}
 }

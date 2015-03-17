@@ -8,6 +8,7 @@ public abstract class Entity {
 	public int x;
 	public int y;
 	protected Level level;
+	protected float health = 100;
 	
 	public Entity(Level level) {
 		init(level);
@@ -17,7 +18,15 @@ public abstract class Entity {
 		this.level = level;
 	}
 	
-	public abstract void tick();
+	public abstract void tick(Screen screen);
 	
 	public abstract void render(Screen screen);
+	
+	public void takeDamage(float dmg){
+		this.health -= dmg;
+	}
+	
+	public abstract void attackEntity(Entity e);
+	 
+	
 }
