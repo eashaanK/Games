@@ -44,17 +44,20 @@ public class Player extends Mob {
 		}
 		
 		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 3){ //ID of water tile (in Tile class)
-			this.setIsSwimming(true);
+			this.setIsSwimming(0);
 		}
 		
-		if(this.isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 3){
-			this.setIsSwimming(false);
+		if(this.isSwimmingAtAll() && level.getTile(this.x >> 3, this.y >> 3).getId() != 3){
+			this.setIsSwimming(-1);
 		}
 		
 		//is in lava
 		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 5){ //ID of water tile (in Tile class)
-			this.takeDamage(5);
-			System.out.println("NIGGA GET OUT THE LAVA!");
+			this.takeDamage(1);
+			this.setIsSwimming(1);
+			//System.out.println("NIGGA GET OUT THE LAVA!");
+			//System.out.println(this.health);
+
 		}
 		
 		
@@ -82,22 +85,40 @@ public class Player extends Mob {
 		int xOffset = x - modifier / 2;
 		int yOffset = y - modifier / 2 - 4;
 
-		if(this.isSwimming){
+		if(this.isSwimmingAtAll()){
 			int waterColor = 0;
 			yOffset += 4;
-			if(this.tickCount % 60 < 15){
-				waterColor = Colors.get(-1, -1, 225, -1);
+			if(this.isSwimmingState == 0) {//water
+				if(this.tickCount % 60 < 15){
+					waterColor = Colors.get(-1, -1, 225, -1);
+				}
+				else if(15 <= tickCount % 60 && tickCount %60 < 30){
+					yOffset -= 1;
+					waterColor = Colors.get(-1, 225, 115, -1);
+				}
+				else if(30 <= tickCount %60 && tickCount %60 < 45){
+					waterColor = Colors.get(-1, 115, -1, 225);
+				}
+				else{
+					yOffset -= 1;
+					waterColor = Colors.get(-1, 225, 115, -1);
+				}
 			}
-			else if(15 <= tickCount % 60 && tickCount %60 < 30){
-				yOffset -= 1;
-				waterColor = Colors.get(-1, 225, 115, -1);
-			}
-			else if(30 <= tickCount %60 && tickCount %60 < 45){
-				waterColor = Colors.get(-1, 115, -1, 225);
-			}
-			else{
-				yOffset -= 1;
-				waterColor = Colors.get(-1, 225, 115, -1);
+			else if(this.isSwimmingState == 1){ //lava
+				if(this.tickCount % 60 < 15){
+					waterColor = Colors.get(-1, -1, 300, -1);
+				}
+				else if(15 <= tickCount % 60 && tickCount %60 < 30){
+					yOffset -= 1;
+					waterColor = Colors.get(-1, 400, 300, -1);
+				}
+				else if(30 <= tickCount %60 && tickCount %60 < 45){
+					waterColor = Colors.get(-1, 440, -1, 550);
+				}
+				else{
+					yOffset -= 1;
+					waterColor = Colors.get(-1, 500, 300, -1);
+				}
 			}
 			screen.render(xOffset, yOffset + 3, 0 + 27 * 32, waterColor, 0x00, 1);
 			screen.render(xOffset + 8, yOffset + 3, 0 + 27 * 32, waterColor, 0x01, 1);
@@ -106,7 +127,7 @@ public class Player extends Mob {
 		screen.render(xOffset + (modifier * flipTop), yOffset, xTile + yTile * 32, colour, flipTop, scale); // upper body part 1
 		screen.render(xOffset + modifier - (modifier * flipTop), yOffset, (xTile + 1) + yTile * 32, colour, flipTop, scale); // upper body part 2
 		
-		if( ! this.isSwimming){
+		if( ! this.isSwimmingAtAll()){
 		screen.render(xOffset + (modifier * flipBottom), yOffset + modifier, xTile + (yTile + 1) * 32, colour, flipBottom, scale); // lower body part 1
 		screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * 32, colour, flipBottom, scale); // lower body part 2
 		}

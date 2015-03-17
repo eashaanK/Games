@@ -85,7 +85,7 @@ public class Level {
 				noise = Math.abs(noise) * 10;
 				//System.out.println("Noise: " + noise);
 				if (  noise < 0.35) {
-					tiles[x + y * width] = Tile.LAVA.getId();
+					tiles[x + y * width] = Tile.WATER.getId();
 				}
 				else if(noise < 0.46){
 					tiles[x + y * width] = Tile.SAND.getId();

@@ -14,7 +14,7 @@ public abstract class Mob extends Entity {
 	protected boolean isMoving;
 	protected int movingDir = 1;
 	protected int scale = 1;
-	protected boolean isSwimming = false;
+	protected int isSwimmingState = -1;//0 for water, 1 for lava
 
 
 	public Mob(Level level, String name, int x, int y, int landSpeed, int waterSpeed) {
@@ -74,13 +74,23 @@ public abstract class Mob extends Entity {
 		return name;
 	}
 	
-	public void setIsSwimming(boolean isSwim){
-		this.isSwimming = isSwim;
-		if(isSwim){
+	/**
+	 * -1 for not swimming
+	 * 0 for water
+	 * 1 for lava
+	 * @param isSwim
+	 */
+	public void setIsSwimming(int isSwim){
+		this.isSwimmingState = isSwim;
+		if(isSwim > -1){
 			this.speed = this.WATERSPEED;
 		}
 		else{
 			this.speed = this.LANDSPEED;
 		}
+	}
+	
+	public boolean isSwimmingAtAll(){
+		return this.isSwimmingState >= 0;
 	}
 }
