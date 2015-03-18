@@ -123,7 +123,7 @@ public class Level {
 			if(x > width)x = width;
 			if(y < 0)y = 0;
 			if(y > height)y =  height;
-			Civilian civilian = new Civilian(this, "NIGGA" + this.entities.size() , x, y, true);
+			Civilian civilian = new Civilian(this, "MOB" + this.entities.size() , x, y, true);
 			addEntity(civilian);
 		}else this.currentMopSpawn += this.MOB_SPAWN_INC;
 
