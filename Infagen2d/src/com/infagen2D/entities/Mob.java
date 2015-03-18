@@ -15,6 +15,8 @@ public abstract class Mob extends Entity {
 	protected int movingDir = 1;
 	protected int scale = 1;
 	protected int isSwimmingState = -1;//0 for water, 1 for lava
+	protected float damageFromLava = 0.1f;
+	protected boolean isOnFire = false;
 
 	protected boolean renderName;
 

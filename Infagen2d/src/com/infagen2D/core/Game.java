@@ -35,7 +35,7 @@ public class Game extends Canvas implements Runnable {
 	 
     private static final long serialVersionUID = 1L;
 
-    public static final int WIDTH = 160;
+   public static final int WIDTH = 160;
     public static final int HEIGHT = WIDTH / 12 * 9;
     public static final int SCALE = 5;
     public static final String NAME = "Game";
@@ -55,8 +55,7 @@ public class Game extends Canvas implements Runnable {
     public InputHandler input;
     public Level level;
     public Player player;
-    public Civilian civilian;
-
+    
     public Game() {
             setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
             setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -95,10 +94,13 @@ public class Game extends Canvas implements Runnable {
 
             player = new Player(level,JOptionPane.showInputDialog("Enter Name:"), 0, 0, input);
             level.addEntity(player);
+            //PLAYER MUST BE THE FIRST ENTITY
             
             //civilian
-            civilian = new Civilian(level, "Civilian", 0, 0, false);
-            level.addEntity(civilian);
+            for(int i = 0; i < 2000; i++){
+            	Civilian civilian = new Civilian(level, "Civilian", (int)(Math.random() * level.width), (int)(Math.random() * level.height), false);
+            	level.addEntity(civilian);
+            }
             
             System.out.println("SEED: " + Ref.SEED);
     }

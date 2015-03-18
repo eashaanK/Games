@@ -52,17 +52,29 @@ public class Player extends Mob {
 		}
 		
 		//is in lava
-		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 5){ //ID of water tile (in Tile class)
-			this.takeDamage(1);
+		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 5){ //ID of lava tile (in Tile class)
+			this.isOnFire = true;
+			this.takeDamage(this.damageFromLava);
 			this.setIsSwimming(1);
 			//System.out.println("NIGGA GET OUT THE LAVA!");
 			//System.out.println(this.health);
+		}
+		else
+			this.isOnFire = false;
+		
+		this.checkIfOnFire();
+		this.tickCount++;
+	}
+	
+	public void checkIfOnFire(){
+
+		if(this.isOnFire){
+			this.colour = Colors.get(-1, 500, 500, 543);
+		}
+		else if(!this.isOnFire){
+			this.colour = Colors.get(-1, 111, 145, 543);
 
 		}
-		
-		
-		this.tickCount++;
-
 	}
 
 	public void render(Screen screen) {
@@ -175,5 +187,10 @@ public class Player extends Mob {
 	@Override
 	public void attackEntity(Entity e) {
 		e.takeDamage(25);
+	}
+	
+	@Override
+	public void takeDamage(float d){
+		super.takeDamage(d);
 	}
 }

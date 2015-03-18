@@ -19,25 +19,33 @@ import com.infagen2D.level.Tile;
  */
 public class Civilian extends Mob
 {
-	private int colour = Colors.get(-1, 111, (int)(Math.random() * 556), 543);
+	private int color1 = -1, color2 = 111, color3 = (int)(Math.random() * 556), color4 = 543;
+	private int colour = Colors.get(color1, color2, color3, color4 );
 	protected int tickCount = 0;
 	protected final int MAX_AI_WALK_IDLE_TIME = 300;
 	protected float currentWalkCount = (float)(Math.random() * MAX_AI_WALK_IDLE_TIME);
-	protected final float WALK_DEC = 5f, IDLE_INC = 5f; //lower walk, more time for walking, viceversa
+	protected final float WALK_DEC = (float)(Math.random() * 5), IDLE_INC = (float)(Math.random() * 2); //lower walk, more time for walking, viceversa
+	boolean canGetNewWalkingDirection = false;
+	int xa = 0;
+	int ya = 0;
+	
 
 	public Civilian(Level level, String name, int x, int y, boolean renderName) {
 		super(level,name , x, y, 1, 1, renderName);
 	}
 
 	public void tick() {
-		int xa = 0;
-		int ya = 0;
+		
 
 		if(this.currentWalkCount >= 0){ //allowed to move
 			this.currentWalkCount-=this.WALK_DEC;
-			Point p = randomMovement();
-			xa += p.x;
-			ya += p.y;
+			if(this.canGetNewWalkingDirection){
+				Point p = randomMovement();
+				xa = p.x;
+				ya = p.y;
+				canGetNewWalkingDirection = false;
+				//System.out.println("New Direction: " + xa + " " + ya);
+			}
 			
 			if(this.currentWalkCount <= 0) //make it - num to make it stop
 				this.currentWalkCount = -Ref.getRandom(0, MAX_AI_WALK_IDLE_TIME);
@@ -45,9 +53,12 @@ public class Civilian extends Mob
 		
 		else{//not allowed to move
 			this.currentWalkCount += this.IDLE_INC;
-			
-			if(this.currentWalkCount >= 0) //make it + num to make it walk
+			this.xa = 0;
+			this.ya = 0;
+			if(this.currentWalkCount >= 0){ //make it + num to make it walk
 				this.currentWalkCount = Ref.getRandom(0, MAX_AI_WALK_IDLE_TIME);
+				this.canGetNewWalkingDirection = true;
+			}
 		}
 
 		if (xa != 0 || ya != 0) {
@@ -67,18 +78,28 @@ public class Civilian extends Mob
 		
 		//is in lava
 		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 5){ //ID of lava tile (in Tile class)
-			this.takeDamage(1);
+			this.takeDamage(this.damageFromLava);
 			this.setIsSwimming(1);
+			this.isOnFire = true;
+
 			//System.out.println("NIGGA GET OUT THE LAVA!");
 			//System.out.println(this.health);
 
 		}
+		else{
+			this.isOnFire = false;
+		}
 		
+		this.checkIfOnFire();
+
 		this.tickCount++;
+		
+		//System.out.println(this.health);
 	}
 	
+	
 	public Point randomMovement(){
-		/*
+		
 		int xVel = 0, yVel = 0;
 		int menu = Ref.getRandom(0, 7);
 		switch(menu){ 
@@ -99,35 +120,35 @@ public class Civilian extends Mob
 			yVel = 0;
 			break;
 			default://south east
-				xVel = 1;
-				yVel = 1;
+				if(Ref.getRandom(-100, 100) > 0){
+					xVel = 1;
+					yVel = 1;
+				}
+				else{
+					xVel = -1;
+					yVel = -1;
+				}
 				break;
 		}
-		return new Point(xVel, yVel);*/
-		int xV = 1, yV = 1;
-		if(this.leftTileID() == Tile.STONE.getId() && this.rightTileID() == Tile.STONE.getId()) //if stone on both sides
-		{
-			xV = 0;
-		}
-		else if(this.leftTileID() == Tile.STONE.getId() || this.rightTileID() == Tile.STONE.getId()){
-			xV = this.rightTileID() == Tile.STONE.getId() ? 1 : -1; //if left is stone, 1, otherwise go right
-		}
-		else{
-			//System.out.println("Picking random x");
-			xV = Ref.getRandom(0, 2);
+		return new Point(xVel, yVel);
 
-		}
-		if(x <= 0)
-			xV = 1;
-		else if(x >= level.width)
-			xV = -1;
 		
 		/*System.out.println("\t" + this.upTileID());
 		System.out.println(this.leftTileID() + "\t\t\t" + this.rightTileID());
 		System.out.println("\t" + this.downTileID());*/
 		
 
-		return new Point(xV, yV);
+	}
+	
+	public void checkIfOnFire(){
+
+		if(this.isOnFire){
+			this.colour = Colors.get(-1, 500, 500, 543);
+		}
+		else if(!this.isOnFire){
+			this.colour = Colors.get(color1, color2, color3, color4);
+
+		}
 	}
 
 	public void render(Screen screen) {

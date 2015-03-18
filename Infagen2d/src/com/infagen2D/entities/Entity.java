@@ -43,4 +43,8 @@ public abstract class Entity {
 	public int upTileID(){
 		return (level.getTile(this.x >> 3, this.y-1 >> 3)).getId();
 	}
+	
+	public float getHealth(){
+		return health;
+	}
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import com.infagen2D.entities.Entity;
+import com.infagen2D.entities.Player;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.noise.SimplexNoise;
 
@@ -20,6 +21,9 @@ public class Level {
 	public List<Entity> entities = new ArrayList<Entity>();
 	private String imagePath;
 	private BufferedImage image;
+	private final double RENDER_DISTANCE = 120;
+	private final double UPDATE_DISTANCE = RENDER_DISTANCE * 2;
+
 
 	public Level(String imagePath) {
 		
@@ -105,8 +109,15 @@ public class Level {
 	}
 
 	public void tick() {
-		for(Entity e: entities){
-			e.tick();
+		Player p = (Player)entities.get(0);
+		for(int i = entities.size() - 1; i >= 0; i--){
+			if(entities.get(i).getHealth() <= 0){
+				entities.remove(i);
+			}
+			else{
+				if(this.getDistance(p.x, p.y, entities.get(i).x, entities.get(i).y) <= this.UPDATE_DISTANCE)
+					entities.get(i).tick();
+			}
 		}
 		
 		for(Tile t : Tile.tiles){
@@ -136,9 +147,16 @@ public class Level {
 		}
 	}
 	
+	private double getDistance(int x1, int y1, int x2, int y2){
+		return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+	}
+	
 	public void renderEntities(Screen screen){
+		Player p = (Player)entities.get(0);
 		for(Entity e: entities){
-			e.render(screen);
+			if(this.getDistance(p.x, p.y, e.x, e.y) <= RENDER_DISTANCE)
+				e.render(screen);
+			
 		}
 	}
 
