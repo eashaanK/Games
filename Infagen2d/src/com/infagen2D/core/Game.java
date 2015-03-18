@@ -96,12 +96,6 @@ public class Game extends Canvas implements Runnable {
             level.addEntity(player);
             //PLAYER MUST BE THE FIRST ENTITY
             
-            //civilian
-            for(int i = 0; i < 2000; i++){
-            	Civilian civilian = new Civilian(level, "Civilian", (int)(Math.random() * level.width), (int)(Math.random() * level.height), false);
-            	level.addEntity(civilian);
-            }
-            
             System.out.println("SEED: " + Ref.SEED);
     }
 
