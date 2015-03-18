@@ -15,7 +15,7 @@ public class Player extends Mob {
 	protected int tickCount = 0;
 
 	public Player(Level level, String name, int x, int y, InputHandler input) {
-		super(level,name , x, y, 1, 1);
+		super(level,name , x, y, 1, 1, true);
 		this.input = input;
 	}
 
@@ -132,7 +132,7 @@ public class Player extends Mob {
 		screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * 32, colour, flipBottom, scale); // lower body part 2
 		}
 		
-		if(name != null){
+		if(name != null && this.renderName){
 			FunFont.render(name, screen, xOffset  - ( (name.length() - 1)/2 * 8), yOffset- 10, Colors.get(-1, -1, -1, 555), 1);
 		}
 	}

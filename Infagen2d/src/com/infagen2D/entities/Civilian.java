@@ -1,38 +1,54 @@
 package com.infagen2D.entities;
 
-import com.infagen2D.components.InputHandler;
+import java.awt.Point;
+
+import com.infagen2D.components.Ref;
 import com.infagen2D.graphics.Colors;
 import com.infagen2D.graphics.FunFont;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.level.Level;
+import com.infagen2D.level.Tile;
 
+/**
+ * Moves, stops, Moves, stops...
+ * generate maxValue for how long it can walk. Then keep decrementing from it. allow player to move
+ * if the maxWalkValue <= 0, stop moving player.
+ * Now assign a negative value and increment from it. if it is >= 0, assign it a + value and repeat
+ * @author eashaan
+ *
+ */
 public class Civilian extends Mob
 {
-	private int colour = Colors.get(-1, 111, 145, 543);
+	private int colour = Colors.get(-1, 111, (int)(Math.random() * 556), 543);
 	protected int tickCount = 0;
+	protected final int MAX_AI_WALK_IDLE_TIME = 300;
+	protected float currentWalkCount = (float)(Math.random() * MAX_AI_WALK_IDLE_TIME);
+	protected final float WALK_DEC = 5f, IDLE_INC = 5f; //lower walk, more time for walking, viceversa
 
-	public Civilian(Level level, String name, int x, int y) {
-		super(level,name , x, y, 1, 1);
+	public Civilian(Level level, String name, int x, int y, boolean renderName) {
+		super(level,name , x, y, 1, 1, renderName);
 	}
 
 	public void tick() {
 		int xa = 0;
 		int ya = 0;
 
-		/*if (input.up.isPressed()) {
-			ya -= 1;
+		if(this.currentWalkCount >= 0){ //allowed to move
+			this.currentWalkCount-=this.WALK_DEC;
+			Point p = randomMovement();
+			xa += p.x;
+			ya += p.y;
+			
+			if(this.currentWalkCount <= 0) //make it - num to make it stop
+				this.currentWalkCount = -Ref.getRandom(0, MAX_AI_WALK_IDLE_TIME);
 		}
-		if (input.down.isPressed()) {
-			ya += 1;
+		
+		else{//not allowed to move
+			this.currentWalkCount += this.IDLE_INC;
+			
+			if(this.currentWalkCount >= 0) //make it + num to make it walk
+				this.currentWalkCount = Ref.getRandom(0, MAX_AI_WALK_IDLE_TIME);
 		}
-		if (input.left.isPressed()) {
-			xa -= 1;
-		}
-		if (input.right.isPressed()) {
-			xa += 1;
-		}*/
-		xa++;
-		ya++;
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -50,7 +66,7 @@ public class Civilian extends Mob
 		}
 		
 		//is in lava
-		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 5){ //ID of water tile (in Tile class)
+		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 5){ //ID of lava tile (in Tile class)
 			this.takeDamage(1);
 			this.setIsSwimming(1);
 			//System.out.println("NIGGA GET OUT THE LAVA!");
@@ -58,9 +74,60 @@ public class Civilian extends Mob
 
 		}
 		
-		
 		this.tickCount++;
+	}
+	
+	public Point randomMovement(){
+		/*
+		int xVel = 0, yVel = 0;
+		int menu = Ref.getRandom(0, 7);
+		switch(menu){ 
+		case 0://north
+			xVel = 0;
+			yVel = -1;
+			break;
+		case 1://south
+			xVel = 0;
+			yVel = 1;
+			break;
+		case 2://west
+			xVel = -1;
+			yVel = 0;
+			break;
+		case 3://east
+			xVel = 1;
+			yVel = 0;
+			break;
+			default://south east
+				xVel = 1;
+				yVel = 1;
+				break;
+		}
+		return new Point(xVel, yVel);*/
+		int xV = 1, yV = 1;
+		if(this.leftTileID() == Tile.STONE.getId() && this.rightTileID() == Tile.STONE.getId()) //if stone on both sides
+		{
+			xV = 0;
+		}
+		else if(this.leftTileID() == Tile.STONE.getId() || this.rightTileID() == Tile.STONE.getId()){
+			xV = this.rightTileID() == Tile.STONE.getId() ? 1 : -1; //if left is stone, 1, otherwise go right
+		}
+		else{
+			//System.out.println("Picking random x");
+			xV = Ref.getRandom(0, 2);
 
+		}
+		if(x <= 0)
+			xV = 1;
+		else if(x >= level.width)
+			xV = -1;
+		
+		/*System.out.println("\t" + this.upTileID());
+		System.out.println(this.leftTileID() + "\t\t\t" + this.rightTileID());
+		System.out.println("\t" + this.downTileID());*/
+		
+
+		return new Point(xV, yV);
 	}
 
 	public void render(Screen screen) {
@@ -130,7 +197,7 @@ public class Civilian extends Mob
 		screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * 32, colour, flipBottom, scale); // lower body part 2
 		}
 		
-		if(name != null){
+		if(name != null && this.renderName){
 			FunFont.render(name, screen, xOffset  - ( (name.length() - 1)/2 * 8), yOffset- 10, Colors.get(-1, -1, -1, 555), 1);
 		}
 	}
@@ -138,6 +205,7 @@ public class Civilian extends Mob
 	/**
 	 * Change ur colliders here
 	 */
+	@Override
 	public boolean hasCollided(int xa, int ya) {
 		int xMin = 0;
 		int xMax = 7;

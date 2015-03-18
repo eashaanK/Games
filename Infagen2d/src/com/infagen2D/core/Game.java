@@ -13,9 +13,8 @@ import javax.swing.JOptionPane;
 
 import com.infagen2D.components.InputHandler;
 import com.infagen2D.components.Ref;
+import com.infagen2D.entities.Civilian;
 import com.infagen2D.entities.Player;
-import com.infagen2D.graphics.Colors;
-import com.infagen2D.graphics.FunFont;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.graphics.SpriteSheet;
 import com.infagen2D.level.Level;
@@ -56,6 +55,7 @@ public class Game extends Canvas implements Runnable {
     public InputHandler input;
     public Level level;
     public Player player;
+    public Civilian civilian;
 
     public Game() {
             setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -95,6 +95,10 @@ public class Game extends Canvas implements Runnable {
 
             player = new Player(level,JOptionPane.showInputDialog("Enter Name:"), 0, 0, input);
             level.addEntity(player);
+            
+            //civilian
+            civilian = new Civilian(level, "Civilian", 0, 0, false);
+            level.addEntity(civilian);
             
             System.out.println("SEED: " + Ref.SEED);
     }
@@ -144,8 +148,8 @@ public class Game extends Canvas implements Runnable {
 
                     if (System.currentTimeMillis() - lastTimer >= 1000) {
                             lastTimer += 1000;
-                            System.out.println(ticks + " ticks , " + frames
-                                            + " frames per second");
+                           // System.out.println(ticks + " ticks , " + frames+ " frames per second");
+                            this.frame.setTitle(NAME + " " + ticks + " ticks , " + frames+ " frames per second");
                             frames = 0;
                             ticks = 0;
                     }

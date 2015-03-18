@@ -28,8 +28,8 @@ public class Level {
 			this.loadLevelFromFile();
 		}
 		else{
-			this.width = 64;
-			this.height = 64;
+			this.width = 1000;
+			this.height = 1000;
 			tiles = new byte[width * height];
 			this.generateLevel();
 		}

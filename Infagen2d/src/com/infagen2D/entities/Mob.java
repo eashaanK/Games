@@ -16,8 +16,10 @@ public abstract class Mob extends Entity {
 	protected int scale = 1;
 	protected int isSwimmingState = -1;//0 for water, 1 for lava
 
+	protected boolean renderName;
 
-	public Mob(Level level, String name, int x, int y, int landSpeed, int waterSpeed) {
+
+	public Mob(Level level, String name, int x, int y, int landSpeed, int waterSpeed, boolean renderName) {
 		super(level);
 		this.name = name;
 		this.x = x;
@@ -25,6 +27,7 @@ public abstract class Mob extends Entity {
 		this.LANDSPEED = landSpeed;
 		this.WATERSPEED = waterSpeed;
 		speed = LANDSPEED;
+		this.renderName = renderName;
 
 	}
 
