@@ -92,7 +92,7 @@ public class Level {
 				noise = Math.abs(noise) * 10;
 				// System.out.println("Noise: " + noise);
 				if (noise < 0.35) {
-					tiles[x + y * width] = Tile.LAVA.getId();
+					tiles[x + y * width] = Tile.WATER.getId();
 				} else if (noise < 0.46) {
 					tiles[x + y * width] = Tile.SAND.getId();
 				} else if (noise < 0.85) {
@@ -113,6 +113,7 @@ public class Level {
 	public void tick() {
 		Player p = (Player) entities.get(0);
 		Entity left =  null, right = null, up = null, down = null;
+		p.tick();
 		
 		if(this.currentMopSpawn >= this.MAX_MOBSPAWN){
 			this.currentMopSpawn = 0;
@@ -122,22 +123,24 @@ public class Level {
 			if(x > width)x = width;
 			if(y < 0)y = 0;
 			if(y > height)y =  height;
-			Civilian civilian = new Civilian(this, "Civilian", x, y, false);
+			Civilian civilian = new Civilian(this, "NIGGA" + this.entities.size() , x, y, true);
 			addEntity(civilian);
 		}else this.currentMopSpawn += this.MOB_SPAWN_INC;
 
-		for (int i = entities.size() - 1; i >= 0; i--) {
+		for (int i = entities.size() - 1; i >= 1; i--) {
 			Entity e = entities.get(i);
 			if (e.getHealth() <= 0) {
 				entities.remove(i);
 			} else {
 				double disFromPlayer = this.getDistance(p.x, p.y, e.x,e.y);
 				if (disFromPlayer <= this.UPDATE_DISTANCE){
-					entities.get(i).tick();			
+					e.tick();			
 					if(i == 0)//THIS SKIPS THE PLAYER
 						continue;
+					
 					int xDis = p.x - e.x;
-					left = xDis > 0 && xDis <= p.getHitbox()? e : null;
+					left = e;
+					//System.out.println("LOL"+ e);
 				}
 			}
 		}

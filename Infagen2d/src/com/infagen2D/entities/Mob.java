@@ -6,7 +6,6 @@ import com.infagen2D.level.Tile;
 
 public abstract class Mob extends Entity {
 
-	protected String name;
 	protected final int LANDSPEED;
 	protected final int WATERSPEED;
 	protected int speed;
@@ -18,12 +17,10 @@ public abstract class Mob extends Entity {
 	protected float damageFromLava = 0.1f;
 	protected Entity left;
 
-	protected boolean renderName;
 
 
 	public Mob(Level level, String name, int x, int y, int landSpeed, int waterSpeed, boolean renderName) {
-		super(level);
-		this.name = name;
+		super(name, level, renderName);
 		this.x = x;
 		this.y = y;
 		this.LANDSPEED = landSpeed;
@@ -74,10 +71,7 @@ public abstract class Mob extends Entity {
 		}
 		return false;
 	}
-	
-	public String getName() {
-		return name;
-	}
+
 	
 	/**
 	 * -1 for not swimming

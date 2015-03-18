@@ -9,10 +9,14 @@ public abstract class Entity {
 	public int y;
 	protected Level level;
 	protected float health = 100;
+	protected String name;
 	protected float hitbox = 1;
+	protected boolean renderName;
 	
-	public Entity(Level level) {
+	public Entity(String name, Level level,  boolean renderName) {
 		init(level);
+		this.name = name;
+		this.renderName = renderName;
 	}
 	
 	public final void init(Level level) {
@@ -57,7 +61,11 @@ public abstract class Entity {
 		this.hitbox = hitbox;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public String toString(){
-		return "Entity: (" + x + ", " + y + ")";
+		return name + ": (" + x + ", " + y + ")";
 	}
 }
