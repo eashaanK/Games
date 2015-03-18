@@ -9,6 +9,7 @@ public abstract class Entity {
 	public int y;
 	protected Level level;
 	protected float health = 100;
+	protected float hitbox = 1;
 	
 	public Entity(Level level) {
 		init(level);
@@ -46,5 +47,17 @@ public abstract class Entity {
 	
 	public float getHealth(){
 		return health;
+	}
+
+	public float getHitbox() {
+		return hitbox;
+	}
+
+	public void setHitbox(float hitbox) {
+		this.hitbox = hitbox;
+	}
+	
+	public String toString(){
+		return "Entity: (" + x + ", " + y + ")";
 	}
 }

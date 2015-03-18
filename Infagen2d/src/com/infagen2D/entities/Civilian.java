@@ -80,17 +80,14 @@ public class Civilian extends Mob
 		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 5){ //ID of lava tile (in Tile class)
 			this.takeDamage(this.damageFromLava);
 			this.setIsSwimming(1);
-			this.isOnFire = true;
-
 			//System.out.println("NIGGA GET OUT THE LAVA!");
 			//System.out.println(this.health);
-
 		}
 		else{
-			this.isOnFire = false;
+			this.colour = Colors.get(color1, color2, color3, color4);
 		}
 		
-		this.checkIfOnFire();
+		
 
 		this.tickCount++;
 		
@@ -138,17 +135,6 @@ public class Civilian extends Mob
 		System.out.println("\t" + this.downTileID());*/
 		
 
-	}
-	
-	public void checkIfOnFire(){
-
-		if(this.isOnFire){
-			this.colour = Colors.get(-1, 500, 500, 543);
-		}
-		else if(!this.isOnFire){
-			this.colour = Colors.get(color1, color2, color3, color4);
-
-		}
 	}
 
 	public void render(Screen screen) {
@@ -260,7 +246,13 @@ public class Civilian extends Mob
 	}
 
 	@Override
+	public void takeDamage(float d){
+		this.colour = Colors.get(-1, 500, 500, 543);
+		super.takeDamage(d);
+	}
+
+	@Override
 	public void attackEntity(Entity e) {
-		e.takeDamage(25);
+		
 	}
 }

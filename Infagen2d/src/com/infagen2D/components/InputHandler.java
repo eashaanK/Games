@@ -12,7 +12,10 @@ public class InputHandler implements KeyListener{
 	public Key down = new Key();
 	public Key left = new Key();
 	public Key right = new Key();
-	
+	public Key space = new Key();
+	public Key num1 = new Key();
+	public Key num2 = new Key();
+
 	public InputHandler(Game game){
 		game.addKeyListener(this);
 	}
@@ -71,6 +74,15 @@ public class InputHandler implements KeyListener{
 		}
 		if(keyCode == KeyEvent.VK_D){
 			right.toggle(isPressed);
+		}
+		if(keyCode == KeyEvent.VK_1){
+			num1.toggle(isPressed);
+		}
+		if(keyCode == KeyEvent.VK_2){
+			num2.toggle(isPressed);
+		}
+		if(keyCode == KeyEvent.VK_SPACE){
+			space.toggle(isPressed);
 		}
 	}
 	

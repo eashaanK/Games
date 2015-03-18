@@ -16,7 +16,7 @@ public abstract class Mob extends Entity {
 	protected int scale = 1;
 	protected int isSwimmingState = -1;//0 for water, 1 for lava
 	protected float damageFromLava = 0.1f;
-	protected boolean isOnFire = false;
+	protected Entity left;
 
 	protected boolean renderName;
 
@@ -97,5 +97,9 @@ public abstract class Mob extends Entity {
 	
 	public boolean isSwimmingAtAll(){
 		return this.isSwimmingState >= 0;
+	}
+	
+	public void setBorderEntities(Entity left){
+		this.left = left;
 	}
 }

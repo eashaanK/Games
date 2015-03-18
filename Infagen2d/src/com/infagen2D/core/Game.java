@@ -2,7 +2,9 @@ package com.infagen2D.core;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -13,7 +15,6 @@ import javax.swing.JOptionPane;
 
 import com.infagen2D.components.InputHandler;
 import com.infagen2D.components.Ref;
-import com.infagen2D.entities.Civilian;
 import com.infagen2D.entities.Player;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.graphics.SpriteSheet;
@@ -191,8 +192,25 @@ public class Game extends Canvas implements Runnable {
 
             Graphics g = bs.getDrawGraphics();
             g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            //health
+            drawHealth(g);
             g.dispose();
             bs.show();
+    }
+    
+    
+    private void drawHealth(Graphics g){
+    	String h = (int)player.getHealth() + "";
+    	int fontSize = 50;
+    	int x =  frame.getWidth() / 2 - (h.length() * fontSize)/2;
+    	int y =  frame.getHeight()  - 100;
+    	
+    	g.setColor(Color.white);
+    	g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, fontSize));
+    	
+        g.drawString( h, x, y);
+        
+
     }
 
     public static void main(String[] args) {

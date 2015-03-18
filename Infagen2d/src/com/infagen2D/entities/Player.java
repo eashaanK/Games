@@ -1,8 +1,8 @@
 package com.infagen2D.entities;
 
-import javax.swing.JOptionPane;
-
 import com.infagen2D.components.InputHandler;
+import com.infagen2D.components.Tools;
+import com.infagen2D.components.Tools.Tool;
 import com.infagen2D.graphics.Colors;
 import com.infagen2D.graphics.FunFont;
 import com.infagen2D.graphics.Screen;
@@ -13,10 +13,15 @@ public class Player extends Mob {
 	private InputHandler input;
 	private int colour = Colors.get(-1, 111, 145, 543);
 	protected int tickCount = 0;
+	protected Tool tool = Tool.HAND;
+	protected int currentToolXTile, currentToolYTile;
+	protected boolean isSwipe = false;
+
 
 	public Player(Level level, String name, int x, int y, InputHandler input) {
 		super(level,name , x, y, 1, 1, true);
 		this.input = input;
+		this.hitbox = 2;
 	}
 
 	public void tick() {
@@ -35,6 +40,14 @@ public class Player extends Mob {
 		if (input.right.isPressed()) {
 			xa += 1;
 		}
+		if(input.num1.isPressed()){
+			this.tool = Tool.HAND;
+		}
+		if(input.num2.isPressed()){
+			this.tool = Tool.SWORD;
+		}
+		
+		this.isSwipe = input.space.isPressed();
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -53,29 +66,19 @@ public class Player extends Mob {
 		
 		//is in lava
 		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 5){ //ID of lava tile (in Tile class)
-			this.isOnFire = true;
 			this.takeDamage(this.damageFromLava);
 			this.setIsSwimming(1);
 			//System.out.println("NIGGA GET OUT THE LAVA!");
 			//System.out.println(this.health);
 		}
-		else
-			this.isOnFire = false;
+		else{
+			this.colour = Colors.get(-1, 111, 145, 543);
+		}
 		
-		this.checkIfOnFire();
 		this.tickCount++;
 	}
 	
-	public void checkIfOnFire(){
-
-		if(this.isOnFire){
-			this.colour = Colors.get(-1, 500, 500, 543);
-		}
-		else if(!this.isOnFire){
-			this.colour = Colors.get(-1, 111, 145, 543);
-
-		}
-	}
+	
 
 	public void render(Screen screen) {
 		int xTile = 0;
@@ -142,13 +145,51 @@ public class Player extends Mob {
 		if( ! this.isSwimmingAtAll()){
 		screen.render(xOffset + (modifier * flipBottom), yOffset + modifier, xTile + (yTile + 1) * 32, colour, flipBottom, scale); // lower body part 1
 		screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * 32, colour, flipBottom, scale); // lower body part 2
+
 		}
-		
+		this.checkForTools(flipBottom, flipTop, xOffset, yOffset, screen);
+		this.checkForSwipe(flipBottom, flipTop, xOffset, yOffset, screen);
+		//player name
 		if(name != null && this.renderName){
 			FunFont.render(name, screen, xOffset  - ( (name.length() - 1)/2 * 8), yOffset- 10, Colors.get(-1, -1, -1, 555), 1);
 		}
+		//player health
+		
+		//FunFont.render((int)this.health +  "", screen, xOffset  - 50, yOffset - 50, Colors.get(-1, -1, -1, 555), 1);
+		if(this.left != null)
+			System.out.println("Left entity: " + this.left);
+
 	}
 
+	private void checkForSwipe(int flipBottom, int flipTop, int xOffset, int yOffset, Screen screen){
+		if(this.isSwipe){
+			System.out.println("Attack!");
+		}
+	}
+
+	private void checkForTools(int flipBottom, int flipTop, int xOffset, int yOffset, Screen screen){
+		switch(tool){
+		case HAND:
+			return;
+		case SWORD:
+			this.currentToolXTile = Tools.SWORD_X_TILE;
+			this.currentToolYTile = Tools.SWORD_Y_TILE;
+
+			break;
+		}
+		
+		int swordColor = Colors.get(-1, 222, 444, 210);
+		
+		
+		int flipH = flipBottom;
+		int flipV = flipTop;
+
+		if( this.movingDir == 3){
+			xOffset+=5;
+			flipV *= 1;
+		}
+		screen.render(xOffset + ( flipV), yOffset + 5, currentToolXTile + currentToolYTile * 32, swordColor, flipH, scale); // upper body part 1
+	}
 	/**
 	 * Change ur colliders here
 	 */
@@ -191,6 +232,7 @@ public class Player extends Mob {
 	
 	@Override
 	public void takeDamage(float d){
+		this.colour = Colors.get(-1, 500, 500, 543);
 		super.takeDamage(d);
 	}
 }
