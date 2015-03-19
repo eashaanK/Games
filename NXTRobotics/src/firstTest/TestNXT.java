@@ -9,6 +9,7 @@ public class TestNXT {
 	public static void main(String[] args) {
 		System.out.println("LEGOS WORKS!!!!!");
 		Button.waitForAnyPress();
+
 	}
 
 }
