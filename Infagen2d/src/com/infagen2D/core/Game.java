@@ -25,7 +25,7 @@ import com.infagen2D.network.GameServer;
 /**
  * VOID , STONE, GRASS, SAND,
  * WATER(1, 2, 3),  LAVA(1, 2, 3)
- *https://www.youtube.com/watch?v=l1p21JWa_8s&list=ELp5mgUw5g9EY&index=17
+https://www.youtube.com/watch?v=7Qcg6Hvx_WU&index=18&list=ELp5mgUw5g9EY 10:12
  * @author eashaan
  * 
  * for levels:
@@ -230,7 +230,7 @@ public class Game extends Canvas implements Runnable {
     		g.setColor(new Color(0, 0, 0, 120));
     		g.fillRect(x, y, frame.getWidth()/4, frame.getWidth()/4);
     		g.setColor(Color.white);
-        	g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        	g.setFont(new Font(Font.SANS_SERIF , Font.BOLD, 20));
         	g.drawString("Ticks: " + this.globalTicks, x + 20, y + 25);
         	g.drawString("Frames: " + this.globalFrames, x + 20, y + 50);
 
