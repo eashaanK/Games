@@ -91,6 +91,38 @@ public abstract class Mob extends Entity {
 	public boolean isSwimmingAtAll(){
 		return this.isSwimmingState >= 0;
 	}
+
+	public int getScale() {
+		return scale;
+	}
+
+	public void setScale(int scale) {
+		this.scale = scale;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public void setNumSteps(int numSteps) {
+		this.numSteps = numSteps;
+	}
+
+	public void setMoving(boolean isMoving) {
+		this.isMoving = isMoving;
+	}
+
+	public void setMovingDir(int movingDir) {
+		this.movingDir = movingDir;
+	}
+
+	public void setIsSwimmingState(int isSwimmingState) {
+		this.isSwimmingState = isSwimmingState;
+	}
+
+	public void setDamageFromLava(float damageFromLava) {
+		this.damageFromLava = damageFromLava;
+	}
 	
 	
 }

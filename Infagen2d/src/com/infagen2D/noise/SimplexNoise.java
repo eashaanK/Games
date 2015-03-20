@@ -10,8 +10,8 @@ public class SimplexNoise {
     double[] frequencies;
     double[] amplitudes;
 
-    public SimplexNoise(int numberOfOctaves, double persistence){
-        Random random = new Random(Ref.SEED);
+    public SimplexNoise(int numberOfOctaves, double persistence, int seed){
+        Random random = new Random(seed);
 
         octaves = new SimplexNoiseOctave[numberOfOctaves];
         frequencies = new double[numberOfOctaves];

@@ -1,10 +1,7 @@
 package com.infagen2D.core;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -14,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.infagen2D.components.InputHandler;
-import com.infagen2D.components.Ref;
 import com.infagen2D.components.WindowHandler;
 import com.infagen2D.entities.Player;
 import com.infagen2D.entities.PlayerMP;
@@ -38,238 +34,198 @@ https://www.youtube.com/watch?v=7Qcg6Hvx_WU&index=18&list=ELp5mgUw5g9EY 10:12
  *
  */
 public class Game extends Canvas implements Runnable {
-	 
+
     private static final long serialVersionUID = 1L;
 
-   public static final int WIDTH = 160;
+    public static final int WIDTH = 160;
     public static final int HEIGHT = WIDTH / 12 * 9;
-    public static final int SCALE = 5;
+    public static final int SCALE = 3;
     public static final String NAME = "Game";
-    
-    private boolean shouldDrawDebugScreen = true;
+    public static final Dimension DIMENSIONS = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
+    public static Game game;
 
     public JFrame frame;
+
+    private Thread thread;
 
     public boolean running = false;
     public int tickCount = 0;
 
-    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
-                    BufferedImage.TYPE_INT_RGB);
-    private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer())
-                    .getData();
-    private int[] colors = new int[6 * 6 * 6];
+    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+    private int[] colours = new int[6 * 6 * 6];
 
     private Screen screen;
     public InputHandler input;
     public WindowHandler windowHandler;
     public Level level;
     public Player player;
-    
-    public int globalTicks, globalFrames;
-    
+
     public GameClient socketClient;
     public GameServer socketServer;
-    
-    public Game() {
-            setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-            setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-            setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
-            frame = new JFrame(NAME);
-
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setLayout(new BorderLayout());
-            frame.add(this, BorderLayout.CENTER);
-            frame.pack();
-
-            frame.setResizable(false);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-    }
+    public boolean debug = true;
+    public boolean isApplet = false;
 
     public void init() {
-            int index = 0;
-            for (int r = 0; r < 6; r++) {
-                    for (int g = 0; g < 6; g++) {
-                            for (int b = 0; b < 6; b++) {
-                                    int rr = (r * 255 / 5);
-                                    int gg = (g * 255 / 5);
-                                    int bb = (b * 255 / 5);
+        game = this;
+        int index = 0;
+        for (int r = 0; r < 6; r++) {
+            for (int g = 0; g < 6; g++) {
+                for (int b = 0; b < 6; b++) {
+                    int rr = (r * 255 / 5);
+                    int gg = (g * 255 / 5);
+                    int bb = (b * 255 / 5);
 
-                                    colors[index++] = rr << 16 | gg << 8 | bb;
-                            }
-                    }
+                    colours[index++] = rr << 16 | gg << 8 | bb;
+                }
             }
-
-            screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/SpriteSheet.png"));
-            input = new InputHandler(this);
-            windowHandler = new WindowHandler(this);
-            ///level = new Level("/Levels/Water_Test_Level.png");
-            level = new Level(null);
-
-        
-            player = new PlayerMP(level,JOptionPane.showInputDialog("Enter Name:"), 100, 100, input, null, -1); //null and -1 is checked for in the add Connection method in Game Server
-            level.addEntity(player);
-            Packet00Login loginPacket = new Packet00Login(player.getName());
-            //PLAYER MUST BE THE FIRST ENTITY
-            if(this.socketServer != null){ //u are the host
-            	socketServer.addConnection((PlayerMP)player, loginPacket);
+        }
+        screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
+        input = new InputHandler(this);
+        level = new Level(null);
+        player = new PlayerMP(level, JOptionPane.showInputDialog(this, "Please enter a username"),100, 100, input, 
+                null, -1);
+        level.addEntity(player);
+        if (!isApplet) {
+            Packet00Login loginPacket = new Packet00Login(player.getName(), player.x, player.y);
+            if (socketServer != null) {
+                socketServer.addConnection((PlayerMP) player, loginPacket);
             }
-            //TODO: send seed to client
-            System.out.println("SEED: " + Ref.SEED);
-            //socketClient.sendData("ping".getBytes());
             loginPacket.writeData(socketClient);
-            
-            socketClient.sendData((Ref.SEED + "").getBytes());
-            
+        }
     }
 
     public synchronized void start() {
-            running = true;
-            new Thread(this).start();
-            
-            if(JOptionPane.showConfirmDialog(this, "Run Server?") == 0){
-            	socketServer = new GameServer(this);
-            	socketServer.start();
+        running = true;
+
+        thread = new Thread(this, NAME + "_main");
+        thread.start();
+        if (!isApplet) {
+            if (JOptionPane.showConfirmDialog(this, "Do you want to run the server") == 0) {
+                socketServer = new GameServer(this);
+                socketServer.start();
             }
-            
+
             socketClient = new GameClient(this, "localhost");
             socketClient.start();
+        }
     }
 
     public synchronized void stop() {
-            running = false;
+        running = false;
+
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void run() {
-            long lastTime = System.nanoTime();
-            long lastTimer = System.currentTimeMillis();
-            double nsPerTick = 1000000000D / 60D;
-            double delta = 0;
-            int ticks = 0;
-            int frames = 0;
+        long lastTime = System.nanoTime();
+        double nsPerTick = 1000000000D / 60D;
 
-            init();
+        int ticks = 0;
+        int frames = 0;
 
-            while (running) {
-                    long now = System.nanoTime();
-                    delta += (now - lastTime) / nsPerTick;
-                    lastTime = now;
-                    boolean shouldRender = true;
+        long lastTimer = System.currentTimeMillis();
+        double delta = 0;
 
-                    while (delta >= 1) {
-                            ticks++;
-                            tick();
-                            delta -= 1;
-                            shouldRender = true;
-                    }
-                    
-                    try {
-                            Thread.sleep(2);
-                    } catch (InterruptedException e) {
-                            e.printStackTrace();
-                    }
-                    
-                    if (shouldRender) {
-                            frames++;
-                            render();
-                    }
+        init();
 
-                    if (System.currentTimeMillis() - lastTimer >= 1000) {
-                            lastTimer += 1000;
-                           // System.out.println(ticks + " ticks , " + frames+ " frames per second");
-                            //this.frame.setTitle(NAME + " " + ticks + " ticks , " + frames+ " frames per second");
-                            globalTicks = ticks;
-                            globalFrames = frames;
-                            frames = 0;
-                            ticks = 0;
-                    }
+        while (running) {
+            long now = System.nanoTime();
+            delta += (now - lastTime) / nsPerTick;
+            lastTime = now;
+            boolean shouldRender = true;
+
+            while (delta >= 1) {
+                ticks++;
+                tick();
+                delta -= 1;
+                shouldRender = true;
             }
+
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if (shouldRender) {
+                frames++;
+                render();
+            }
+
+            if (System.currentTimeMillis() - lastTimer >= 1000) {
+                lastTimer += 1000;
+                debug(DebugLevel.INFO, ticks + " ticks, " + frames + " frames");
+                frames = 0;
+                ticks = 0;
+            }
+        }
     }
 
     public void tick() {
-            tickCount++;
-            level.tick();
+        tickCount++;
+        level.tick();
     }
 
     public void render() {
-            BufferStrategy bs = getBufferStrategy();
-            if (bs == null) {
-                    createBufferStrategy(3);
-                    return;
+        BufferStrategy bs = getBufferStrategy();
+        if (bs == null) {
+            createBufferStrategy(3);
+            return;
+        }
+
+        int xOffset = player.x - (screen.width / 2);
+        int yOffset = player.y - (screen.height / 2);
+
+        level.renderTiles(screen, xOffset, yOffset);
+        level.renderEntities(screen);
+
+        for (int y = 0; y < screen.height; y++) {
+            for (int x = 0; x < screen.width; x++) {
+                int colourCode = screen.pixels[x + y * screen.width];
+                if (colourCode < 255)
+                    pixels[x + y * WIDTH] = colours[colourCode];
             }
+        }
 
-            int xOffset = player.x - (screen.width / 2);
-            int yOffset = player.y - (screen.height / 2);
+        Graphics g = bs.getDrawGraphics();
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.dispose();
+        bs.show();
+    }
 
-            level.renderTiles(screen, xOffset, yOffset);
+    public static long fact(int n) {
+        if (n <= 1) {
+            return 1;
+        } else {
+            return n * fact(n - 1);
+        }
+    }
 
-           /* for (int x = 0; x < level.width; x++) {
-                    int colour = Colors.get(-1, -1, -1, 000);
-                    if (x % 10 == 0 && x != 0) {
-                            colour = Colors.get(-1, -1, -1, 500);
-                    }
-                    FunFont.render((x % 10) + "", screen, 0 + (x * 8), 0, colour, 1);
-            }*/
-
-            level.renderEntities(screen);
-
-            for (int y = 0; y < screen.height; y++) {
-                    for (int x = 0; x < screen.width; x++) {
-                            int ColourCode = screen.pixels[x + y * screen.width];
-                            if (ColourCode < 255) {
-                                    pixels[x + y * WIDTH] = colors[ColourCode];
-
-                            }
-                    }
+    public void debug(DebugLevel level, String msg) {
+        switch (level) {
+        default:
+        case INFO:
+            if (debug) {
+                System.out.println("[" + NAME + "] " + msg);
             }
-
-            Graphics g = bs.getDrawGraphics();
-            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-            //health
-            drawHealth(g);
-            drawDebugScreen(g);
-            g.dispose();
-            bs.show();
-    }
-    
-    private void drawDebugScreen(Graphics g){
-    	int x = 0, y = 0;
-    	if(input.debug.isPressed()){
-    		shouldDrawDebugScreen = false;
-    	}else shouldDrawDebugScreen = true;
-    	
-    	if(shouldDrawDebugScreen){
-    		g.setColor(new Color(0, 0, 0, 120));
-    		g.fillRect(x, y, frame.getWidth()/4, frame.getWidth()/4);
-    		g.setColor(Color.white);
-        	g.setFont(new Font(Font.SANS_SERIF , Font.BOLD, 20));
-        	g.drawString("Ticks: " + this.globalTicks, x + 20, y + 25);
-        	g.drawString("Frames: " + this.globalFrames, x + 20, y + 50);
-
-        	//g.drawString( GlobalTicks + " ticks , " + frames+ " frames per second", x, y);
-    	}
-    	
-	//	System.out.println(this.shouldDrawDebugScreen);
-
-    }
-    
-    private void drawHealth(Graphics g){
-    	String h = (int)player.getHealth() + "";
-    	int fontSize = 50;
-    	int x =  frame.getWidth() / 2 - (h.length() * fontSize)/2;
-    	int y =  frame.getHeight()  - 100;
-    	
-    	g.setColor(Color.white);
-    	g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, fontSize));
-    	
-        g.drawString( h, x, y);
-        
-
+            break;
+        case WARNING:
+            System.out.println("[" + NAME + "] [WARNING] " + msg);
+            break;
+        case SEVERE:
+            System.out.println("[" + NAME + "] [SEVERE]" + msg);
+            this.stop();
+            break;
+        }
     }
 
-    public static void main(String[] args) {
-            new Game().start();
+    public static enum DebugLevel {
+        INFO, WARNING, SEVERE;
     }
-
 }

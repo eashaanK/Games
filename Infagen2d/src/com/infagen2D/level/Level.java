@@ -22,11 +22,12 @@ public class Level {
 	private byte[] tiles;
 	public int width;
 	public int height;
-	public List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> entities = new ArrayList<Entity>();
 	private String imagePath;
 	private BufferedImage image;
 	private final double RENDER_DISTANCE = 120;
 	private final double UPDATE_DISTANCE = RENDER_DISTANCE * 2;
+	int seed;
 	
 	final float MAX_MOBSPAWN = 100, MOB_SPAWN_INC = 0.8f, MOB_SPAWN_RADIUS = 10 * Game.SCALE;
 	float currentMopSpawn = 0;
@@ -89,7 +90,7 @@ public class Level {
 	public void generateLevel() {
 
 		// addNoiseGenHere
-		SimplexNoise noiseFunction = new SimplexNoise(7, 0.1);
+		SimplexNoise noiseFunction = new SimplexNoise(7, 0.1, seed);
 
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
@@ -142,25 +143,29 @@ public class Level {
 			if(x > width)x = width;
 			if(y < 0)y = 0;
 			if(y > height)y =  height;
-			Civilian civilian = new Civilian(this, "MOB" + this.entities.size() , x, y, true);
+			Civilian civilian = new Civilian(this, "MOB" + this.getEntities().size() , x, y, true);
 			addEntity(civilian);
 		}else this.currentMopSpawn += this.MOB_SPAWN_INC;
 	}
 	
+	public synchronized List<Entity> getEntities(){
+		return this.entities;
+	}
+	
 	public void tick() {
-		if(entities.size() <= 0){
+		if(getEntities().size() <= 0){
 			return;
 		}
-		Player p = (Player) entities.get(0);
+		Player p = (Player) getEntities().get(0);
 		Entity left =  null, right = null, up = null, down = null;
 		p.tick();
 		
 		//spawnMob(p);
 
-		for (int i = entities.size() - 1; i >= 1; i--) {
-			Entity e = entities.get(i);
-			if (e.getHealth() <= 0) {
-				entities.remove(i);
+		for (int i = getEntities().size() - 1; i >= 1; i--) {
+			Entity e = getEntities().get(i);
+			if ( !(e instanceof Player ) && e.getHealth() <= 0) {
+				getEntities().remove(i);
 			} else {
 				double disFromPlayer = this.getDistance(p.x, p.y, e.x,e.y);
 				if (disFromPlayer <= this.UPDATE_DISTANCE){
@@ -168,7 +173,7 @@ public class Level {
 					if(i == 0)//THIS SKIPS THE PLAYER
 						continue;
 					
-					if(disFromPlayer <= p.getHitbox() ){ //if within radius. Use this to eliminate picking entities from far away
+					if(disFromPlayer <= p.getHitbox() ){ //if within radius. Use this to eliminate picking getEntities() from far away
 						int xDis = p.x - e.x;
 						int yDis = p.y - e.y;
 						if(xDis > 0 && (yDis > 10 || yDis < 10))
@@ -185,8 +190,10 @@ public class Level {
 			}
 		}
 		
+		
 		p.setBorderEntities(left, right, up, down);
 		
+
 		for (Tile t : Tile.tiles) {
 			if (t == null)
 				break;
@@ -219,8 +226,8 @@ public class Level {
 	}
 
 	public void renderEntities(Screen screen) {
-		Player p = (Player) entities.get(0);
-		for (Entity e : entities) {
+		Player p = (Player) getEntities().get(0);
+		for (Entity e : getEntities()) {
 			if (this.getDistance(p.x, p.y, e.x, e.y) <= RENDER_DISTANCE)
 				e.render(screen);
 
@@ -238,17 +245,39 @@ public class Level {
 			System.err.println("You tried to enter a null entity in Level");
 			return;
 		}
-		this.entities.add(entity);
+		this.getEntities().add(entity);
 	}
 
 	public void removePlayerMP(String username) {	
 		int index = 0;
-		for(Entity e: entities){
+		for(Entity e: getEntities()){
 			if( e instanceof PlayerMP && ((PlayerMP)e).getName().equals(username)){
 				break;
 			}
 			index++;
 		}
-		this.entities.remove(index);
+		this.getEntities().remove(index);
+	}
+	
+	public void movePlayer(String username, int x, int y, int numSteps, boolean isMoving, int movingDir){
+		int index = this.getPlayerMPIndex(username);
+	
+		PlayerMP player = (PlayerMP) this.getEntities().get(index);
+		player.x = x;
+		player.y = y;
+		player.setMoving(isMoving);
+		player.setNumSteps(numSteps);
+		player.setMovingDir(movingDir);
+	}
+	
+	private int getPlayerMPIndex(String username){
+		int index = 0;
+		for(Entity e: getEntities()){
+			if( e instanceof PlayerMP && ((PlayerMP)e).getName().equals(username)){
+				break;
+			}
+			index++;
+		}
+		return index;
 	}
 }

@@ -8,11 +8,19 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.infagen2D.components.Ref;
 import com.infagen2D.core.Game;
 import com.infagen2D.entities.PlayerMP;
 import com.infagen2D.network.Packet.PacketTypes;
 
+/**
+ * NOTES: If u want to send data to clients, say: packet.writeData(server);
+ * 			   If u want to send data to server, say: packet.writeData(client);
+ * @author eashaan
+ *
+ */
 public class GameServer extends Thread {
+
 	private DatagramSocket socket;
 	private Game game;
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
@@ -63,7 +71,7 @@ public class GameServer extends Thread {
 		case LOGIN:
 			packet = new Packet00Login(data);// recieve data
 			System.out.println("[" + address.getHostAddress() + ": " + port + "]" + ((Packet00Login)packet).getUsername() + " has connected to Server");
-			PlayerMP player = new PlayerMP(game.level, ((Packet00Login)packet).getUsername(), 100, 100, address, port);// otherPlayer;
+			PlayerMP player = new PlayerMP(game.level, ((Packet00Login)packet).getUsername(), 100, 100, address, port, ((Packet00Login)packet).getSeed());// otherPlayer;
 			this.addConnection(player, (Packet00Login) packet);
 			break;
 
@@ -72,9 +80,22 @@ public class GameServer extends Thread {
 			System.out.println("[" + address.getHostAddress() + ": " + port + "]" + ((Packet01Disconnect)packet).getUsername() + " has left Server");
 			this.removeConnection((Packet01Disconnect) packet);
 			break;
+			
+		case MOVE:
+			packet = new Packet02Move(data);
+			//System.out.println(((Packet02Move)packet).toString());
+			this.handleMove(((Packet02Move)packet));
+			break;
 
 		}
 	}
+
+	
+	/**
+	 * FIRST TIME CONNECTORS
+	 * @param player
+	 * @param packet
+	 */
 	public void addConnection(PlayerMP player, Packet00Login packet) {
 		boolean alreadyConnected = false;
 		for(PlayerMP p: this.connectedPlayers){
@@ -90,7 +111,7 @@ public class GameServer extends Thread {
 				alreadyConnected = true;
 			}else{
 				sendData(packet.getData(), p.ipAddress, p.port);
-				packet = new Packet00Login(p.getName());
+				packet = new Packet00Login(p.getName(), p.x, p.y, packet.getSeed());
 				this.sendData(packet.getData(), player.ipAddress, player.port); //this sends the 2nd player data about previous player
 			}
 		}
@@ -104,6 +125,19 @@ public class GameServer extends Thread {
 		//PlayerMP player = this.getPlayerMP(packet.getUsername());
 		this.connectedPlayers.remove(this.getPlayerMPIndex(packet.getUsername()));
 		packet.writeData(this); //this basically goes in the packet class and tells server again to send data to all clients
+	}
+	
+	private void handleMove(Packet02Move packet) {
+		if(this.getPlayerMP(packet.getUsername()) != null){
+			int index = this.getPlayerMPIndex(packet.getUsername());
+			PlayerMP player = this.connectedPlayers.get(index);
+			player.x =packet.getX();
+			player.y =packet.getY();
+			player.setMoving(packet.isMoving());
+			player.setMovingDir(packet.getMovingDir());
+			player.setNumSteps(packet.getNumSteps());
+			packet.writeData(this); //writes to cleint
+		}
 	}
 	
 	public PlayerMP getPlayerMP(String username){

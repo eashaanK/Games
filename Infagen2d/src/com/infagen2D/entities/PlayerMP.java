@@ -9,6 +9,8 @@ public class PlayerMP extends Player{
 	
 	public InetAddress ipAddress;
 	public int port;
+	public int seed;
+
 
 	/**
 	 * For player from this computer
@@ -35,10 +37,11 @@ public class PlayerMP extends Player{
 	 * @param ipAddress
 	 * @param port
 	 */
-	public PlayerMP(Level level, String name, int x, int y, InetAddress ipAddress, int port) {
+	public PlayerMP(Level level, String name, int x, int y, InetAddress ipAddress, int port, int seed) {
 		super(level, name, x, y, null);
 		this.ipAddress = ipAddress;
 		this.port = port;
+		this.seed = seed;
 	}
 	
 	@Override

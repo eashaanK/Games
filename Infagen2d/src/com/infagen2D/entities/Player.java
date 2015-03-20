@@ -3,10 +3,12 @@ package com.infagen2D.entities;
 import com.infagen2D.components.InputHandler;
 import com.infagen2D.components.Tools;
 import com.infagen2D.components.Tools.Tool;
+import com.infagen2D.core.Game;
 import com.infagen2D.graphics.Colors;
 import com.infagen2D.graphics.FunFont;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.level.Level;
+import com.infagen2D.network.Packet02Move;
 
 public class Player extends Mob {
 
@@ -81,6 +83,10 @@ public class Player extends Mob {
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
 			isMoving = true;
+			
+			Packet02Move packet = new Packet02Move(this.getName(), this.x, this.y, this.numSteps, this.isMoving, this.movingDir);
+			packet.writeData(Game.game.socketClient); //Client sends it to the server
+			
 		} else {
 			isMoving = false;
 		}
