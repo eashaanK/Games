@@ -11,20 +11,24 @@ import com.infagen2D.level.Level;
 public class Player extends Mob {
 
 	private InputHandler input;
+	private int color1 = -1, color2 = 111, color3 = 145, color4 = 543;
 	private int colour = Colors.get(-1, 111, 145, 543);
 	protected int tickCount = 0;
 	protected Tool tool = Tool.HAND;
 	protected int currentToolXTile, currentToolYTile;
 	protected boolean isSwipe = false;
+	protected float damageToCivilian = 0;
+	protected final float MAX_DAMAGE_TO_CIVILIAN = 10;
 
 
 	public Player(Level level, String name, int x, int y, InputHandler input) {
 		super(level,name , x, y, 1, 1, true);
 		this.input = input;
-		this.hitbox = 2;
+		this.hitbox = 12;
 	}
 
 	public void tick() {
+		super.updateDamageCounter();
 		int xa = 0;
 		int ya = 0;
 
@@ -48,6 +52,27 @@ public class Player extends Mob {
 		}
 		
 		this.isSwipe = input.space.isPressed();
+		if(isSwipe && this.tool != Tool.HAND){
+			switch(this.movingDir){
+			case 0: //up
+				if(this.up != null)
+					this.up.takeDamage(this.damageToCivilian);
+				break;
+			case 1: //down
+				if(this.down != null)
+					this.down.takeDamage(damageToCivilian);
+				break;
+			case 2: //left
+				if(this.left != null)
+					this.left.takeDamage(damageToCivilian);
+				break;
+			case 3: //right
+				if(this.right != null)
+					this.right.takeDamage(damageToCivilian);
+				break;
+				
+			}
+		}
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -68,13 +93,16 @@ public class Player extends Mob {
 		if( (level.getTile(this.x >> 3, this.y >> 3)).getId() == 5){ //ID of lava tile (in Tile class)
 			this.takeDamage(this.damageFromLava);
 			this.setIsSwimming(1);
-			//System.out.println("NIGGA GET OUT THE LAVA!");
-			//System.out.println(this.health);
-		}
-		else{
-			this.colour = Colors.get(-1, 111, 145, 543);
 		}
 		
+		if(this.isHurt()){
+			this.colour = Colors.get(-1, 500, 500, 543);
+		}
+		else{
+		//	this.colour = Colors.get(-1, 111, 145, 543);
+			this.colour = Colors.get(color1, color2, color3, color4);
+
+		}
 		this.tickCount++;
 	}
 	
@@ -157,21 +185,23 @@ public class Player extends Mob {
 		
 		//FunFont.render((int)this.health +  "", screen, xOffset  - 50, yOffset - 50, Colors.get(-1, -1, -1, 555), 1);
 		if(this.left != null)
-			System.out.println("Left entity: " + this.left);
+			System.out.println("Left entity: " + this.left + " Right entity: " + this.right);
 
 	}
 
 	private void checkForSwipe(int flipBottom, int flipTop, int xOffset, int yOffset, Screen screen){
 		if(this.isSwipe){
-			System.out.println("Attack!");
+			//System.out.println("Attack!");
 		}
 	}
 
 	private void checkForTools(int flipBottom, int flipTop, int xOffset, int yOffset, Screen screen){
 		switch(tool){
 		case HAND:
+			damageToCivilian = 0;
 			return;
 		case SWORD:
+			damageToCivilian = MAX_DAMAGE_TO_CIVILIAN;
 			this.currentToolXTile = Tools.SWORD_X_TILE;
 			this.currentToolYTile = Tools.SWORD_Y_TILE;
 
@@ -224,15 +254,5 @@ public class Player extends Mob {
 		}
 		return false;
 	}
-
-	@Override
-	public void attackEntity(Entity e) {
-		e.takeDamage(25);
-	}
 	
-	@Override
-	public void takeDamage(float d){
-		this.colour = Colors.get(-1, 500, 500, 543);
-		super.takeDamage(d);
-	}
 }

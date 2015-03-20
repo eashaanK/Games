@@ -138,14 +138,33 @@ public class Level {
 					if(i == 0)//THIS SKIPS THE PLAYER
 						continue;
 					
-					int xDis = p.x - e.x;
-					left = e;
+					if(disFromPlayer <= p.getHitbox() ){ //if within radius. Use this to eliminate picking entities from far away
+						int xDis = p.x - e.x;
+						int yDis = p.y - e.y;
+
+					/*	if(xDis >= 0 && xDis <= p.getHitbox())
+							left = e;
+						else if(xDis >= -p.getHitbox() && xDis <= 0){
+							right = e;
+						}*/
+						if(xDis > 0 && (yDis > 10 || yDis < 10))
+							left = e;
+						else if(xDis <= 0 && (yDis > 10 || yDis < 10))
+							right = e;
+						
+						if(yDis > 0 && (xDis > 10 || xDis < 10))
+							up = e;
+						else if(yDis <= 0 && (xDis > 10 || xDis < 10))
+							down = e;
+						
+						//System.out.println(xDis);
+					}
 					//System.out.println("LOL"+ e);
 				}
 			}
 		}
 		
-		p.setBorderEntities(left);
+		p.setBorderEntities(left, right, up, down);
 		
 		for (Tile t : Tile.tiles) {
 			if (t == null)

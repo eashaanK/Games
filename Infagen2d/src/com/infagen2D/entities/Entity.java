@@ -12,6 +12,11 @@ public abstract class Entity {
 	protected String name;
 	protected float hitbox = 1;
 	protected boolean renderName;
+	protected Entity left, right, up, down;
+	protected float MAX_DAMAGE_COUNTDOWN = 100, DAMAGE_DEC = 10f;
+	protected float damageCountDown = 0;
+
+
 	
 	public Entity(String name, Level level,  boolean renderName) {
 		init(level);
@@ -25,14 +30,22 @@ public abstract class Entity {
 	
 	public abstract void tick();
 	
+	public void updateDamageCounter(){
+		if(isHurt())
+			this.damageCountDown -= this.DAMAGE_DEC;
+	}
+	
 	public abstract void render(Screen screen);
 	
 	public void takeDamage(float dmg){
 		this.health -= dmg;
+		this.damageCountDown = this.MAX_DAMAGE_COUNTDOWN;
 	}
 	
-	public abstract void attackEntity(Entity e);
-	 
+	public boolean isHurt(){
+		return this.damageCountDown > 0;
+	}
+		 
 	public int leftTileID(){
 		return (level.getTile(this.x-1 >> 3, this.y >> 3)).getId();
 	}
@@ -67,5 +80,19 @@ public abstract class Entity {
 	
 	public String toString(){
 		return name + ": (" + x + ", " + y + ")";
+	}
+	
+	/**
+	 * Left, Right, Up, down
+	 * @param left
+	 * @param right
+	 * @param up
+	 * @param down
+	 */
+	public void setBorderEntities(Entity left, Entity right, Entity up, Entity down){
+		this.left = left;
+		this.right = right;
+		this.up = up;
+		this.down = down;
 	}
 }
