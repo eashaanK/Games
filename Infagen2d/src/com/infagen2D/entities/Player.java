@@ -184,8 +184,8 @@ public class Player extends Mob {
 		//player health
 		
 		//FunFont.render((int)this.health +  "", screen, xOffset  - 50, yOffset - 50, Colors.get(-1, -1, -1, 555), 1);
-		if(this.left != null)
-			System.out.println("Left entity: " + this.left + " Right entity: " + this.right);
+		//if(this.left != null)
+		//	System.out.println("Left entity: " + this.left + " Right entity: " + this.right);
 
 	}
 

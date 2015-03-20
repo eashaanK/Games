@@ -19,6 +19,8 @@ import com.infagen2D.entities.Player;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.graphics.SpriteSheet;
 import com.infagen2D.level.Level;
+import com.infagen2D.network.GameClient;
+import com.infagen2D.network.GameServer;
 
 /**
  * VOID , STONE, GRASS, SAND,
@@ -40,6 +42,8 @@ public class Game extends Canvas implements Runnable {
     public static final int HEIGHT = WIDTH / 12 * 9;
     public static final int SCALE = 5;
     public static final String NAME = "Game";
+    
+    private boolean shouldDrawDebugScreen = true;
 
     private JFrame frame;
 
@@ -56,6 +60,11 @@ public class Game extends Canvas implements Runnable {
     public InputHandler input;
     public Level level;
     public Player player;
+    
+    public int globalTicks, globalFrames;
+    
+    private GameClient socketClient;
+    private GameServer socketServer;
     
     public Game() {
             setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -98,11 +107,21 @@ public class Game extends Canvas implements Runnable {
             //PLAYER MUST BE THE FIRST ENTITY
             
             System.out.println("SEED: " + Ref.SEED);
+            
+            socketClient.sendData("ping".getBytes());
     }
 
     public synchronized void start() {
             running = true;
             new Thread(this).start();
+            
+            if(JOptionPane.showConfirmDialog(this, "Run Server?") == 0){
+            	socketServer = new GameServer(this);
+            	socketServer.start();
+            }
+            
+            socketClient = new GameClient(this, "localhost");
+            socketClient.start();
     }
 
     public synchronized void stop() {
@@ -146,7 +165,9 @@ public class Game extends Canvas implements Runnable {
                     if (System.currentTimeMillis() - lastTimer >= 1000) {
                             lastTimer += 1000;
                            // System.out.println(ticks + " ticks , " + frames+ " frames per second");
-                            this.frame.setTitle(NAME + " " + ticks + " ticks , " + frames+ " frames per second");
+                            //this.frame.setTitle(NAME + " " + ticks + " ticks , " + frames+ " frames per second");
+                            globalTicks = ticks;
+                            globalFrames = frames;
                             frames = 0;
                             ticks = 0;
                     }
@@ -194,10 +215,31 @@ public class Game extends Canvas implements Runnable {
             g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
             //health
             drawHealth(g);
+            drawDebugScreen(g);
             g.dispose();
             bs.show();
     }
     
+    private void drawDebugScreen(Graphics g){
+    	int x = 0, y = 0;
+    	if(input.debug.isPressed()){
+    		shouldDrawDebugScreen = false;
+    	}else shouldDrawDebugScreen = true;
+    	
+    	if(shouldDrawDebugScreen){
+    		g.setColor(new Color(0, 0, 0, 120));
+    		g.fillRect(x, y, frame.getWidth()/4, frame.getWidth()/4);
+    		g.setColor(Color.white);
+        	g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        	g.drawString("Ticks: " + this.globalTicks, x + 20, y + 25);
+        	g.drawString("Frames: " + this.globalFrames, x + 20, y + 50);
+
+        	//g.drawString( GlobalTicks + " ticks , " + frames+ " frames per second", x, y);
+    	}
+    	
+		System.out.println(this.shouldDrawDebugScreen);
+
+    }
     
     private void drawHealth(Graphics g){
     	String h = (int)player.getHealth() + "";

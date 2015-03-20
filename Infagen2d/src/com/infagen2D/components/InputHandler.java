@@ -2,6 +2,8 @@ package com.infagen2D.components;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.infagen2D.core.Game;
 
@@ -15,7 +17,9 @@ public class InputHandler implements KeyListener{
 	public Key space = new Key();
 	public Key num1 = new Key();
 	public Key num2 = new Key();
+	public Key debug = new Key();
 
+	
 	public InputHandler(Game game){
 		game.addKeyListener(this);
 	}
@@ -45,21 +49,25 @@ public class InputHandler implements KeyListener{
 	public void mouseExited(MouseEvent e) {
 		
 	}*/
-
+	
+	
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(KeyEvent e) {		
+		
 	}
+	
+	
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		this.toggleKey(e.getKeyCode(), true);
+
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		this.toggleKey(e.getKeyCode(), false);
-
 	}
 	
 	public void toggleKey(int keyCode, boolean isPressed){
@@ -84,11 +92,16 @@ public class InputHandler implements KeyListener{
 		if(keyCode == KeyEvent.VK_SPACE){
 			space.toggle(isPressed);
 		}
+		
+		if(keyCode == KeyEvent.VK_B){
+			debug.toggle(isPressed);
+		}
+		
 	}
 	
 	public class Key{
 		private boolean pressed = false;
-		private int numTimesPressed = 0;
+		private int numTimesPressed = 0;		
 		public void toggle(boolean isPressed){
 			pressed = isPressed;
 			if(isPressed)numTimesPressed++;
@@ -97,7 +110,7 @@ public class InputHandler implements KeyListener{
 		public boolean isPressed(){
 			return pressed;
 		}
-		
+
 		public int getNumTimesPressed(){
 			return numTimesPressed;
 		}

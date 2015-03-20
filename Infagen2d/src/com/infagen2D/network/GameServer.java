@@ -9,21 +9,15 @@ import java.net.UnknownHostException;
 
 import com.infagen2D.core.Game;
 
-public class GameClient extends Thread{
-
-	private InetAddress ipAddress;
+public class GameServer extends Thread{
 	private DatagramSocket socket;
 	private Game game;
 	
-	public GameClient(Game game, String ipAddress){
+	public GameServer(Game game){
 		this.game = game;
 		try {
-			this.socket = new DatagramSocket();
-			this.ipAddress = InetAddress.getByName(ipAddress);
+			this.socket = new DatagramSocket(1331);
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -40,15 +34,19 @@ public class GameClient extends Thread{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			String  message = new String( packet.getData() );
-			System.out.println("Client recieved: " + message);
+			String message =new String(packet.getData());
+			System.out.println("Server recieved: " + message);
+			if(message.trim().equalsIgnoreCase("ping")){
+				System.out.println("Server is returning pong...");
+				this.sendData("pong".getBytes(), packet.getAddress(), packet.getPort());
+			}
 		}
 	}
 	
-	public void sendData(byte[] data){
-		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, 1331);
+	public void sendData(byte[] data, InetAddress ipAddress, int port){
+		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);
 		try {
-			socket.send(packet);
+			this.socket.send(packet);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
