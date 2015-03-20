@@ -30,6 +30,19 @@ public abstract class Packet {
 		return message.substring(2);
 	}
 	
+	public abstract byte[]  getData();
+	
+	public static PacketTypes lookupPacket(String id){
+		try{
+			return lookupPacket(Integer.parseInt(id));
+
+		}catch(NumberFormatException e){
+			e.printStackTrace();
+			return PacketTypes.INVALID;
+		}
+	}
+		
+	
 	public static PacketTypes lookupPacket(int id){
 		for(PacketTypes p: PacketTypes.values()){
 			if(p.getID() == id)

@@ -237,7 +237,7 @@ public class Game extends Canvas implements Runnable {
         	//g.drawString( GlobalTicks + " ticks , " + frames+ " frames per second", x, y);
     	}
     	
-		System.out.println(this.shouldDrawDebugScreen);
+	//	System.out.println(this.shouldDrawDebugScreen);
 
     }
     

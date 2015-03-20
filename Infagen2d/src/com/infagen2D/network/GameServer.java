@@ -5,13 +5,17 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.infagen2D.core.Game;
+import com.infagen2D.entities.PlayerMP;
+import com.infagen2D.network.Packet.PacketTypes;
 
 public class GameServer extends Thread{
 	private DatagramSocket socket;
 	private Game game;
+	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
 	
 	public GameServer(Game game){
 		this.game = game;
@@ -34,15 +38,39 @@ public class GameServer extends Thread{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			String message =new String(packet.getData());
+			/*String message =new String(packet.getData());
 			System.out.println("Server recieved: " + message);
 			if(message.trim().equalsIgnoreCase("ping")){
 				System.out.println("Server is returning pong...");
 				this.sendData("pong".getBytes(), packet.getAddress(), packet.getPort());
-			}
+			}*/
+			parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
 		}
 	}
 	
+	private void parsePacket(byte[] data, InetAddress address, int port) {
+		String message =new String(data).trim();
+		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
+		switch(type){
+		default:
+			
+		case INVALID:
+			break;
+		
+		case LOGIN:
+			Packet00Login packet = new Packet00Login(data);//recieve data
+			System.out.println("[" + address.getHostAddress() + ": " + port + "]" + packet.getUsername() + " has connected");
+			PlayerMP player = null;
+			if(address.getHostAddress().equalsIgnoreCase("127.0.0.1"))
+			PlayerMP player = new PlayerMP(game.level, 100, 100, packet.getUsername(), address, port);
+			break;
+			
+		case DISCONNECT:
+			break;
+		
+		}
+	}
+
 	public void sendData(byte[] data, InetAddress ipAddress, int port){
 		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);
 		try {
@@ -51,5 +79,11 @@ public class GameServer extends Thread{
 			e.printStackTrace();
 		}
 
+	}
+
+	public void sendDataToAllClients(byte[] data) {
+		for(PlayerMP p : this.connectedPlayers){
+			sendData(data, p.ipAddress, p.port);
+		}
 	}
 }

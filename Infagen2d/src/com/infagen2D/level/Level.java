@@ -9,6 +9,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import com.infagen2D.components.Ref;
+import com.infagen2D.core.Game;
 import com.infagen2D.entities.Civilian;
 import com.infagen2D.entities.Entity;
 import com.infagen2D.entities.Player;
@@ -25,6 +26,9 @@ public class Level {
 	private BufferedImage image;
 	private final double RENDER_DISTANCE = 120;
 	private final double UPDATE_DISTANCE = RENDER_DISTANCE * 2;
+	
+	final float MAX_MOBSPAWN = 100, MOB_SPAWN_INC = 0.8f, MOB_SPAWN_RADIUS = 10 * Game.SCALE;
+	float currentMopSpawn = 0;
 
 	public Level(String imagePath) {
 
@@ -106,9 +110,6 @@ public class Level {
 			}
 		}
 	}
-
-	final float MAX_MOBSPAWN = 100, MOB_SPAWN_INC = 0.8f, MOB_SPAWN_RADIUS = 50f;
-	float currentMopSpawn = 0;
 	
 	public void tick() {
 		Player p = (Player) entities.get(0);
@@ -117,8 +118,29 @@ public class Level {
 		
 		if(this.currentMopSpawn >= this.MAX_MOBSPAWN){
 			this.currentMopSpawn = 0;
-			int x = (int) (p.x + Ref.getRandom(-MOB_SPAWN_RADIUS, MOB_SPAWN_RADIUS));
-			int y = (int) (p.y + Ref.getRandom(-MOB_SPAWN_RADIUS, MOB_SPAWN_RADIUS));
+		//	int x = (int) (p.x + Ref.getRandom(-MOB_SPAWN_RADIUS, MOB_SPAWN_RADIUS));
+		//	int y = (int) (p.y + Ref.getRandom(-MOB_SPAWN_RADIUS, MOB_SPAWN_RADIUS));
+			int m = (int)Math.random() * 4;
+			int x = 0;
+			int y = 0;
+			switch(m){
+			case 0://up
+				x = (int) (p.x + Ref.getRandom(-MOB_SPAWN_RADIUS, MOB_SPAWN_RADIUS));
+				y = (int) (p.y - MOB_SPAWN_RADIUS);
+				break;
+			case 1://down
+				x = (int) (p.x + Ref.getRandom(-MOB_SPAWN_RADIUS, MOB_SPAWN_RADIUS));
+				y = (int) (p.y + MOB_SPAWN_RADIUS);
+				break;
+			case 2://left
+				x = (int) (p.x - MOB_SPAWN_RADIUS);
+				y = (int) (p.y + Ref.getRandom(-MOB_SPAWN_RADIUS, MOB_SPAWN_RADIUS));
+				break;
+			case 3://right
+				x = (int) (p.x + MOB_SPAWN_RADIUS);
+				y = (int) (p.y + Ref.getRandom(-MOB_SPAWN_RADIUS, MOB_SPAWN_RADIUS));
+				break;
+			}
 			if(x < 0) x = 0; 
 			if(x > width)x = width;
 			if(y < 0)y = 0;
