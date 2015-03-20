@@ -13,6 +13,7 @@ import com.infagen2D.core.Game;
 import com.infagen2D.entities.Civilian;
 import com.infagen2D.entities.Entity;
 import com.infagen2D.entities.Player;
+import com.infagen2D.entities.PlayerMP;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.noise.SimplexNoise;
 
@@ -111,11 +112,7 @@ public class Level {
 		}
 	}
 	
-	public void tick() {
-		Player p = (Player) entities.get(0);
-		Entity left =  null, right = null, up = null, down = null;
-		p.tick();
-		
+	private void spawnMob(Player p){
 		if(this.currentMopSpawn >= this.MAX_MOBSPAWN){
 			this.currentMopSpawn = 0;
 		//	int x = (int) (p.x + Ref.getRandom(-MOB_SPAWN_RADIUS, MOB_SPAWN_RADIUS));
@@ -148,6 +145,17 @@ public class Level {
 			Civilian civilian = new Civilian(this, "MOB" + this.entities.size() , x, y, true);
 			addEntity(civilian);
 		}else this.currentMopSpawn += this.MOB_SPAWN_INC;
+	}
+	
+	public void tick() {
+		if(entities.size() <= 0){
+			return;
+		}
+		Player p = (Player) entities.get(0);
+		Entity left =  null, right = null, up = null, down = null;
+		p.tick();
+		
+		//spawnMob(p);
 
 		for (int i = entities.size() - 1; i >= 1; i--) {
 			Entity e = entities.get(i);
@@ -163,12 +171,6 @@ public class Level {
 					if(disFromPlayer <= p.getHitbox() ){ //if within radius. Use this to eliminate picking entities from far away
 						int xDis = p.x - e.x;
 						int yDis = p.y - e.y;
-
-					/*	if(xDis >= 0 && xDis <= p.getHitbox())
-							left = e;
-						else if(xDis >= -p.getHitbox() && xDis <= 0){
-							right = e;
-						}*/
 						if(xDis > 0 && (yDis > 10 || yDis < 10))
 							left = e;
 						else if(xDis <= 0 && (yDis > 10 || yDis < 10))
@@ -178,10 +180,7 @@ public class Level {
 							up = e;
 						else if(yDis <= 0 && (xDis > 10 || xDis < 10))
 							down = e;
-						
-						//System.out.println(xDis);
 					}
-					//System.out.println("LOL"+ e);
 				}
 			}
 		}
@@ -240,5 +239,16 @@ public class Level {
 			return;
 		}
 		this.entities.add(entity);
+	}
+
+	public void removePlayerMP(String username) {	
+		int index = 0;
+		for(Entity e: entities){
+			if( e instanceof PlayerMP && ((PlayerMP)e).getName().equals(username)){
+				break;
+			}
+			index++;
+		}
+		this.entities.remove(index);
 	}
 }

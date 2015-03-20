@@ -32,47 +32,51 @@ public class Player extends Mob {
 		int xa = 0;
 		int ya = 0;
 
-		if (input.up.isPressed()) {
-			ya -= 1;
-		}
-		if (input.down.isPressed()) {
-			ya += 1;
-		}
-		if (input.left.isPressed()) {
-			xa -= 1;
-		}
-		if (input.right.isPressed()) {
-			xa += 1;
-		}
-		if(input.num1.isPressed()){
-			this.tool = Tool.HAND;
-		}
-		if(input.num2.isPressed()){
-			this.tool = Tool.SWORD;
-		}
-		
-		this.isSwipe = input.space.isPressed();
-		if(isSwipe && this.tool != Tool.HAND){
-			switch(this.movingDir){
-			case 0: //up
-				if(this.up != null)
-					this.up.takeDamage(this.damageToCivilian);
-				break;
-			case 1: //down
-				if(this.down != null)
-					this.down.takeDamage(damageToCivilian);
-				break;
-			case 2: //left
-				if(this.left != null)
-					this.left.takeDamage(damageToCivilian);
-				break;
-			case 3: //right
-				if(this.right != null)
-					this.right.takeDamage(damageToCivilian);
-				break;
-				
+		if(input != null){
+			if (input.up.isPressed()) {
+				ya -= 1;
+			}
+			if (input.down.isPressed()) {
+				ya += 1;
+			}
+			if (input.left.isPressed()) {
+				xa -= 1;
+			}
+			if (input.right.isPressed()) {
+				xa += 1;
+			}
+			if(input.num1.isPressed()){
+				this.tool = Tool.HAND;
+			}
+			if(input.num2.isPressed()){
+				this.tool = Tool.SWORD;
+			}
+			
+			this.isSwipe = input.space.isPressed();
+			if(isSwipe && this.tool != Tool.HAND){
+				switch(this.movingDir){
+				case 0: //up
+					if(this.up != null)
+						this.up.takeDamage(this.damageToCivilian);
+					break;
+				case 1: //down
+					if(this.down != null)
+						this.down.takeDamage(damageToCivilian);
+					break;
+				case 2: //left
+					if(this.left != null)
+						this.left.takeDamage(damageToCivilian);
+					break;
+				case 3: //right
+					if(this.right != null)
+						this.right.takeDamage(damageToCivilian);
+					break;
+					
+				}
 			}
 		}
+		
+	
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);

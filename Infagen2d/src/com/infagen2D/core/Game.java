@@ -15,12 +15,15 @@ import javax.swing.JOptionPane;
 
 import com.infagen2D.components.InputHandler;
 import com.infagen2D.components.Ref;
+import com.infagen2D.components.WindowHandler;
 import com.infagen2D.entities.Player;
+import com.infagen2D.entities.PlayerMP;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.graphics.SpriteSheet;
 import com.infagen2D.level.Level;
 import com.infagen2D.network.GameClient;
 import com.infagen2D.network.GameServer;
+import com.infagen2D.network.Packet00Login;
 
 /**
  * VOID , STONE, GRASS, SAND,
@@ -45,7 +48,7 @@ public class Game extends Canvas implements Runnable {
     
     private boolean shouldDrawDebugScreen = true;
 
-    private JFrame frame;
+    public JFrame frame;
 
     public boolean running = false;
     public int tickCount = 0;
@@ -58,13 +61,14 @@ public class Game extends Canvas implements Runnable {
 
     private Screen screen;
     public InputHandler input;
+    public WindowHandler windowHandler;
     public Level level;
     public Player player;
     
     public int globalTicks, globalFrames;
     
-    private GameClient socketClient;
-    private GameServer socketServer;
+    public GameClient socketClient;
+    public GameServer socketServer;
     
     public Game() {
             setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -99,16 +103,25 @@ public class Game extends Canvas implements Runnable {
 
             screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/SpriteSheet.png"));
             input = new InputHandler(this);
+            windowHandler = new WindowHandler(this);
             ///level = new Level("/Levels/Water_Test_Level.png");
             level = new Level(null);
 
-            player = new Player(level,JOptionPane.showInputDialog("Enter Name:"), 0, 0, input);
+        
+            player = new PlayerMP(level,JOptionPane.showInputDialog("Enter Name:"), 100, 100, input, null, -1); //null and -1 is checked for in the add Connection method in Game Server
             level.addEntity(player);
+            Packet00Login loginPacket = new Packet00Login(player.getName());
             //PLAYER MUST BE THE FIRST ENTITY
-            
+            if(this.socketServer != null){ //u are the host
+            	socketServer.addConnection((PlayerMP)player, loginPacket);
+            }
+            //TODO: send seed to client
             System.out.println("SEED: " + Ref.SEED);
+            //socketClient.sendData("ping".getBytes());
+            loginPacket.writeData(socketClient);
             
-            socketClient.sendData("ping".getBytes());
+            socketClient.sendData((Ref.SEED + "").getBytes());
+            
     }
 
     public synchronized void start() {

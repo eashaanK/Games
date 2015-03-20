@@ -8,6 +8,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import com.infagen2D.core.Game;
+import com.infagen2D.entities.PlayerMP;
+import com.infagen2D.network.Packet.PacketTypes;
 
 public class GameClient extends Thread{
 
@@ -40,8 +42,37 @@ public class GameClient extends Thread{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			String  message = new String( packet.getData() );
-			System.out.println("Client recieved: " + message);
+			parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
+		}
+	}
+	
+	private void parsePacket(byte[] data, InetAddress address, int port) {
+		String message = new String(data).trim();
+		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
+		Packet packet = null;
+		switch (type) {
+		default:
+
+		case INVALID:
+			break;
+
+		case LOGIN:
+			packet = new Packet00Login(data);// recieve data
+			//TODO: Make screen notice appear
+			System.out.println("[" + address.getHostAddress() + ": " + port + "]" + ((Packet00Login)packet).getUsername() + " has joined the game"); 
+			PlayerMP player = new PlayerMP(game.level, ((Packet00Login)packet).getUsername(), 100, 100, address, port);// otherPlayer;
+		
+			game.level.addEntity(player);
+		
+			break;
+
+		case DISCONNECT:
+			//TODO: Make screen notice appear
+			packet = new Packet01Disconnect(data);// recieve data
+			System.out.println("[" + address.getHostAddress() + ": " + port + "]" + ((Packet01Disconnect)packet).getUsername() + " has left game");
+			game.level.removePlayerMP(((Packet01Disconnect)packet).getUsername());
+			break;
+
 		}
 	}
 	
