@@ -1,8 +1,11 @@
 package com.infagen.gameObject;
 
 import org.lwjgl.util.vector.Vector3f;
+
+import com.infagen.helpers.Ref;
 import com.infagen.loaders.Loader;
 import com.infagen.model.RawModel;
+import com.infagen.noise.Noise;
 import com.infagen.texture.ModelTexture;
 import com.infagen.world.World;
 
@@ -10,7 +13,7 @@ public class Terrain {
 
 	public static final float SIZE = 800;
 	private static final int VERTEX_COUNT = 128;
-	private static final float MAX_HEIGHT = 100;
+	public static final float MAX_HEIGHT = 100;
 	
 	private Transform tranform;
 	private RawModel model;
@@ -64,19 +67,16 @@ public class Terrain {
 	}
 	
 	public float getHeight(int i, int j){
-		/*double xStart = this.tranform.getPosition().x/SIZE * this.VERTEX_COUNT;
-		double xEnd = xStart + this.VERTEX_COUNT;
-		double yStart = this.tranform.getPosition().y/SIZE* this.VERTEX_COUNT;
-		double yEnd = yStart + this.VERTEX_COUNT;
-
-		int xResolution = this.VERTEX_COUNT;
-		int yResolution = this.VERTEX_COUNT;
-		int x = (int) (xStart + (i * (xEnd - xStart) / xResolution));
-		int y = (int) (yStart + (j * (yEnd - yStart) / yResolution));*/
-		int x = (int)(i + this.tranform.getX());
-		int y = (int)(j + this.tranform.getZ());
 		
-		return (float) (World.testingNoise.getNoise(x, y, 0) * this.MAX_HEIGHT);
+		float m  = (float)World.noise1.getNoise(i, j);
+		float values1 = (float)(m * 1.8);
+		
+		m = (float)(World.noise2.getNoise(i, j)) * 5;
+		float values2 = m;
+		
+		float n = values2 - values1;
+		n = n < 0 ? 0 : n;
+		return n * this.MAX_HEIGHT/2;
 	}
 	
 	public Transform getTranform() {
