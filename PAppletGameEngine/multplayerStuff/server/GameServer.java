@@ -1,5 +1,6 @@
 package server;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -18,6 +19,8 @@ public class GameServer extends Thread {
 	public static final int serverPort = 1331;
 	public static final String DELIMETER = ",";
 	public List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
+	
+	private GameServerDebugger debugger;
 
 	/*public static void main(String[] args) throws IOException {
 		new GameServer();
@@ -25,9 +28,14 @@ public class GameServer extends Thread {
 	}*/
 
 	public GameServer() throws SocketException {
+		debugger = new GameServerDebugger("Game Server Debugger", 800, 800);
 		socket = new DatagramSocket(1331);
 		new Thread(this).start();
-
+		
+	}
+	
+	public void showDebugger(boolean show){
+		debugger.setVisible(show);
 	}
 
 	public void run() {
@@ -39,6 +47,7 @@ public class GameServer extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
 		}
 		socket.close();
 
@@ -78,7 +87,8 @@ public class GameServer extends Thread {
 		Object[] data = this.getPlayerFromPacket(ipAddress, port);
 		int index = (Integer)(data[1]);
 		this.connectedPlayers.remove(index);
-		System.out.println(username + " disconnected");
+		//System.out.println(username + " disconnected");
+		debugger.println(username + " disconnected");
 		try {
 			this.sendToAll(PacketType.PERSON_DISCONNECTED, username);
 		} catch (IOException e) {
@@ -87,7 +97,9 @@ public class GameServer extends Thread {
 	}
 
 	private void handleMove(String usernameWhoMoved, float x, float y, DatagramPacket request) {
-		System.out.println(usernameWhoMoved + " moved to : " + x + ", " + y);
+	//	System.out.println(usernameWhoMoved + " moved to : " + x + ", " + y);
+		debugger.printMoved(usernameWhoMoved, x, y);
+
 		Object[] d = this.getPlayerFromPacket(request.getAddress(), request.getPort());
 		PlayerMP player = (PlayerMP)(d[0]);
 		int index = (Integer)(d[1]);
@@ -109,6 +121,7 @@ public class GameServer extends Thread {
 		//PlayerMP p = this.getPlayerFromPacket(request.getAddress(), request.getPort());
 		try {
 			sendToAll(PacketType.MESSAGE, username + this.DELIMETER + message);
+			debugger.printMessage(username, message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -121,7 +134,9 @@ public class GameServer extends Thread {
 	 * @param messageParts
 	 */
 	private void handleLogin(String username, float sX, float sY, DatagramPacket request) {
-		System.out.println(username + " joined");
+		//System.out.println(username + " joined");
+		debugger.println(username + " joined");
+
 		try {
 			this.connectedPlayers.add(new PlayerMP(username, sX, sY, request.getAddress(), request.getPort()));
 			//this.sendData(PacketType.LOGIN, username + " joined", request.getAddress(), request.getPort());

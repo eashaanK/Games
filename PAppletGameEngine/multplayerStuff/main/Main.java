@@ -25,6 +25,7 @@ public class Main extends PApplet{
 		if(JOptionPane.showConfirmDialog(null, "START SERVER?") == 0)
 			try {
 				GameServer server = new GameServer();
+				server.showDebugger(true);
 			} catch (SocketException e) {
 				e.printStackTrace();
 			}
