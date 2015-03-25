@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import javax.swing.JOptionPane;
+
 import entities.PlayerMP;
 import main.Main;
 import packets.PacketType;
@@ -44,7 +46,7 @@ public class GameClient extends Thread {
 	public void begin(){
 		try {
 			socket = new DatagramSocket();
-			host = InetAddress.getByName("localhost");
+			host = InetAddress.getByName(JOptionPane.showInputDialog("Enter IPAddress of Server"));
 			this.start();
 		} catch (SocketException e) {
 			e.printStackTrace();
