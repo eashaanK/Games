@@ -12,6 +12,7 @@ public class TestNXT {
 		Button.waitForAnyPress();
 		Motor.A.setSpeed(100);
 
+	
 	}
 
 }
