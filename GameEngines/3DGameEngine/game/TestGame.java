@@ -31,7 +31,7 @@ public class TestGame extends Game
 	{
 		Display.setTitle("TestGame");
 		RenderingEngine rE = new RenderingEngine();
-		rE.setClearColor(new ClearColor(101f/255f, 198f/255f, 254f/255f, 0f));
+		rE.setClearColor(new ClearColor(0, 0, 0, 0));
 		this.Render(rE);
 		
 		Mesh mesh = new Mesh("plane3.obj");
