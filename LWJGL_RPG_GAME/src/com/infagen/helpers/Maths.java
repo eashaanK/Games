@@ -3,8 +3,8 @@ package com.infagen.helpers;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.infagen.gameObject.Camera;
-import com.infagen.gameObject.Transform;
+import com.nishu.utils.Camera;
+import com_components.Transform;
 
 public class Maths {
 

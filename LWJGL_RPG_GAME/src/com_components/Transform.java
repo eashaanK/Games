@@ -21,7 +21,7 @@ public class Transform implements Component{
 		this(x, y, z, 0, 0, 0, 1);
 	}
 	
-	public Vector3f getPos() {
+	public Vector3f getPosition() {
 		return pos;
 	}
 
@@ -33,7 +33,7 @@ public class Transform implements Component{
 		return rot;
 	}
 
-	public void setrot(Vector3f rot) {
+	public void setRot(Vector3f rot) {
 		this.rot = rot;
 	}
 
@@ -57,6 +57,17 @@ public class Transform implements Component{
 		return pos.z;
 	}
 	
+	public float getRotX(){
+		return rot.x;
+	}
+	
+	public float getRotY(){
+		return rot.y;
+	}
+	
+	public float getRotZ(){
+		return rot.z;
+	}
 	public void translate(float dx, float dy, float dz, float delta){
 		this.pos.x += dx * delta;
 		this.pos.y += dy * delta;

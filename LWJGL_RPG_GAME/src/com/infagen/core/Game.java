@@ -3,9 +3,6 @@ package com.infagen.core;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.infagen.gameObject.Camera;
-import com.infagen.gameObject.GameObject;
-import com.infagen.gameObject.Light;
 import com.infagen.input.Input;
 import com.infagen.loaders.Loader;
 import com.infagen.loaders.OBJLoader;
@@ -14,7 +11,8 @@ import com.infagen.model.TexturedModel;
 import com.infagen.renderEngines.MasterRenderer;
 import com.infagen.renderEngines.Time;
 import com.infagen.texture.ModelTexture;
-import com.infagen.world.World;
+import com.nishu.utils.Camera;
+import com_components.GameObject;
 
 /**
  * TUT 13
