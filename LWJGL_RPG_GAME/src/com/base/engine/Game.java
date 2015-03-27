@@ -7,6 +7,13 @@ import com.base.rendering.Mesh;
 import com.base.rendering.Vertex;
 import com.base.shader.Shader;
 
+
+/**
+ * https://www.youtube.com/watch?v=8n1GV99FJ2Y&index=11&list=PLEETnX-uPtBXP_B2yupUKlflXBznWIlL5
+ * 9:42
+ * @author eashaan
+ *
+ */
 public class Game {
 
 	private Mesh mesh;
