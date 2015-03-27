@@ -1,33 +1,44 @@
-/*
- * Copyright (C) 2014 Benny Bobaganoosh
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package rendering;
 
-import components.BaseLight;
-import components.DirectionalLight;
-import components.PointLight;
-import components.SpotLight;
-import core.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL32.*;
+import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
+import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
+import static org.lwjgl.opengl.GL20.GL_VALIDATE_STATUS;
+import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
+import static org.lwjgl.opengl.GL20.glAttachShader;
+import static org.lwjgl.opengl.GL20.glBindAttribLocation;
+import static org.lwjgl.opengl.GL20.glCompileShader;
+import static org.lwjgl.opengl.GL20.glCreateShader;
+import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
+import static org.lwjgl.opengl.GL20.glGetProgrami;
+import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
+import static org.lwjgl.opengl.GL20.glGetShaderi;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glLinkProgram;
+import static org.lwjgl.opengl.GL20.glShaderSource;
+import static org.lwjgl.opengl.GL20.glUniform1f;
+import static org.lwjgl.opengl.GL20.glUniform1i;
+import static org.lwjgl.opengl.GL20.glUniform3f;
+import static org.lwjgl.opengl.GL20.glUniformMatrix4;
+import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL20.glValidateProgram;
+import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import components.BaseLight;
+import components.DirectionalLight;
+import components.PointLight;
+import components.SpotLight;
+
+import core.Matrix4f;
+import core.Transform;
+import core.Util;
+import core.Vector3f;
 
 public class Shader
 {
@@ -371,7 +382,8 @@ public class Shader
 
 		try
 		{
-			shaderReader = new BufferedReader(new FileReader("3DGameEngine/shaders/" + fileName));
+			
+			shaderReader = new BufferedReader(new FileReader("shaders/" + fileName));
 			String line;
 
 			while((line = shaderReader.readLine()) != null)
