@@ -31,7 +31,7 @@ public class TestGame extends Game
 	{
 		Display.setTitle("TestGame");
 		RenderingEngine rE = new RenderingEngine();
-		rE.setClearColor(new ClearColor(101f/255f, 198f/255f, 254f/255f, 0f));
+		rE.setClearColor(new ClearColor(0, 0, 0, 0));
 		this.Render(rE);
 		
 		Mesh mesh = new Mesh("plane3.obj");
@@ -50,7 +50,7 @@ public class TestGame extends Game
 
 		GameObject directionalLightObject = new GameObject();
 		directionalLight= new DirectionalLight(new Vector3f(0,0,1), 0.4f);
-		directionalLight.SetColor(new Vector3f(1f, 0, 0));
+		directionalLight.SetColor(new Vector3f(0f, 0, 1));
 		directionalLightObject.AddComponent(directionalLight);
 		Display.setResizable(true);
 
