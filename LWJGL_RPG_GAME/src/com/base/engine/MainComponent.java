@@ -1,6 +1,7 @@
 package com.base.engine;
 
 import com.base.input.Input;
+import com.base.rendering.RenderUtils;
 
 public class MainComponent {
 
@@ -12,6 +13,8 @@ public class MainComponent {
 	private Game game;
 
 	public MainComponent() {
+		System.out.println(RenderUtils.getOpenGlVersion());
+		RenderUtils.initGraphics();
 		isRunning = false;
 		game = new Game();
 	}
@@ -59,7 +62,7 @@ public class MainComponent {
 				
 				Time.setDelta((float) frameTime);
 				
-				Input.update();
+				Input.Update();
 				
 				game.input();
 				game.update((float)frameTime);
@@ -88,6 +91,7 @@ public class MainComponent {
 	}
 
 	private void render() {
+		RenderUtils.clearScreen();
 		game.render();
 		Window.render();
 	}
