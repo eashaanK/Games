@@ -1,4 +1,4 @@
-package client;
+package com.infagen2D.networking;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -9,14 +9,13 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
-import entities.PlayerMP;
-import main.Main;
-import packets.PacketType;
+import com.infagen2D.core.Game;
+import com.infagen2D.entities.PlayerMP;
 
 public class GameClient extends Thread {
 
 	/*
-	 * public static void main(String[] args) throws IOException{ GameClient
+	 * public static void game(String[] args) throws IOException{ GameClient
 	 * client = new GameClient("Bob" + (int)(Math.random() * 100)); }
 	 */
 
@@ -26,9 +25,9 @@ public class GameClient extends Thread {
 	public static final String DELIMETER = ",";
 	public final String username;
 	private boolean isRunning = false;
-	public final float spawnX, spawnY;
+	public final int spawnX, spawnY;
 	
-	private Main main;
+	private Game game;
 
 	/**
 	 * PURPOSE: attempt to send join to server. If all works great, then start
@@ -36,17 +35,17 @@ public class GameClient extends Thread {
 	 * 
 	 * @param username
 	 */
-	public GameClient(String username, Main main, float spawnX, float spawnY) {
+	public GameClient(String username, Game game, int spawnX, int spawnY) {
 		this.username = username;
-		this.main =main;
+		this.game =game;
 		this.spawnX = spawnX;
 		this.spawnY = spawnY;
 	}
 
-	public void begin(){
+	public void begin(String address){
 		try {
 			socket = new DatagramSocket();
-			host = InetAddress.getByName(JOptionPane.showInputDialog("Enter IPAddress of Server"));
+			host = InetAddress.getByName(address);
 			this.start();
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -78,12 +77,13 @@ public class GameClient extends Thread {
 			//System.out.println("Waiting for Approval");
 			Object[] loginConfirm = recieveData();
 			canStart = ( (PacketType)(loginConfirm[0]) == PacketType.OLD_PERSON_WHO_WAS_ALREADY_HERE_BEFORE_U);
+			DatagramPacket receiveApprovalPacket = (DatagramPacket) loginConfirm[2];
 		
 			this.isRunning = canStart;
 			if(this.isRunning){
 				System.out.println("Client connected!");
 				String[] playersThatCameBefore = (String[])loginConfirm[1];
-				addPlayersThatCameBefore(playersThatCameBefore);
+				addPlayersThatCameBefore(playersThatCameBefore, receiveApprovalPacket);
 				/*parts[0] = parts[0].replace("[", "");
 				parts[parts.length - 1] = parts[parts.length - 1].replace("]", "");
 				String[] toStringsOfPlayers = (String)(parts[1]);
@@ -103,10 +103,12 @@ public class GameClient extends Thread {
 				Object[] data = this.recieveData();
 				PacketType packetType = (PacketType)data[0];
 				String[] parts = (String[])data[1];
+				DatagramPacket recievePacket = (DatagramPacket) data[2];
+
 				
 				switch(packetType){
 				case MOVE:
-					handleMove(parts[1], Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+					handleMove(parts[1], Integer.parseInt(parts[2].trim()), Integer.parseInt(parts[3].trim()));
 					break;
 				case MESSAGE:
 					
@@ -117,7 +119,7 @@ public class GameClient extends Thread {
 					break;
 					
 				case NEW_PERSON_JUST_JOINED:
-					main.addEntity(new PlayerMP(parts[1], Float.parseFloat(parts[2]), Float.parseFloat(parts[3])));
+					game.addEntity(new PlayerMP(game.level, parts[1], Integer.parseInt(parts[2].trim()), Integer.parseInt(parts[3].trim()), recievePacket.getAddress(), recievePacket.getPort()));
 					break;
 				}
 
@@ -131,17 +133,19 @@ public class GameClient extends Thread {
 	private void handlePersonDisconnected(String username) {
 		//Object[] data = this.getPlayerFromName(username);
 		//int index = Integer.parseInt((String) data[1]);
-		/*main.removeEntity(index);
-		main.displayMessgae(username + " disconnected");*/
-		//System.out.println(this.username + " recieved disconnect: " + username + " " + (data == null) + main.getEntities().get(1));
-		for(int i = 0 ; i < main.getEntities().size(); i++){
-			PlayerMP p = main.getEntities().get(i);
-			System.out.println("Comparing: " + p.name + " " + username + " " + p.name.trim().equals(username.trim()));
-			if(p.name.trim().equals(username.trim())){
-				main.removeEntity(i);
-				main.displayMessgae(username + " disconnected");
-				return;
-			}
+		/*game.removeEntity(index);
+		game.displayMessgae(username + " disconnected");*/
+		//System.out.println(this.username + " recieved disconnect: " + username + " " + (data == null) + game.getEntities().get(1));
+		for(int i = 0 ; i < game.getEntities().size(); i++){
+			//if(game.getEntities().get(i) instanceof PlayerMP){
+				PlayerMP p =  (PlayerMP) game.getEntities().get(i);
+				System.out.println("Comparing: " + p.getName() + " " + username + " " + p.getName().trim().equals(username.trim()));
+				if(p.getName().trim().equals(username.trim())){
+					game.removeEntity(i);
+					game.displayMessage(username + " disconnected");
+					return;
+				}
+			//}
 		}
 	}
 	
@@ -154,7 +158,7 @@ public class GameClient extends Thread {
 		}
 	}
 
-	private void addPlayersThatCameBefore(String[] playersThatCameBefore) {
+	private void addPlayersThatCameBefore(String[] playersThatCameBefore, DatagramPacket packet) {
 		
 		
 		for(int i = 1; i < playersThatCameBefore.length; i++){
@@ -176,10 +180,10 @@ public class GameClient extends Thread {
 			xForm = xForm.replace("[", "").replace("]", "").trim();
 			yForm = yForm.replace("[", "").replace("]", "").trim();
 
-			float x = Float.parseFloat(xForm);
-			float y = Float.parseFloat(yForm);
+			int x = Integer.parseInt(xForm);
+			int y = Integer.parseInt(yForm);
 			if(!name.equals(this.username)){
-				main.addEntity(new PlayerMP(name, x, y));
+				game.addEntity(new PlayerMP(game.level, name, x, y, packet.getAddress(), packet.getPort()));
 				//System.out.println("Adding to " + this.username + "'s list: " + name);
 			}
 
@@ -188,13 +192,13 @@ public class GameClient extends Thread {
 
 	}
 
-	private void handleMove(String name, float x, float y) {
+	private void handleMove(String name, int x, int y) {
 		if(name.equals(this.username))
 			return;
 		Object[] data = this.getPlayerFromName(name);
 		
 		if(data == null){
-		/*	main.addEntity(new PlayerMP(name, x, y));
+		/*	game.addEntity(new PlayerMP(name, x, y));
 			System.err.println("RECIEVED A NEW PLAYER!");*/
 		}
 		
@@ -205,7 +209,7 @@ public class GameClient extends Thread {
 			int index = (Integer)data[1];
 			p.x = x;
 			p.y = y;
-			main.setEntity(p, index);
+			game.setEntity(p, index);
 			//System.out.println(this.username + " recieved moved: " + name);
 		}
 	}
@@ -222,18 +226,25 @@ public class GameClient extends Thread {
 	/**
 	 * (PacketType)
 	 * String[] partsMessage
+	 * DatagramPacket
 	 * @return
 	 * @throws IOException
 	 */
 	private Object[] recieveData() throws IOException {
-		Object[] data = new Object[2];
+		Object[] data = new Object[3];
 		byte[] buffer = new byte[5000];
 		DatagramPacket recievePacket = new DatagramPacket(buffer, buffer.length);
+		if(socket.isClosed())
+		{
+			game.displayMessage(this.username + "'s socket is closed");
+			return null;
+		}
 		socket.receive(recievePacket);
 		String rawMessage = this.getMessage(buffer);
 		String[] messageParts = rawMessage.split(DELIMETER);
 		data[0] = this.lookupPacket(messageParts[0]);
 		data[1] = messageParts;
+		data[2] = recievePacket;
 		//System.out.println("Server responded: " + rawMessage);
 		return data;
 	}
@@ -247,7 +258,7 @@ public class GameClient extends Thread {
 		this.sendData(PacketType.LOGIN, socket, spawnX + this.DELIMETER + spawnY, host, serverPort);
 	}
 	
-	public void sendMoveData(float x, float y){
+	public void sendMoveData(int x, int y){
 		try {
 			this.sendData(PacketType.MOVE, socket, x + this.DELIMETER + y, host, serverPort);
 		} catch (IOException e) {
@@ -299,12 +310,12 @@ public class GameClient extends Thread {
 	 */
 	public Object[] getPlayerFromName(String name){
 		Object[] data = new Object[2];
-		for(int i = 0; i < main.getEntities().size(); i++){
-			Object entity = main.getEntities().get(i);
+		for(int i = 0; i < game.getEntities().size(); i++){
+			Object entity = game.getEntities().get(i);
 			PlayerMP p = null;
 			if(entity instanceof PlayerMP)
 				p = (PlayerMP)entity;
-			if(p != null && p.name.equals(name)){
+			if(p != null && p.getName().equals(name)){
 				data[0] = p;
 				data[1] = i;
 				return data;

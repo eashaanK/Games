@@ -25,8 +25,8 @@ public class Level {
 	private List<Entity> entities = new ArrayList<Entity>();
 	private String imagePath;
 	private BufferedImage image;
-	private final double RENDER_DISTANCE = 120;
-	private final double UPDATE_DISTANCE = RENDER_DISTANCE * 2;
+	//private final double RENDER_DISTANCE = 500;
+	//private final double UPDATE_DISTANCE = RENDER_DISTANCE * 2;
 	int seed;
 	
 	final float MAX_MOBSPAWN = 100, MOB_SPAWN_INC = 0.8f, MOB_SPAWN_RADIUS = 10 * Game.SCALE;
@@ -168,7 +168,7 @@ public class Level {
 				getEntities().remove(i);
 			} else {
 				double disFromPlayer = this.getDistance(p.x, p.y, e.x,e.y);
-				if (disFromPlayer <= this.UPDATE_DISTANCE){
+				//if (disFromPlayer <= this.UPDATE_DISTANCE){
 					e.tick();			
 					if(i == 0)//THIS SKIPS THE PLAYER
 						continue;
@@ -186,7 +186,7 @@ public class Level {
 						else if(yDis <= 0 && (xDis > 10 || xDis < 10))
 							down = e;
 					}
-				}
+				//}
 			}
 		}
 		
@@ -228,9 +228,10 @@ public class Level {
 	public void renderEntities(Screen screen) {
 		Player p = (Player) getEntities().get(0);
 		for (Entity e : getEntities()) {
-			if (this.getDistance(p.x, p.y, e.x, e.y) <= RENDER_DISTANCE)
+			//if (this.getDistance(p.x, p.y, e.x, e.y) <= RENDER_DISTANCE)
 				e.render(screen);
-
+			//else
+				//System.out.println("NOT RENDERING: ");
 		}
 	}
 

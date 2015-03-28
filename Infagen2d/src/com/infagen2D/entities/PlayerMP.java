@@ -7,9 +7,9 @@ import com.infagen2D.level.Level;
 
 public class PlayerMP extends Player{
 	
+	public static final String P_DELIMITER = "/";
 	public InetAddress ipAddress;
 	public int port;
-	public int seed;
 
 
 	/**
@@ -37,16 +37,22 @@ public class PlayerMP extends Player{
 	 * @param ipAddress
 	 * @param port
 	 */
-	public PlayerMP(Level level, String name, int x, int y, InetAddress ipAddress, int port, int seed) {
+	public PlayerMP(Level level, String name, int x, int y, InetAddress ipAddress, int port) {
 		super(level, name, x, y, null);
 		this.ipAddress = ipAddress;
 		this.port = port;
-		this.seed = seed;
 	}
 	
 	@Override
 	public void tick(){
 		super.tick();
+	}
+	
+	/**
+	 * The Server uses this...
+	 */
+	public String toString(){
+		return name + P_DELIMITER + x + P_DELIMITER + y;
 	}
 
 }

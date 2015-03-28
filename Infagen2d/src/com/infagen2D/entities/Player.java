@@ -8,7 +8,6 @@ import com.infagen2D.graphics.Colors;
 import com.infagen2D.graphics.FunFont;
 import com.infagen2D.graphics.Screen;
 import com.infagen2D.level.Level;
-import com.infagen2D.network.Packet02Move;
 
 public class Player extends Mob {
 
@@ -84,8 +83,9 @@ public class Player extends Mob {
 			move(xa, ya);
 			isMoving = true;
 			
-			Packet02Move packet = new Packet02Move(this.getName(), this.x, this.y, this.numSteps, this.isMoving, this.movingDir);
-			packet.writeData(Game.game.socketClient); //Client sends it to the server
+			//Packet02Move packet = new Packet02Move(this.getName(), this.x, this.y, this.numSteps, this.isMoving, this.movingDir);
+			//packet.writeData(Game.game.socketClient); //Client sends it to the server
+			Game.game.socketClient.sendMoveData(this.x, this.y);
 			
 		} else {
 			isMoving = false;

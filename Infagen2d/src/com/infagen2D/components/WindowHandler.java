@@ -4,7 +4,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import com.infagen2D.core.Game;
-import com.infagen2D.network.Packet01Disconnect;
 
 public class WindowHandler implements WindowListener{
 
@@ -24,8 +23,9 @@ public class WindowHandler implements WindowListener{
 	 */
 	@Override
 	public void windowClosing(WindowEvent e) {
-		Packet01Disconnect packet = new Packet01Disconnect(this.game.player.getName());
-		packet.writeData(this.game.socketClient);
+		//Packet01Disconnect packet = new Packet01Disconnect(this.game.player.getName());
+		//packet.writeData(this.game.socketClient);
+		game.socketClient.close();
 	}
 
 	@Override
