@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="lib/Speech/cmu_time_awb.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/cmu_us_kal.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/cmudict04.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/cmulex.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/cmutimelex.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/en_us.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/freetts-jsapi10.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/freetts.jar"/>
+	<classpathentry kind="lib" path="lib/Speech/mbrola.jar"/>
+	<classpathentry kind="lib" path="lib/spinx/HelloWorld.jar"/>
+	<classpathentry kind="lib" path="lib/spinx/js.jar"/>
+	<classpathentry kind="lib" path="lib/spinx/jsapi-1.0-base.jar"/>
+	<classpathentry kind="lib" path="lib/spinx/sphinx4.jar"/>
+	<classpathentry kind="lib" path="lib/spinx/tags.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
