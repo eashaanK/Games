@@ -18,5 +18,29 @@
 	<classpathentry kind="src" path="GUIStuff"/>
 	<classpathentry kind="src" path="Speech"/>
 	<classpathentry kind="src" path="ComplexMathPlusOPs"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/controlP5.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/core.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/gluegen-rt-natives-linux-amd64.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/gluegen-rt-natives-linux-armv6hf.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/gluegen-rt-natives-linux-i586.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/gluegen-rt-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/gluegen-rt-natives-windows-amd64.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/gluegen-rt-natives-windows-i586.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/jl1.0.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/jogl-all-natives-linux-amd64.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/jogl-all-natives-linux-armv6hf.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/jogl-all-natives-linux-i586.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/jogl-all-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/jogl-all-natives-windows-amd64.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/jogl-all-natives-windows-i586.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/jogl-all.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/jsminim.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/minim-spi.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/minim.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/peasycam.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="lib/PApplet libraries/tritonus_share.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
