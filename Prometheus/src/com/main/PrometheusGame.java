@@ -20,24 +20,29 @@ import javax.swing.ScrollPaneConstants;
 
 import com.AI.DesktopManager;
 import com.AI.EKVoice;
+import com.enums.Command;
 
 public class PrometheusGame extends JFrame {
 
-	private final int WIDTH = 700, HEIGHT = 700;
+	private final int WIDTH = 1000, HEIGHT = 1000;
 	private final String TITLE = "Prometheus";
 	private final JPanel mainPanel;
 	private JTextArea ta_conversation = new JTextArea();
 	private JScrollPane sp_console = new JScrollPane();
-	private JTextField textField = new JTextField();
+	private JTextField browseWebTextField = new JTextField();
+	private JTextField openFileTextField = new JTextField();
 	private Color textColor = Color.white;
 	private Color backgroundColor = Color.DARK_GRAY;
-	private EKVoice voice = new EKVoice();
+	private EKVoice voice = new EKVoice(225, 100);
 	private DesktopManager desktopManager = new DesktopManager();
-	private final String BROWSE_WEB = "/browse_web"; 
+	private final int LEFT_MARGIN = 10, RIGHT_MARGIN = 10 * 2;
+	
+	/*private final String BROWSE_WEB = "/browse_web"; 
 	private final String OPEN_FILE = "/open_file"; 
 	private final String PRINT_FILE = "/print_file"; 
 	private final String EDIT_FILE = "/edit_file"; 
-	private final String WRITE_EMAIL = "/email"; 
+	private final String WRITE_EMAIL = "/email"; */
+	
 	private final String DELIMETER = "#"; 
 
 	
@@ -83,7 +88,7 @@ public class PrometheusGame extends JFrame {
 		sp_console
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		sp_console.setViewportView(ta_conversation);
-		sp_console.setBounds(10, 150, this.getWidth() - 200,
+		sp_console.setBounds(LEFT_MARGIN, this.getHeight()/2 + 100, this.getWidth() - RIGHT_MARGIN,
 				this.getHeight() - 170);
 
 		ta_conversation.setBackground(backgroundColor);
@@ -94,17 +99,39 @@ public class PrometheusGame extends JFrame {
 		
 		ta_conversation.setEditable(false);
 		
-		textField.setBounds(10, 100, this.getWidth() - 200, 35);
-		textField.setBackground(backgroundColor);
-		textField.setForeground(textColor);
-		mainPanel.add(textField);
+		JLabel browseWebLabel = new JLabel("Browse web address:");
+		browseWebLabel.setBounds(LEFT_MARGIN, 100, this.getWidth()-RIGHT_MARGIN, 35);
+		browseWebLabel.setForeground(textColor);
+		mainPanel.add(browseWebLabel);
+		browseWebTextField.setBounds(LEFT_MARGIN, 125, this.getWidth() - RIGHT_MARGIN, 35);
+		browseWebTextField.setBackground(backgroundColor);
+		browseWebTextField.setForeground(textColor);
+		mainPanel.add(browseWebTextField);
+		
+		JLabel openFileLabel = new JLabel("Open Application: ");
+		openFileLabel.setBounds(LEFT_MARGIN, 160, this.getWidth()-RIGHT_MARGIN, 35);
+		openFileLabel.setForeground(textColor);
+		mainPanel.add(openFileLabel);
+		openFileTextField.setBounds(LEFT_MARGIN, 185, this.getWidth() - RIGHT_MARGIN, 35);
+		openFileTextField.setBackground(backgroundColor);
+		openFileTextField.setForeground(textColor);
+		mainPanel.add(openFileTextField);
 				
-		textField.addActionListener(
+		browseWebTextField.addActionListener(
 				new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e) {
-						decode(textField.getText());
-						textField.setText("");
+						decode(Command.BROWSE_WEB.getID() + DELIMETER + browseWebTextField.getText());
+						browseWebTextField.setText("");
+					}
+				});
+		
+		openFileTextField.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e) {
+						decode(Command.OPEN_FILE.getID() + DELIMETER + openFileTextField.getText());
+						openFileTextField.setText("");
 					}
 				});
 	}
@@ -119,6 +146,7 @@ public class PrometheusGame extends JFrame {
 	private void addMessageToConsole(String message){
 		ta_conversation.append(getTimeStamp() + ": " + message + "\n");
 		voice.speak(message);
+
 	}
 	
 	private String getTimeStamp(){
@@ -128,9 +156,42 @@ public class PrometheusGame extends JFrame {
 
 	private void decode(String message){
 		String[] parts = message.split(this.DELIMETER);
-		if(parts[0].equals(BROWSE_WEB)){
-			desktopManager.browse(parts[1]);
-			this.addMessageToConsole("Now Going to Website: " + parts[1]);
+		
+		Command  command = Command.lookupCommand(parts[0]);
+		
+				
+		switch(command){
+		case BROWSE_WEB:
+			handleBrowseWeb(parts[1]);
+			break;
+			
+		case OPEN_FILE:
+			handleOpenFile(parts[1]);
+			break;
+		}
+	
+	}
+	
+	private void handleOpenFile(String file) {
+		byte worked = desktopManager.openApplication(file);
+		if(worked == 0)
+			this.addMessageToConsole("Now Opening Application " + file);
+		else{
+			this.addMessageToConsole("Incorrect Application name " + file + ". Check your spelling and make sure that the App actually exists.");
+		}
+	}
+
+	private void handleBrowseWeb(String website){
+		if(website.length() <= 8 || !website.substring(0, 8).equals("https://") ){
+			website = "https://" + website;
+
+		}
+	
+		byte worked = desktopManager.browse(website);
+		if(worked == 0)
+			this.addMessageToConsole("Now Going to Website: " + website);
+		else{
+			this.addMessageToConsole("Incorrect URL syntax. Did you forget (http://), (www.), (.com), etc.?: " + website);
 		}
 	}
 	
