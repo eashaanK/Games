@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="jar/asm-debug-all.jar"/>
 	<classpathentry kind="lib" path="jar/Copy of lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="3DGameEngine/native/macosx"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="LWJGL_RPG_GAME/native/macosx"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="jar/jinput.jar"/>
@@ -19,14 +19,13 @@
 	<classpathentry kind="lib" path="jar/lwjgl-debug.jar"/>
 	<classpathentry kind="lib" path="jar/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="3DGameEngine/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="LWJGL_RPG_GAME/native/windows"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="jar/lzma.jar"/>
 	<classpathentry kind="lib" path="F2IBuilder.jar"/>
 	<classpathentry kind="lib" path="slick.jar"/>
 	<classpathentry kind="lib" path="models"/>
-	<classpathentry kind="lib" path="shaders"/>
 	<classpathentry kind="lib" path="textures"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
