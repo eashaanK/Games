@@ -3,6 +3,7 @@ package engine;
 import renderEngine.Loader;
 import renderEngine.RawModel;
 import renderEngine.Renderer;
+import shaders.StaticShader;
 
 
 public class Game {

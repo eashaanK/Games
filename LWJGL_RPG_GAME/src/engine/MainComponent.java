@@ -4,6 +4,7 @@ import org.lwjgl.opengl.Display;
 
 import renderEngine.Loader;
 import renderEngine.Renderer;
+import shaders.StaticShader;
 
 import component.Color4f;
 
@@ -17,6 +18,7 @@ public class MainComponent {
 	private Game game;
 	private Renderer renderer;
 	private Loader loader;
+	private StaticShader staticShader = new StaticShader();
 
 	public MainComponent()
 	{
@@ -101,13 +103,16 @@ public class MainComponent {
 	private void render()
 	{
 		renderer.clearScreen(true);
+		staticShader.start();
 		game.render(renderer);
+		staticShader.stop();
 		Window.render();
 	}
 	
 	private void cleanUp()
 	{
 		game.cleanUp();
+		staticShader.cleanUp();
 		loader.cleanUp();
 		Window.cleanUp();
 	}
