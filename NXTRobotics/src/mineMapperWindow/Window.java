@@ -6,6 +6,11 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+/**
+ * Is Responsible for the Window
+ * @author eashaan
+ *
+ */
 public class Window {
 
 	public final static int WIDTH = 800, HEIGHT = 800;

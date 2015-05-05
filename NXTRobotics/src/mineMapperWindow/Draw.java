@@ -19,9 +19,6 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
 
 
-
-
-
 public class Draw {
 	
 	private static TrueTypeFont font;

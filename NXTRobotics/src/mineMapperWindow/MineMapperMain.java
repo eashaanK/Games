@@ -5,6 +5,11 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
+/**
+ * The Main Class that instantiates the window
+ * @author eashaan
+ *
+ */
 public class MineMapperMain {
 	
 	private static MineMapper mineMapper;

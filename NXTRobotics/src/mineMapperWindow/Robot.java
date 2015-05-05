@@ -5,6 +5,11 @@ import java.awt.Color;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+/**
+ * The Robot that traverses the Mine
+ * @author eashaan
+ *
+ */
 public class Robot {
 
 	private Vector2f pos;

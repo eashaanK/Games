@@ -2,6 +2,11 @@ package mineMapperWindow;
 
 import org.lwjgl.input.Mouse;
 
+/**
+ * Basic Game Class
+ * @author eashaan
+ *
+ */
 public class MineMapper {
 
 	private Robot robot;
