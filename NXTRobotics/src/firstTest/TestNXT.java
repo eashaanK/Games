@@ -11,7 +11,6 @@ public class TestNXT {
 		System.out.println("LEGOS WORKS!!!!!");
 		Button.waitForAnyPress();
 		Motor.A.setSpeed(100);
-
 	
 	}
 
