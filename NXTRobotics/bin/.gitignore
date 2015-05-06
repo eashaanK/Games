@@ -1,1 +1,6 @@
-/mineMapperWindow
+/rendering
+/components
+/core
+/game
+/mineMapper2D
+/mineMapping

@@ -22,5 +22,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="jar/lzma.jar"/>
 	<classpathentry kind="lib" path="jar/slick.jar"/>
+	<classpathentry kind="src" path="3DMineMapping"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
