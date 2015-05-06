@@ -1,6 +1,7 @@
 package mineMapperWindow;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -16,7 +17,7 @@ public class Robot {
 	private float angle;
 	private Vector2f speed;
 	private Vector3f color;
-	private float width = 25, height = 50;
+	private float width = 10, height = 20;
 	
 	public Robot(float x, float y, float angle, float r, float g, float b){
 		this.pos = new Vector2f(x, y);
@@ -94,6 +95,28 @@ public class Robot {
 		Draw.color(1 - color.x, 1 - color.y, 1 - color.z, 1);
 		Draw.drawTri(pos.x, pos.y, width, height/2, -angle);
 
+	}
+
+	public float getH() {
+		return this.height;
+	}
+	
+	public float getW() {
+		return this.width;
+	}
+	
+	public Rectangle getCollider(){	
+		int w = 0, h = 0;
+		if(angle % 180 == 0){ //standing vertically
+			w = (int) width;
+			h = (int) height;
+		}
+		else{
+			w = (int) height;
+			h = (int) width;
+		}
+		
+		return new Rectangle((int)pos.x, (int)pos.y, w, h);
 	}
 
 }

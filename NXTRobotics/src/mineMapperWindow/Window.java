@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class Window {
 
-	public final static int WIDTH = 800, HEIGHT = 800;
+	public final static int WIDTH = 1000, HEIGHT = 1000;
 	public static final int FPS_CAP  = 120;
 	public static final String TITLE = "Mine-Mapper by Richard, David and Eashaan";
 	
