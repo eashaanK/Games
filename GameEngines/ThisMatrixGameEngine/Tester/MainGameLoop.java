@@ -123,6 +123,8 @@ public class MainGameLoop {
 		if(Mouse.isGrabbed()) //unpaused
 			player.move(terrain);		
 		
+		//if(Keyboard.isKeyDown(Keyboard.KEY_N))
+		//	terrain.testModel(loader);
 		
 	}
 		
