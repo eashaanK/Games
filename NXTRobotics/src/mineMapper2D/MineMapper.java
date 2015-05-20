@@ -1,5 +1,6 @@
 package mineMapper2D;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 /**
@@ -25,18 +26,30 @@ public class MineMapper {
 		robot.render();
 		
 		
-		robot.goForward(30);
+		if(Mouse.isButtonDown(0))
+			robot.goForward(30);
+		else
+			robot.stop();
 		
-		if(Mouse.isButtonDown(0)){
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
 			robot.turnLeft();
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+			robot.turnRight();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		
 	}
 	
