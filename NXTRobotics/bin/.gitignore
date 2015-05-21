@@ -1,8 +1,7 @@
 /rendering
-/components
-/core
-/game
 /mineMapper2D
 /mineMapping
+/game
+/components
+/core
 /firstTest
-/models
