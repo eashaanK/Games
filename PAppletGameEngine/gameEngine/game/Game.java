@@ -1,5 +1,8 @@
 package game;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import logic.Key;
@@ -34,9 +37,18 @@ public class Game extends PApplet{
 		aPos = new PVector();
 		
 		pVel = new PVector(1f, 1f);
+		
+		frame.setTitle("Hello");
 	}
 	
+	boolean hasSetupClose = false;
+	
 	public void draw(){
+		if(!hasSetupClose){
+			ChangeWindowListener();
+		}
+
+		
 		background(255, 255, 255);
 		
 		fill(255);
@@ -46,6 +58,8 @@ public class Game extends PApplet{
 	
 		
 		gui.draw();
+		
+		
 	}
 	
 	public void updateEntities(ArrayList<Entity> allEntities){
@@ -76,6 +90,25 @@ public class Game extends PApplet{
 			pos.x-= vel.x;
 		if(PKeyboard.keyHeld(Key.D))
 			pos.x+= vel.x;
+	}
+	
+	void ChangeWindowListener()
+	{
+	  WindowListener[] wls = frame.getWindowListeners();
+	  println("Found " + wls.length + " listeners");
+	  if (wls.length > 0)
+	  {
+	    frame.removeWindowListener(wls[0]); // Suppose there is only one...
+	    frame.addWindowListener(new WindowAdapter()
+	    {
+		public void windowClosing(WindowEvent we)
+		{
+		    System.out.println("Should be closing!");
+		    // Do something useful here
+		}
+	    });
+		  hasSetupClose = true;
+	  }
 	}
 	
 	@Override
