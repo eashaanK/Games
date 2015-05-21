@@ -160,7 +160,7 @@ public class Level {
 		Entity left =  null, right = null, up = null, down = null;
 		p.tick();
 		
-		//spawnMob(p);
+		spawnMob(p);
 
 		for (int i = getEntities().size() - 1; i >= 1; i--) {
 			Entity e = getEntities().get(i);
