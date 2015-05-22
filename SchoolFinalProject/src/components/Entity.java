@@ -1,5 +1,6 @@
 package components;
 
+import javazoom.jl.player.Player;
 import input.Key;
 import input.PKeyboard;
 import processing.core.PApplet;
@@ -8,8 +9,10 @@ public class Entity {
 
 	private Transform transform;
 	private boolean isOurPlayer = false;
+	private String name;
 	
-	public Entity(Transform transform, boolean isOurPlayer){
+	public Entity(String name, Transform transform, boolean isOurPlayer){
+		this.name = name;
 		this.transform = transform;
 		this.isOurPlayer = isOurPlayer;
 	}
@@ -31,16 +34,39 @@ public class Entity {
 		}
 	}
 	
-	public void draw(float delta, PApplet parent){
+	public void draw(float delta, PApplet parent, boolean debug){
 		
-		parent.fill(0, 255, 255);
-		if(!isOurPlayer)
+		
+
+		if(!isOurPlayer){
+			parent.fill(0, 255, 255);
 			parent.rect(this.transform.X(), this.transform.Y(), this.transform.getWidth(), this.transform.getHeight());
-		else{
-			parent.rect(parent.width/2 - transform.getWidth()/2, parent.height/2 - transform.getHeight()/2, this.transform.getWidth(), this.transform.getHeight()); //player
-			parent.translate(-this.transform.X(), -this.transform.Y());
+		    debugDraw(parent, false);
 		}
+		else{
+			parent.fill(0, 255, 255);
+			parent.rect(parent.width/2 - transform.getWidth()/2, parent.height/2 - transform.getHeight()/2, this.transform.getWidth(), this.transform.getHeight()); //player
+		    debugDraw(parent, true);
+
+			parent.translate(-this.transform.X(), -this.transform.Y());
+
+			/*  float xOffset = transform.X() - (parent.width / 2);
+		      float yOffset = transform.Y() - (parent.height / 2);
+		      parent.rect(parent.width/2 - transform.getWidth()/2, parent.height/2 - transform.getHeight()/2, this.transform.getWidth(), this.transform.getHeight()); //player
+		      parent.translate(-xOffset, -yOffset);*/
+		}
+
+
 		
+	}
+	
+	private void debugDraw(PApplet parent, boolean translate){
+		parent.fill(255, 255, 255);
+		parent.textSize(20);
+		if(translate)
+			parent.text(this.name, parent.width/2 - transform.getWidth()/2, parent.height/2 - transform.getHeight()/2);
+		else
+			parent.text(this.name, transform.X(), transform.Y());
 	}
 	
 	public Transform T(){

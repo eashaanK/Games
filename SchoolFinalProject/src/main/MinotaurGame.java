@@ -6,6 +6,7 @@ import input.PMouse;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -22,13 +23,18 @@ import controlP5.ListBoxItem;
 
 public class MinotaurGame extends PApplet{
 
+	float delta;
+	long lastTime;
+	final float TIME_SPEED = 100;
+	
 	boolean hasSetupClose = false;
 
 	ControlP5 gui;
 	ListBox reminders;
 	
 	Entity player;
-	Entity other;
+
+	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	
 	public void setup(){
 		size(800, 800);
@@ -36,7 +42,7 @@ public class MinotaurGame extends PApplet{
 		this.smooth();
 		gui = new ControlP5(this);
 		reminders = gui.addListBox("Reminders")
-				.setPosition(100, 100).setSize(width/3,  height/2).setItemHeight(15).setBarHeight(30).setColorBackground(color(255, 128)).setColorActive(color(0, 100, 255)).setColorForeground(color(0, 100, 255));
+				.setPosition(0, 0).setSize(width/3,  height/2).setItemHeight(15).setBarHeight(30).setColorBackground(color(255, 128)).setColorActive(color(0, 100, 255)).setColorForeground(color(0, 100, 255));
 		reminders.setTitle("Reminders");
 		reminders.captionLabel().toUpperCase(true);
 		reminders.captionLabel().setColor(0xffff0000);
@@ -51,10 +57,13 @@ public class MinotaurGame extends PApplet{
 
 		frame.setTitle("Minotaur");
 		
-		player = new Entity(new Transform(new PVector(0, 0), 100, 100, 0), true);
-		other = new Entity(new Transform(new PVector(0, 0), 100, 100, 0), false);
+		player = new Entity("Player", new Transform(new PVector(0, 0), 100, 100, 0), true);
+		for(int i = 0; i < 1; i++){
+			entities.add(new Entity("Enemy", new Transform(new PVector((float)Math.random() * 10, 0), 100, 100, 0), false));
+		}
+		//other = ;
 
-
+		lastTime = System.nanoTime();
 	}
 	
 	public void draw(){
@@ -62,22 +71,21 @@ public class MinotaurGame extends PApplet{
 			ChangeWindowListener();
 		}
 
+		long currentTime = System.nanoTime();
+		delta = (currentTime - lastTime)/(1000000000 * TIME_SPEED);
 		background(0,0,0);
-		
 		//my player
-		player.input(0.1f, 5, 5);
-		player.draw(0.1f, this);
-
-		other.draw(0.1f, this);
-		//other entities
-		//fill(0, 0, 255);
-		//rect(enemyX, enemyY, 50, 50);
-		
+		player.input(delta, 5, 5);
+		player.draw(delta, this, true);
+		//enemies
+		for(int i = this.entities.size() - 1; i >= 0; i--){
+			entities.get(i).draw(delta, this, true);
+		}
 		//gui
-		translate(player.T().X(), player.T().Y());
+		translate(player.T().X()  , player.T().Y()  );
+
 		gui.draw();
 
-		System.out.println(player.T());
 	}
 	
 	public void cleanUp(){
