@@ -12,10 +12,9 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-
+import components.Collider;
 import components.Entity;
 import components.Transform;
-
 import controlP5.ControlEvent;
 import controlP5.ControlP5;
 import controlP5.ListBox;
@@ -80,6 +79,8 @@ public class MinotaurGame extends PApplet{
 		//enemies
 		for(int i = this.entities.size() - 1; i >= 0; i--){
 			entities.get(i).draw(delta, this, true);
+			if(Collider.isColliding(player, entities.get(i)))
+				System.out.println("OUCH");
 		}
 		//gui
 		translate(player.T().X()  , player.T().Y()  );

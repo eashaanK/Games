@@ -45,10 +45,14 @@ public class Entity {
 		}
 		else{
 			parent.fill(0, 255, 255);
-			parent.rect(parent.width/2 - transform.getWidth()/2, parent.height/2 - transform.getHeight()/2, this.transform.getWidth(), this.transform.getHeight()); //player
-		    debugDraw(parent, true);
+			//parent.rect(parent.width/2 - transform.getWidth()/2, parent.height/2 - transform.getHeight()/2, this.transform.getWidth(), this.transform.getHeight()); //player
+		//	debugDraw(parent, true);
+			
+			parent.rect(parent.width/2, parent.height/2, this.transform.getWidth(), this.transform.getHeight()); //player
+			parent.translate(this.transform.X() , this.transform.Y());
 
-			parent.translate(-this.transform.X(), -this.transform.Y());
+
+//			parent.translate(-this.transform.X(), -this.transform.Y());
 
 			/*  float xOffset = transform.X() - (parent.width / 2);
 		      float yOffset = transform.Y() - (parent.height / 2);
