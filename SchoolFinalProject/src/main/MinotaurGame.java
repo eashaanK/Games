@@ -1,23 +1,34 @@
-package com.apollo.main;
+package main;
+
+import input.PKeyboard;
+import input.PMouse;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.List;
 
 import processing.core.PApplet;
+import processing.core.PVector;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
+
+import components.Entity;
+import components.Transform;
+
 import controlP5.ControlEvent;
 import controlP5.ControlP5;
-import controlP5.ControllerInterface;
 import controlP5.ListBox;
 import controlP5.ListBoxItem;
 
-public class Apollo extends PApplet{
+public class MinotaurGame extends PApplet{
 
 	boolean hasSetupClose = false;
 
 	ControlP5 gui;
 	ListBox reminders;
+	
+	Entity player;
+	Entity other;
 	
 	public void setup(){
 		size(800, 800);
@@ -38,7 +49,11 @@ public class Apollo extends PApplet{
 		  }
 		
 
-		frame.setTitle("Apollo");
+		frame.setTitle("Minotaur");
+		
+		player = new Entity(new Transform(new PVector(0, 0), 100, 100, 0), true);
+		other = new Entity(new Transform(new PVector(0, 0), 100, 100, 0), false);
+
 
 	}
 	
@@ -48,23 +63,26 @@ public class Apollo extends PApplet{
 		}
 
 		background(0,0,0);
-		fill(0, 255, 0);
-		rect(width/2 - 50, height/2 - 50, 100, 100); //player
-		translate(-x, -y);
+		
+		//my player
+		player.input(0.1f, 5, 5);
+		player.draw(0.1f, this);
 
+		other.draw(0.1f, this);
+		//other entities
+		//fill(0, 0, 255);
+		//rect(enemyX, enemyY, 50, 50);
 		
-		fill(0, 0, 255);
-		rect(enemyX, enemyY, 50, 50);
-		
-		translate(x, y);
+		//gui
+		translate(player.T().X(), player.T().Y());
 		gui.draw();
 
-		x--;
-		y--;
+		System.out.println(player.T());
 	}
 	
-	int x = 0, y = 0;
-	int enemyX = 0, enemyY = y;
+	public void cleanUp(){
+		
+	}
 	
 	private void ChangeWindowListener()
 	{
@@ -86,15 +104,31 @@ public class Apollo extends PApplet{
 		  hasSetupClose = true;
 	  }
 	}
-	
-	public void cleanUp(){
-		
-	}
 
 	public void controlEvent(ControlEvent theEvent){
 		 if(theEvent.getController().getName().equals("Button 1")){
 			 System.out.println("Button 1 pressed");
 		 }
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e){
+		PKeyboard.addKey(e);
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent e){
+		PKeyboard.removeKey(e);
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e){
+		PMouse.addButton(e);
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e){
+		PMouse.removeButton(e);
 	}
 
 }
