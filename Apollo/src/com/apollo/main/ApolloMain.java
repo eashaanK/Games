@@ -32,9 +32,6 @@ public class ApolloMain {
 			while (true) {
 				numBytesRead = targetLine.read(targetData, 0, targetData.length);
 				
-				//for(int i = 0; i < targetData.length; i++){
-					//System.out.print(targetData[i] + ", ");
-				//}
 				System.out.println();
 				
 				if (numBytesRead == -1)	break;
