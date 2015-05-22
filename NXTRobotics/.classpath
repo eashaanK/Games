@@ -18,5 +18,10 @@
 	<classpathentry kind="lib" path="jar/lzma.jar"/>
 	<classpathentry kind="lib" path="jar/slick.jar"/>
 	<classpathentry kind="src" path="3DMineMapping"/>
+	<classpathentry kind="lib" path="jar/Maclwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="NXTRobotics/native/macosx"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
