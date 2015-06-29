@@ -1,14 +1,17 @@
 package com.apollo.main;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
-
-import processing.core.PApplet;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.TargetDataLine;
 
 public class ApolloMain {
 
 	public static void main(String args[]) throws LineUnavailableException {
-		PApplet.main(new String[] {/* "--present", */"com.apollo.main.Apollo"});
-	/*	AudioFormat format = new AudioFormat(44100, 16, 2, true, true);
+		//PApplet.main(new String[] {/* "--present", */"com.apollo.main.Apollo"});
+		AudioFormat format = new AudioFormat(44100, 16, 2, true, true);
 		 
 		DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
 		DataLine.Info sourceInfo = new DataLine.Info(SourceDataLine.class, format);
@@ -28,16 +31,19 @@ public class ApolloMain {
 			while (true) {
 				numBytesRead = targetLine.read(targetData, 0, targetData.length);
 				
-				System.out.println();
+				for(int i = 0; i < targetData.length; i++)
+					System.out.print(targetData[i]);
 				
 				if (numBytesRead == -1)	break;
  
 				sourceLine.write(targetData, 0, numBytesRead);
+				
+				System.out.println();
 			}
 		}
 		catch (Exception e) {
 			System.err.println(e);
-		}*/
+		}
 	}
 
 }
