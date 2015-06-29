@@ -51,7 +51,11 @@ public class TestingVoiceInput extends PApplet{
 			//System.out.print(targetData[i]);
 		for(int i = 0; i < targetData.length; i++){
 			fill(255, 255, 255);
+			int height = targetData[i];
+			
+			
 			rect(i + (width/ targetData.length), 100, (width/ targetData.length), targetData[i]);
+
 		}
 
 		
