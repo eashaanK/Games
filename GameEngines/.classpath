@@ -69,5 +69,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GameEnginesMac/libs/lwjgl-2.9.1/native/windows"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="2DLighting"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
