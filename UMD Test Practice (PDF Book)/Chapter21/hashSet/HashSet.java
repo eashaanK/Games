@@ -60,14 +60,33 @@ public class HashSet extends AbstractSet{
 				if(previous != null)
 					previous.next = current.next;
 				else
-					current = null;
+					bucketList[h] = current.next;
+				size--;
 				return true;
 			}
 			previous = current;
 			current = current.next;
 		}
+		
+		return false;
 	}
 
+	public void printHashSet(){
+		System.out.println("-----");
+		for(int i = 0; i < bucketList.length; i++){
+			Node bucket = bucketList[i];
+			if(bucket == null)
+				continue;
+			while(bucket != null){
+				System.out.print(bucket.data + ", ");
+				bucket = bucket.next;
+			}
+			System.out.println();
+		}
+		System.out.println("-----");
+
+	}
+	
 	@Override
 	public Iterator iterator() {
 		return null;
@@ -88,4 +107,17 @@ public class HashSet extends AbstractSet{
 		}
 	}
 
+	public static void main(String[] args){
+		HashSet set = new HashSet(30);
+		set.add("Shuwei is smart");
+		set.add("Shuwei is a good badminton player");
+		set.add("Apples");
+		set.add("Orange");
+		set.add("Red");
+		set.add("Blue");
+		set.printHashSet();
+		
+		//set.remove("Red");
+		//set.printHashSet();
+	}
 }
