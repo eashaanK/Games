@@ -1,0 +1,7 @@
+Effecieny of Array Vs Lists
+
+Operation						Array								List
+---------------------------------------------------------------------------
+Random access					O(1)								O(n)
+Linear traverse step			O(1)								O(1)
+Add/remove an element			O(n)								O(1)
