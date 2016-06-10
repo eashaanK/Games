@@ -2,6 +2,7 @@ package hashSet;
 
 import java.util.AbstractSet;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class HashSet extends AbstractSet{
 	
@@ -89,7 +90,7 @@ public class HashSet extends AbstractSet{
 	
 	@Override
 	public Iterator iterator() {
-		return null;
+		return new HashSetIterator();
 	}
 
 	@Override
@@ -97,6 +98,7 @@ public class HashSet extends AbstractSet{
 		return size;
 	}
 	
+	//Private classes
 	private class Node{
 		public Object data;
 		public Node next;
@@ -105,8 +107,73 @@ public class HashSet extends AbstractSet{
 			this.data = o;
 			this.next = n;
 		}
+		
+	}
+	
+		
+	private class HashSetIterator implements Iterator{
+		private int bucket;
+		private Node current;
+		private int previousBucket;
+		private Node previous;
+		
+		public HashSetIterator(){
+			bucket = -1;
+			current = null;
+			previousBucket = -1;
+			previous = null;
+		}
+
+		@Override
+		public boolean hasNext() {
+			if(current != null && current.next != null)
+				return true;
+			for(int i = bucket + 1; i < bucketList.length; i++){
+				if(bucketList[i] != null)return true;
+			}
+			return false;
+		}
+
+		@Override
+		public Object next() {
+			previous = current;
+			previousBucket = bucket;
+			
+			if(current == null && current.next == null){ //Move to next bucket
+				bucket++;
+				while(bucket < bucketList.length && bucketList[bucket] == null){
+					if(bucketList[bucket] == null) bucket++;
+				}
+				if(bucketList[bucket] != null)
+					current = bucketList[bucket];
+				else
+					throw new NoSuchElementException("No more objects in set");
+			}
+			else
+				current = current.next;
+			
+			return current.data;
+		}
+		
+		@Override
+		public void remove(){
+			
+			if(previous != null && previous.next == current)
+				previous.next = current.next;
+			else if(previousBucket < bucket)
+				bucketList[bucket] = current.next;
+			else
+				throw new IllegalStateException("Must call next() before calling remove()");
+			
+			current = previous;
+			bucket = previousBucket;
+
+		}
+	
 	}
 
+	
+	
 	public static void main(String[] args){
 		HashSet set = new HashSet(30);
 		set.add("Shuwei is smart");
