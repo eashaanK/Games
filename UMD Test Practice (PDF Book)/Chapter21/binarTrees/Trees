@@ -1,0 +1,23 @@
+Tree Traversals
+1. Inorder Traversals
+ - Go Left subtree as long as your own left is not null
+ - If it is null, print data
+ - Then go Right subtree as long as your own right is not null. DO NOT PRINT AGAIN!
+ - Start this process from the root from another method. The algorithm is recursive 
+ 	- and hence needs a helper method. 
+ 
+2. Preorder Traversal
+ - Visit the root
+ - Visit the left subtree
+ - Visit the right subtree
+ 
+3. Postorder Traversal
+ - Visit left subtree
+ - Visit right subtree
+ - Visit the root
+ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+ Solving expressions
+ 
+ One method will take an expression as a String. First, check to make sure that there are an equal
+ number of ( and ). Next, the root will be recreated. 

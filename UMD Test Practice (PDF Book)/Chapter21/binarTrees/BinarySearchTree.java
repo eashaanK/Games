@@ -27,6 +27,17 @@ public class BinarySearchTree {
 			}
 			
 		}
+		/**
+		 * INORDER TRAVERSAL
+		 * Prints nodes in sorting order
+		 */
+		public void printNodes(){
+			if(left != null)
+				left.printNodes();
+			System.out.println(data);
+			if(right != null)
+				right.printNodes();
+		}
 	}
 	
 	private Node root;
@@ -46,6 +57,72 @@ public class BinarySearchTree {
 	}
 	
 	public void remove(Comparable obj){
-		//Node nodeToRemo
+		//Find Node to remove
+		Node toBeRemoved = root;
+		Node parent = null;
+		boolean found = false;
+		
+		while(!found && toBeRemoved != null){
+			int d = toBeRemoved.data.compareTo(obj);
+			if(d == 0) found = true;
+			else
+			{
+				parent = toBeRemoved;
+				if(d > 0) toBeRemoved = toBeRemoved.left;
+				else toBeRemoved = toBeRemoved.right;
+			}
+		}
+		
+		if(!found) return; 
+		
+		//At this point, the node should be at the current node to be removed. 
+		//If one of the children is empty, use the other. 
+		if(toBeRemoved.left == null || toBeRemoved.right == null){
+			Node newChild;
+			if(toBeRemoved.left == null)
+				newChild = toBeRemoved.right;
+			else
+				newChild = toBeRemoved.left;
+			
+			if(parent == null) //Found in root
+				root = newChild;
+			else if(parent.left == toBeRemoved)
+				parent.left = newChild;
+			else
+				parent.right = newChild;
+			return;
+		}
+		
+		//Now, its time to reorganize the tree
+		Node smallestParent = toBeRemoved;
+		Node smallest = toBeRemoved.right;
+		while(smallest.left != null){
+			smallestParent = smallest;
+			smallest = smallest.left;
+		}
+		//We just found the smallest element in the right subtree of the removed element
+		toBeRemoved.data = smallest.data;
+		smallestParent.left = smallest.right;
+	}
+	
+	public void print(){
+		if(root != null)
+			root.printNodes();
+	}
+	
+	public static void main(String[] args){
+		BinarySearchTree tree = new BinarySearchTree();
+		for(int i = 0; i < 10; i++){
+			tree.add(i);
+		}
+		tree.print();
+		System.out.println();
+		
+		for(int i = 0; i < 10; i++){
+			tree.remove(i);
+			tree.print();
+			System.out.println("------------");
+		}
+		
 	}
 }
