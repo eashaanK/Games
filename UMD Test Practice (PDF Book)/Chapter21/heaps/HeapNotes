@@ -1,0 +1,26 @@
+1. A heap is almost complete. 
+2. It tries to stay symmetrical
+3. The children of a node must be greater. 
+4. It is different than a binary search tree in that it has
+	symmetrical shape and doesn't have to force smaller elements
+	in left subtree and larger in right. As long as the node is
+	smaller than its kids. 
+5. The root is therefore the smallest element. 
+6. Insertion and deletion take O(log(n))
+7. It does everything in terms of an arraylist. It has functions to fetch certain "Nodes" 
+	in the list but there is no "root" variable. 
+
+Insertion:
+1. First add a vacant slot at the end of the tree. 
+2. Swap the empty slot with its parent as long as the
+	parent is greater than the value to be inserted. 
+3. At this point, either the vacant slot is at the root
+	or is smaller than the element to be inserted. Insert the element. 
+
+Deletion
+1. Extract the root value
+2. Move the value of the last node of the heap into the first node and remvove the last node. 
+	Heap property may be violated at this point
+3. Find the smallest child of the root node and swap the values. Now repeat this process with 
+	the the new demoted child (which was the root) and find and swap with its smallest child. Do it until
+	the demoted child has no smaller children. This is called "fixing the heap"
